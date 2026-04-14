@@ -1,0 +1,62 @@
+# OS and editor artifacts
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*~
+
+# Python caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+
+# Node and tool caches
+node_modules/
+.npm/
+.yarn/
+.cache/
+
+# Logs
+*.log
+logs/
+
+# Build and generated artifacts
+dist/
+build/
+out/
+exports/
+artifacts/
+tmp/
+scratch/
+*.bak
+*.cache
+*.out
+
+# Secrets and local credentials
+.env
+.env.*
+secrets/
+credentials*.json
+
+# Job-search sensitive raw inputs (keep local only)
+raw-jd/*
+private-notes/*
+interview-notes-private/*
+data/raw/*
+data/private/*
+reports/private/*
+!raw-jd/.keep
+!private-notes/.keep
+!interview-notes-private/.keep
+!data/raw/.keep
+!data/private/.keep
+!reports/private/.keep
+
+# Large or generated binaries
+*.zip
+*.7z
+*.tar
+*.gz
+*.sqlite
+*.db
