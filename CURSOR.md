@@ -190,6 +190,7 @@ target_profile:
 
 ## 10) Prompting Rules (cho AI Assistant)
 
+- Tuân thủ docs/SANITIZATION_CHECKLIST.md
 - Không bịa thông tin công ty/JD.
 - Nếu thiếu dữ liệu, phải hỏi rõ trước khi kết luận.
 - Ưu tiên output có cấu trúc bảng/checklist.
