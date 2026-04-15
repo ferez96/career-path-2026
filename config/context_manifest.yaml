@@ -1,3 +1,6 @@
+# Agent context index — add entries as you create sanitized artifacts.
+# Prefer paths under docs/, CURSOR.md, and tracked data (no private/raw paths).
+
 contexts:
   - id: docs-policy
     path: docs/PUBLIC_REPO_POLICY.md
@@ -13,45 +16,17 @@ contexts:
     token_budget: 1000
     sanitized: true
     last_updated: 2026-04-16
-  - id: data-weekly-latest
-    path: data/weekly/2026-W16.md
+  - id: cursor-framework
+    path: CURSOR.md
     visibility: public
-    priority: medium
-    token_budget: 1500
+    priority: high
+    token_budget: 2000
     sanitized: true
     last_updated: 2026-04-16
   - id: career-master
     path: data/career_path_master.csv
     visibility: public
     priority: high
-    token_budget: 1000
-    sanitized: true
-    last_updated: 2026-04-16
-  - id: brief-alias-a
-    path: reports/briefs/alias-a_company-brief.md
-    visibility: public
-    priority: medium
-    token_budget: 1200
-    sanitized: true
-    last_updated: 2026-04-16
-  - id: brief-alias-b
-    path: reports/briefs/alias-b_company-brief.md
-    visibility: public
-    priority: medium
-    token_budget: 1200
-    sanitized: true
-    last_updated: 2026-04-16
-  - id: benchmark-alias-a
-    path: reports/benchmarks/alias-a_golang_analysis.md
-    visibility: public
-    priority: medium
-    token_budget: 1600
-    sanitized: true
-    last_updated: 2026-04-16
-  - id: benchmark-alias-b
-    path: reports/benchmarks/alias-b_senior-golang_analysis.md
-    visibility: public
-    priority: medium
-    token_budget: 1600
+    token_budget: 800
     sanitized: true
     last_updated: 2026-04-16

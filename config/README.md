@@ -1,6 +1,6 @@
 # Config
 
-- `context_manifest.yaml`: thứ tự và ngân sách token ưu tiên khi nạp context cho agent (ưu tiên `derived-sanitized`).
-- `jd_catalog.csv`: map `job_id` ↔ alias ↔ đường dẫn raw (local) ↔ output đã sanitize.
+- `context_manifest.yaml`: ordered list of files to load for agents (token budgets, visibility). Add entries when you have new **tracked, sanitized** artifacts.
+- `jd_catalog.csv`: maps `job_id`, alias, role, `raw_path` (local), `normalized_path` (report). Ships with **headers only**; add rows locally or on `personal`, then sanitize before public.
 
-Không đặt PII hoặc file raw vào thư mục này. Xem `docs/REPO_LAYOUT.md`.
+Do not put PII or raw content in this folder. See `docs/REPO_LAYOUT.md`.

@@ -6,6 +6,6 @@ Yêu cầu:
 2) Phân tích theo đúng templates/jd_analysis_template.md.
 3) Tính Fit Score theo trọng số trong CURSOR.md (lập luận dựa trên khớp benchmark ↔ resume).
 4) Kết luận Execute Now / Prepare Foundation First / Defer + lý do.
-5) Xuất kết quả markdown vào `reports/benchmarks/` (đặt tên sanitized: alias-{mã-ngắn}_{role-slug}_analysis.md, ví dụ alias-a_golang_analysis.md; trong file dùng Company-Alias A/B và Raw JD import key alias-a — không lặp tên thương hiệu trong tên file/tiêu đề nếu cần sanitize theo docs/SANITIZATION_CHECKLIST.md).
+5) Xuất kết quả markdown vào `reports/benchmarks/` (đặt tên sanitized: `{alias}_{role-slug}_analysis.md`; trong file dùng company alias đã khử danh và import key — không lặp tên thương hiệu trong tên file/tiêu đề nếu cần sanitize theo docs/SANITIZATION_CHECKLIST.md).
 6) Bắt buộc có phần "Gap Summary" và đề xuất hành động 48h để tiến milestone nghề nghiệp.
 7) Nếu thiếu dữ liệu, ghi rõ Assumptions và Risks, không bịa thông tin.

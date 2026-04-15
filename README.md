@@ -43,7 +43,7 @@ Track source documents and planning data in Git while excluding generated artifa
 Suggested commit pattern:
 
 - `docs: update career growth framework`
-- `data: add week 2026-W16 progress tracking`
+- `data: add weekly progress file`
 - `templates: refine capability analysis template`
 
 ## Public Safety Rules
