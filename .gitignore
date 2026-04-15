@@ -39,6 +39,9 @@ scratch/
 secrets/
 credentials*.json
 
+# Local backups (not for public)
+local-backup/
+
 # Career-tracking sensitive raw inputs (keep local only)
 # Raw JD/benchmark drops: only under data/raw/ (single ingest location)
 data/raw/*
