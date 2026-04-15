@@ -1,7 +1,7 @@
-# JD Analysis Template
+# Career Benchmark Analysis Template
 
 ## Input
-- Raw JD content:
+- Raw benchmark content (JD/role profile):
 - Source:
 - Role target:
 - Company tier:
@@ -29,9 +29,10 @@
 - Seniority Match (10%):
 - Practical Constraints (10%):
 - Final Fit Score (0-100):
+- Gap Summary:
 
 ### 4) Decision Recommendation
-- Recommendation: Apply Now / Prepare First / Skip
+- Recommendation: Execute Now / Prepare Foundation First / Defer
 - Why:
 - Risks:
 - Assumptions:
@@ -40,3 +41,4 @@
 - [ ] Task 1
 - [ ] Task 2
 - [ ] Task 3
+- [ ] Update milestone tracking

@@ -1,6 +1,6 @@
 ---
 description: Luôn đọc resume từ master.yaml trước khi chấm fit JD hoặc khuyến nghị ứng tuyển
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Resume là nguồn bắt buộc cho Fit Score

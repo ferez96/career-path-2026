@@ -1,31 +1,45 @@
 # Public Repo Policy
 
-This repository is intended for sharing framework, templates, and anonymized tracking methods for job search workflows.
+This repository is intended for sharing framework, templates, and anonymized tracking methods for career path and progress workflows.
 
 ## Scope
 
-- Allowed: templates, anonymized weekly planning, anonymized aggregated tracking.
-- Not allowed: personal identifiable information (PII), private recruiter/interviewer data, confidential interview details, unsanitized raw JD assets.
+- Allowed: templates, anonymized weekly planning, anonymized progress tracking, anonymized market benchmark notes.
+- Not allowed: personal identifiable information (PII), private mentor/manager contacts, confidential internal details, unsanitized raw source assets.
+
+## Branch Model
+
+- Public branch: `public` (`master`)
+- Private branch: `personal`
+- Allowed one-way flow: `personal` -> sanitize -> `public` (`master`)
+- Never merge `private-sensitive` or `raw-ingest` to `public`
 
 ## Data Classification
 
-- Public:
-  - `CURSOR.md`
-  - `templates/*`
-  - `data/weekly/*.md` (sanitized)
-  - `data/job_pipeline_master.csv` (sanitized aliases only)
-- Internal (do not publish publicly):
-  - detailed compensation records
-  - identifiable company-specific recruiting notes
-  - interview process internals under NDA
-- Private local only:
-  - contacts (email, phone, calendar links)
-  - unsanitized PDF/PNG/text raw JD files
-  - private interview notes
+Policy uses the same four mandatory classes as `docs/DATA_CLASSIFICATION.md`. Do not treat “Public” below as a fourth parallel taxonomy; it describes **what may appear on branch `public` (`master`)** after validation.
+
+| Class | Meaning | Allowed on `public` (`master`) |
+|---|---|---|
+| `public-reusable` | Framework docs, templates, prompts, operating guides | Yes |
+| `derived-sanitized` | Weekly tracking, career CSV, reports after redaction | Yes, only after `docs/SANITIZATION_CHECKLIST.md` |
+| `raw-ingest` | Raw JD/benchmark text or binaries before normalization | No — keep on `personal` or local ignore |
+| `private-sensitive` | Resume, contacts, private notes, identifiable data | No — keep on `personal` or local ignore |
+
+Examples by path (see matrix for full list):
+
+- `public-reusable`: `CURSOR.md`, `templates/*`, `docs/*`, `promts/*`, `README.md`
+- `derived-sanitized` (when sanitized): `data/weekly/*.md`, `data/career_path_master.csv`, `reports/**/*.md`, `jd_catalog.csv`
+- `raw-ingest`: `raw-jd/*`, `data/raw/*` (unsanitized inputs)
+- `private-sensitive`: `data/private/*`, `private-notes/*`, `interview-notes-private/*`
+
+**Internal-only (not for public branch):** Detailed compensation, identifiable company recruiting notes, or NDA interview details are **`private-sensitive`** or require redaction to become `derived-sanitized`. They may exist on `personal` for your workflow; they must not ship to `public` without `REQUIRE_SANITIZATION` and review.
+
+If classification is unclear, use **`NEEDS_REVIEW`** and block merge to `public` until resolved.
+
+Refer to `docs/DATA_CLASSIFICATION.md` for path-level mapping and `NEEDS_REVIEW` handling.
 
 ## Redaction Rules
 
-- Replace real company names with aliases such as `Company_A`.
 - Replace people names with aliases such as `Recruiter_1`.
 - Avoid exact compensation numbers; use coarse bands if needed.
 - Remove tracking query parameters from external links.
@@ -33,13 +47,15 @@ This repository is intended for sharing framework, templates, and anonymized tra
 
 ## Public Safety Checklist
 
-Before each commit to public branches:
+Before each merge to `public` (`master`):
 
 - [ ] No PII in any tracked file.
 - [ ] No private links, calendars, or direct contact info.
-- [ ] No raw unsanitized JD artifacts.
+- [ ] No raw unsanitized benchmark artifacts.
 - [ ] Weekly and pipeline files are anonymized.
 - [ ] `.gitignore` covers local-only sensitive directories.
+- [ ] Classification follows `docs/DATA_CLASSIFICATION.md`.
+- [ ] Decision mode is documented (`ALLOW_PUBLIC`, `REQUIRE_SANITIZATION`, `PRIVATE_ONLY`).
 
 ## Incident Response
 

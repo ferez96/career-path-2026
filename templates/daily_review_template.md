@@ -12,6 +12,7 @@
 - Completed:
 - Not completed:
 - Blockers:
+- Milestone progress update:
 
 ## Quality Review
 - Focus score (1-10):
@@ -23,6 +24,7 @@
 - Priority P0:
 - Priority P1:
 - Priority P2:
+- Evidence to capture:
 
 ## Notes
 - Additional context:

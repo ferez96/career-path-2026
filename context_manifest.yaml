@@ -1,0 +1,57 @@
+contexts:
+  - id: docs-policy
+    path: docs/PUBLIC_REPO_POLICY.md
+    visibility: public
+    priority: high
+    token_budget: 1200
+    sanitized: true
+    last_updated: 2026-04-16
+  - id: docs-sanitization
+    path: docs/SANITIZATION_CHECKLIST.md
+    visibility: public
+    priority: high
+    token_budget: 1000
+    sanitized: true
+    last_updated: 2026-04-16
+  - id: data-weekly-latest
+    path: data/weekly/2026-W16.md
+    visibility: public
+    priority: medium
+    token_budget: 1500
+    sanitized: true
+    last_updated: 2026-04-16
+  - id: career-master
+    path: data/career_path_master.csv
+    visibility: public
+    priority: high
+    token_budget: 1000
+    sanitized: true
+    last_updated: 2026-04-16
+  - id: company-brief-alias-a
+    path: reports/company-brief/alias-a_company-brief.md
+    visibility: public
+    priority: medium
+    token_budget: 1200
+    sanitized: true
+    last_updated: 2026-04-16
+  - id: company-brief-alias-b
+    path: reports/company-brief/alias-b_company-brief.md
+    visibility: public
+    priority: medium
+    token_budget: 1200
+    sanitized: true
+    last_updated: 2026-04-16
+  - id: jd-analysis-alias-a
+    path: reports/jd-analysis/alias-a_golang_analysis.md
+    visibility: public
+    priority: medium
+    token_budget: 1600
+    sanitized: true
+    last_updated: 2026-04-16
+  - id: jd-analysis-alias-b
+    path: reports/jd-analysis/alias-b_senior-golang_analysis.md
+    visibility: public
+    priority: medium
+    token_budget: 1600
+    sanitized: true
+    last_updated: 2026-04-16

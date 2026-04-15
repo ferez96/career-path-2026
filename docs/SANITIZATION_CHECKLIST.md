@@ -1,6 +1,11 @@
 # Sanitization Checklist
 
-Use this checklist before committing data-oriented files.
+Use this checklist before committing files.
+
+## Branch Target
+
+- [ ] This change targets the correct branch (`personal` or `public`/`master`).
+- [ ] If target is `public`/`master`, no `private-sensitive` or `raw-ingest` files are included.
 
 ## File-Level Checks
 
@@ -10,10 +15,9 @@ Use this checklist before committing data-oriented files.
 - [ ] File contains no private scheduling links.
 - [ ] File contains no confidential interview details.
 
-## Job Data Checks
+## Career Data Checks
 
-- [ ] Company names are aliases.
-- [ ] Role titles are generic enough for public sharing.
+- [ ] Role and milestone names are generic enough for public sharing.
 - [ ] Compensation is not exact or uniquely identifying.
 - [ ] Notes are generalized and non-identifiable.
 - [ ] Links are scrubbed from tracking parameters.
@@ -23,3 +27,8 @@ Use this checklist before committing data-oriented files.
 - [ ] Ran a quick manual scan for terms like `@`, `http`, `salary`, `recruiter`.
 - [ ] Verified `.gitignore` still protects local sensitive folders.
 - [ ] Commit message clearly describes sanitized scope.
+- [ ] File classification is documented (`public-reusable`, `derived-sanitized`, `private-sensitive`, `raw-ingest`, or `NEEDS_REVIEW`).
+- [ ] Decision mode is stated:
+  - [ ] `ALLOW_PUBLIC`
+  - [ ] `REQUIRE_SANITIZATION`
+  - [ ] `PRIVATE_ONLY`

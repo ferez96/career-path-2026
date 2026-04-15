@@ -1,13 +1,14 @@
-# Project: Job Seeker 2026
+# Project: Career Path 2026
 
 ## 1) Mục tiêu dự án
 
-Job Seeker 2026 là hệ thống hỗ trợ cá nhân để:
-- Theo dõi toàn bộ hành trình tìm việc (pipeline ứng tuyển -> phỏng vấn -> kết quả).
+Career Path 2026 là hệ thống hỗ trợ cá nhân để:
+- Thiết kế lộ trình nghề nghiệp dài hạn theo giai đoạn (6-12-24 tháng).
+- Theo dõi tiến độ năng lực và kết quả thực thi theo tuần/tháng.
 - Lập kế hoạch và review theo tuần/ngày.
-- Thu thập và chuẩn hóa JD từ nhiều nguồn (Text/Markdown/PDF).
-- Trích lọc thông tin quan trọng từ JD và tạo báo cáo so sánh để ra quyết định nộp đơn.
-- Kết hợp kế hoạch học tập nâng cao năng lực (DSA, System Design, Coding, Problem Solving) song song với tìm việc.
+- Thu thập và chuẩn hóa benchmark từ role/JD làm dữ liệu tham chiếu (không bắt buộc apply ngay).
+- Tạo báo cáo gap năng lực để ra quyết định học tập và phát triển.
+- Kết hợp học tập nâng cao năng lực (DSA, System Design, Coding, Problem Solving) với kế hoạch sự nghiệp.
 
 ## 2) Ngôn ngữ
 
@@ -49,33 +50,29 @@ target_profile:
 
 ## 5) Phạm vi chức năng chính
 
-### A. Job Tracking
-- Quản lý danh sách công ty/vị trí/JD/link.
-- Theo dõi trạng thái ứng tuyển:
-  - Backlog
-  - Shortlist
-  - Applied
-  - HR Screen
-  - Technical Interview
-  - Hiring Manager / Final
-  - Offer
-  - Rejected
+### A. Career Path Tracking
+- Quản lý các mốc nghề nghiệp theo giai đoạn (Now / Next / Later).
+- Theo dõi trạng thái milestone:
+  - Planned
+  - In Progress
+  - Blocked
+  - Validated
   - Archived
-- Theo dõi deadline, ngày follow-up, người liên hệ, mức độ ưu tiên.
+- Theo dõi deadline, bằng chứng hoàn thành, mức độ ưu tiên.
 
-### B. JD Intelligence
-- Thu thập JD từ nhiều nguồn.
-- Chuẩn hóa format JD.
+### B. Market Benchmark Intelligence
+- Thu thập benchmark từ JD/role profile/job post.
+- Chuẩn hóa format benchmark.
 - Trích lọc:
   - Must-have skills
   - Nice-to-have
   - Seniority
   - Domain/Industry
   - Responsibilities
-  - Compensation (nếu có)
+  - Compensation band (nếu có)
   - Location/Work mode
-- Tạo điểm phù hợp (fit score) giữa hồ sơ cá nhân và JD.
-- Xuất báo cáo so sánh nhiều job để chọn ứng tuyển.
+- Tạo điểm phù hợp (fit score) giữa hồ sơ cá nhân và benchmark.
+- Xuất báo cáo gap năng lực để ưu tiên roadmap học tập.
 
 ### C. Learning & Skill Sharpening
 - Theo dõi lộ trình học:
@@ -83,40 +80,52 @@ target_profile:
   - System Design
   - Coding
   - Problem Solving
-- Mapping kỹ năng còn thiếu theo JD mục tiêu.
+- Mapping kỹ năng còn thiếu theo role mục tiêu.
 - Đề xuất bài tập và kế hoạch cải thiện theo tuần/ngày.
 
 ### D. Planning & Review
 - Lập Weekly Plan (mục tiêu + hành động + KPI).
 - Sinh Daily Plan từ Weekly Plan.
 - End-of-day review và End-of-week review.
-- Điều chỉnh kế hoạch tuần tiếp theo dựa trên kết quả thực tế.
+- Điều chỉnh roadmap nghề nghiệp dựa trên kết quả thực tế.
 
 ## 6) Dữ liệu cốt lõi cần quản lý
 
-### Candidate Job Record
-- Company
-- Role Title
-- Source
-- JD Raw Input
-- JD Summary
-- Required Skills
-- Preferred Skills
-- Fit Score (0-100)
+### Career Milestone Record
+- Milestone ID
+- Target Role/Scope
+- Time Horizon (Now/Next/Later)
+- Success Criteria
+- Baseline Level
+- Target Level
+- Evidence Link (sanitized)
 - Priority (P0/P1/P2)
 - Status
-- Applied Date
+- Target Date
 - Next Action
 - Next Action Date
 - Notes
-- Interview Feedback
-- Final Outcome
+
+### Market Benchmark Record
+- Company Alias
+- Role Title
+- Source
+- Benchmark Raw Input
+- Benchmark Summary
+- Required Skills
+- Preferred Skills
+- Gap Score (0-100)
+- Priority (P0/P1/P2)
+- Status (Reference/Active)
+- Next Action
+- Next Action Date
+- Notes
 
 ### Personal Progress Record
 - Tuần số / ngày
 - Mục tiêu tuần/ngày
-- Số job đã shortlist/applied
-- Số interview rounds
+- Số milestone đang active
+- Số milestone hoàn thành
 - Bài học kỹ năng đã hoàn thành
 - Tổng thời gian học (giờ)
 - Blockers
@@ -125,23 +134,23 @@ target_profile:
 
 ## 7) Workflow vận hành chuẩn
 
-### Workflow 1: JD Processing
-1. Nhận JD (text/markdown/pdf/image OCR).
+### Workflow 1: Benchmark Processing
+1. Nhận benchmark (JD/role profile/text/markdown/pdf/image OCR).
 2. Chuẩn hóa nội dung.
 3. Trích lọc thông tin chính.
-4. Tạo JD summary ngắn + bảng kỹ năng.
+4. Tạo benchmark summary ngắn + bảng kỹ năng.
 5. **Đọc resume ứng viên:** path resume là do người dùng chỉ định (có thể là file private local hoặc link public). Ưu tiên đọc từ trường `profile.resume` (ví dụ thường để trong `data/private/master.yaml`, chỉ chủ sở hữu truy cập được). Chỉ trích xuất nội dung cần thiết để đối chiếu JD và kinh nghiệm; báo cáo public chỉ dùng tóm tắt không-PII, tuyệt đối không copy thông tin cá nhân (email/SĐT/địa chỉ) vào `reports/`.
-6. Chấm fit score với profile cá nhân (dựa trên resume + metadata mục tiêu trong file này).
-7. Gán priority + đề xuất hành động.
+6. Chấm gap/fit score với profile cá nhân (dựa trên resume + metadata mục tiêu trong file này).
+7. Gán priority + đề xuất hành động học tập.
 8. Ghi vào tracking report.
 
-### Workflow 2: Application Decision
-1. Tổng hợp danh sách job hiện có (khi cần điểm fit, đọc resume theo `data/private/master.yaml` như Workflow 1).
-2. So sánh theo tiêu chí (fit, growth, location, compensation, interest).
+### Workflow 2: Career Decision
+1. Tổng hợp milestone và benchmark hiện có (khi cần điểm fit/gap, đọc resume theo `data/private/master.yaml` như Workflow 1).
+2. So sánh theo tiêu chí (impact, growth, feasibility, interest, time horizon).
 3. Đề xuất:
-   - Apply now
-   - Need more prep
-   - Skip
+   - Execute now
+   - Prepare foundation first
+   - Defer
 4. Sinh action list cho 24-72 giờ tới.
 
 ### Workflow 3: Weekly Planning
@@ -149,7 +158,7 @@ target_profile:
 2. Đánh giá KPI đạt/chưa đạt.
 3. Chọn 3-5 mục tiêu tuần mới.
 4. Chia nhỏ thành daily tasks.
-5. Xác định lịch phỏng vấn + lịch học.
+5. Xác định lịch học + lịch thực hành + lịch review.
 6. Khóa kế hoạch và theo dõi thực thi.
 
 ### Workflow 4: Daily Review
@@ -169,13 +178,12 @@ target_profile:
 
 ## 9) KPI gợi ý
 
-### Job Search KPI
-- Số JD thu thập / tuần
-- Số job shortlist / tuần
-- Số đơn apply / tuần
-- Tỉ lệ phản hồi HR
-- Số vòng phỏng vấn / tuần
-- Tỉ lệ chuyển vòng
+### Career Path KPI
+- Số benchmark thu thập / tuần
+- Số milestone active / tuần
+- Số milestone validated / tháng
+- Tỉ lệ hoàn thành milestone đúng hạn
+- Số bằng chứng năng lực được cập nhật
 
 ### Learning KPI
 - Số giờ học tập trung / tuần
@@ -203,8 +211,8 @@ target_profile:
 
 ## 11) Chu kỳ vận hành đề xuất
 
-- Thứ 2: Weekly planning + shortlist jobs
-- Thứ 3-5: Apply + interview prep + focused learning
-- Thứ 6: Deep review + pipeline cleanup + plan adjustment
-- Thứ 7: Mock interview + system design review
+- Thứ 2: Weekly planning + milestone prioritization
+- Thứ 3-5: Focused learning + hands-on practice
+- Thứ 6: Deep review + progress tracking + plan adjustment
+- Thứ 7: Mock interview / portfolio hardening / system design review
 - Chủ nhật: Nhẹ, tổng kết tuần, chuẩn bị tuần mới

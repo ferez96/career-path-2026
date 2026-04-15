@@ -7,7 +7,7 @@
 ## Inputs
 - Previous week summary:
 - Fixed commitments:
-- Interview schedule:
+- Practice/review schedule:
 - Available learning hours/day:
 
 ## Focus Checklist
@@ -27,10 +27,10 @@
   - Suggested Plan:
 
 ## KPI Targets
-- JD collected:
-- Jobs shortlisted:
-- Applications sent:
-- Interview rounds:
+- Benchmarks reviewed:
+- Active milestones:
+- Milestones validated:
+- Hands-on sessions:
 - Learning hours:
 - DSA problems solved:
 

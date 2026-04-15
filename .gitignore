@@ -39,7 +39,7 @@ scratch/
 secrets/
 credentials*.json
 
-# Job-search sensitive raw inputs (keep local only)
+# Career-tracking sensitive raw inputs (keep local only)
 raw-jd/*
 private-notes/*
 interview-notes-private/*
