@@ -1,0 +1,24 @@
+---
+description: Ngữ cảnh chung mọi agent — phân vai Copilot vs Assistant, branch, phân loại dữ liệu, an toàn public
+alwaysApply: true
+---
+
+# Same page — CareerPath / JobSeeker
+
+## Hai loại agent (đọc trước)
+
+- **Copilot:** phát triển repo, rule, Git/LFS, governance — chi tiết `docs/AGENT_ROLES.md` + rule `agent-copilot.mdc` khi mở file dev.
+- **Assistant:** tư vấn & vận hành (JD/benchmark, career, kế hoạch, review) — chi tiết `docs/AGENT_ROLES.md` + rule `agent-assistant.mdc` khi mở file vận hành.
+
+Không chắc vai trò → làm theo mục “Khi không chắc vai trò” trong `docs/AGENT_ROLES.md`.
+
+## Chung cho mọi phiên
+
+- Branch: `personal` → sanitize → `public` (`master`). Không merge `private-sensitive` hoặc `raw-ingest` sang `public`.
+- Bốn class: `public-reusable`, `derived-sanitized`, `raw-ingest`, `private-sensitive` — `docs/DATA_CLASSIFICATION.md`. Không chắc → `NEEDS_REVIEW`.
+- Không PII trong output public; thiếu dữ liệu → `Unknown`, không bịa.
+- Đánh giá thay đổi hướng publish: `ALLOW_PUBLIC` | `REQUIRE_SANITIZATION` | `PRIVATE_ONLY` — kèm lý do ngắn.
+
+## Tài liệu tham chiếu nhanh
+
+- `README.md`, `CURSOR.md`, `docs/BRANCH_WORKFLOW.md`, `docs/PUBLIC_REPO_POLICY.md`, `docs/SANITIZATION_CHECKLIST.md`.

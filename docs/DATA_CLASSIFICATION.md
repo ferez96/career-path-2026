@@ -17,6 +17,7 @@ If uncertain, classify as `NEEDS_REVIEW` with a short reason.
 | `templates/*` | `public-reusable` | Track | Allowed |
 | `promts/*` | `public-reusable` | Track | Allowed |
 | `README.md` | `public-reusable` | Track | Allowed |
+| `docs/AGENT_ROLES.md` | `public-reusable` | Track | Allowed |
 | `CURSOR.md` | `public-reusable` | Track | Allowed |
 | `data/weekly/*.md` | `derived-sanitized` | Track | Allowed after checklist |
 | `data/career_path_master.csv` | `derived-sanitized` | Track | Allowed after checklist |

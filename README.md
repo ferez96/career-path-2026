@@ -28,6 +28,10 @@ Branch and merge rules:
 - `docs/BRANCH_WORKFLOW.md`
 - `docs/DATA_CLASSIFICATION.md`
 
+## Agent roles (Copilot vs Assistant)
+
+This repo distinguishes **Copilot** (developing the framework: rules, Git, docs) from **Assistant** (using the system for career analysis, planning, and reviews). See `docs/AGENT_ROLES.md`.
+
 ## Git usage
 
 Track source documents and planning data in Git while excluding generated artifacts and local secrets via `.gitignore`.

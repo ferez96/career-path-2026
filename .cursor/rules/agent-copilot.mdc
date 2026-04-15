@@ -1,0 +1,22 @@
+---
+description: Copilot — phát triển repo, governance, Git/LFS, rules và an toàn merge public
+globs:
+  - ".cursor/**"
+  - ".github/**"
+  - ".gitattributes"
+  - ".gitignore"
+  - "README.md"
+  - "LICENSE"
+  - "docs/BRANCH_WORKFLOW.md"
+  - "docs/DATA_CLASSIFICATION.md"
+  - "docs/PUBLIC_REPO_POLICY.md"
+  - "docs/AGENT_ROLES.md"
+alwaysApply: false
+---
+
+# Copilot — dev & khung dự án
+
+- Đọc `docs/AGENT_ROLES.md` (mục Copilot) trước khi đổi cấu trúc hoặc policy.
+- Mọi thay đổi hướng public: phân loại file (`docs/DATA_CLASSIFICATION.md`), gate merge `docs/BRANCH_WORKFLOW.md`.
+- Binary lớn: tuân `.gitattributes` (LFS); không dùng LFS cho `.md/.csv/.json/.yaml` trừ khi có lý do ghi rõ.
+- Commit/PR: ghi decision mode và phạm vi sanitize khi liên quan publish.
