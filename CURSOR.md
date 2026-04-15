@@ -130,12 +130,13 @@ target_profile:
 2. Chuẩn hóa nội dung.
 3. Trích lọc thông tin chính.
 4. Tạo JD summary ngắn + bảng kỹ năng.
-5. Chấm fit score với profile cá nhân.
-6. Gán priority + đề xuất hành động.
-7. Ghi vào tracking report.
+5. **Đọc resume ứng viên:** path resume là do người dùng chỉ định (có thể là file private local hoặc link public). Ưu tiên đọc từ trường `profile.resume` (ví dụ thường để trong `data/private/master.yaml`, chỉ chủ sở hữu truy cập được). Chỉ trích xuất nội dung cần thiết để đối chiếu JD và kinh nghiệm; báo cáo public chỉ dùng tóm tắt không-PII, tuyệt đối không copy thông tin cá nhân (email/SĐT/địa chỉ) vào `reports/`.
+6. Chấm fit score với profile cá nhân (dựa trên resume + metadata mục tiêu trong file này).
+7. Gán priority + đề xuất hành động.
+8. Ghi vào tracking report.
 
 ### Workflow 2: Application Decision
-1. Tổng hợp danh sách job hiện có.
+1. Tổng hợp danh sách job hiện có (khi cần điểm fit, đọc resume theo `data/private/master.yaml` như Workflow 1).
 2. So sánh theo tiêu chí (fit, growth, location, compensation, interest).
 3. Đề xuất:
    - Apply now
