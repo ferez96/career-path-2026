@@ -27,9 +27,9 @@ Policy uses the same four mandatory classes as `docs/DATA_CLASSIFICATION.md`. Do
 
 Examples by path (see matrix for full list):
 
-- `public-reusable`: `CURSOR.md`, `templates/*`, `docs/*`, `promts/*`, `README.md`
-- `derived-sanitized` (when sanitized): `data/weekly/*.md`, `data/career_path_master.csv`, `reports/**/*.md`, `jd_catalog.csv`
-- `raw-ingest`: `raw-jd/*`, `data/raw/*` (unsanitized inputs)
+- `public-reusable`: `CURSOR.md`, `templates/*`, `docs/*`, `prompts/*`, `README.md`, `config/context_manifest.yaml`
+- `derived-sanitized` (when sanitized): `data/weekly/*.md`, `data/career_path_master.csv`, `reports/**/*.md`, `config/jd_catalog.csv`
+- `raw-ingest`: `data/raw/*` (unsanitized inputs; single ingest location)
 - `private-sensitive`: `data/private/*`, `private-notes/*`, `interview-notes-private/*`
 
 **Internal-only (not for public branch):** Detailed compensation, identifiable company recruiting notes, or NDA interview details are **`private-sensitive`** or require redaction to become `derived-sanitized`. They may exist on `personal` for your workflow; they must not ship to `public` without `REQUIRE_SANITIZATION` and review.

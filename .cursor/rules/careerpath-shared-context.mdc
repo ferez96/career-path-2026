@@ -21,4 +21,5 @@ Không chắc vai trò → làm theo mục “Khi không chắc vai trò” tron
 
 ## Tài liệu tham chiếu nhanh
 
-- `README.md`, `CURSOR.md`, `docs/BRANCH_WORKFLOW.md`, `docs/PUBLIC_REPO_POLICY.md`, `docs/SANITIZATION_CHECKLIST.md`.
+- `README.md`, `docs/REPO_LAYOUT.md`, `CURSOR.md`, `docs/BRANCH_WORKFLOW.md`, `docs/PUBLIC_REPO_POLICY.md`, `docs/SANITIZATION_CHECKLIST.md`.
+- Index agent: `config/context_manifest.yaml`, `config/jd_catalog.csv`.

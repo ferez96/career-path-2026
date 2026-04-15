@@ -11,13 +11,20 @@ Define a strict two-branch operating model that prevents private data leakage to
 
 ## One-Way Data Flow
 
-Data must move one way only:
+Data must move in a single direction:
 
 1. Work in `personal`.
 2. Sanitize/redact outputs.
 3. Publish only approved artifacts to `public` (`master`).
 
 Never move raw/private data directly from `personal` to `public`.
+
+```mermaid
+flowchart LR
+    A["Work in <br/>`personal`"] --> B["Sanitize/<br/>Redact Outputs"]
+    B --> C["Publish Approved Artifacts<br/>to `public` (`master`)"]
+    A -.->|Block| C
+```
 
 ## Allowed Data by Branch
 

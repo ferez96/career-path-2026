@@ -40,15 +40,10 @@ secrets/
 credentials*.json
 
 # Career-tracking sensitive raw inputs (keep local only)
-raw-jd/*
-private-notes/*
-interview-notes-private/*
+# Raw JD/benchmark drops: only under data/raw/ (single ingest location)
 data/raw/*
 data/private/*
 reports/private/*
-!raw-jd/.keep
-!private-notes/.keep
-!interview-notes-private/.keep
 !data/raw/.keep
 !data/private/.keep
 !reports/private/.keep

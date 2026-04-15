@@ -11,6 +11,8 @@ globs:
   - "docs/DATA_CLASSIFICATION.md"
   - "docs/PUBLIC_REPO_POLICY.md"
   - "docs/AGENT_ROLES.md"
+  - "docs/REPO_LAYOUT.md"
+  - "reports/README.md"
 alwaysApply: false
 ---
 

@@ -1,3 +1,0 @@
-job_id,alias,role,raw_path,normalized_path,status
-JD-001,alias-a,Golang Software Engineer,data/raw/alias-a.md,reports/jd-analysis/alias-a_golang_analysis.md,sanitized
-JD-002,alias-b,Senior Golang Developer,data/raw/alias-b.md,reports/jd-analysis/alias-b_senior-golang_analysis.md,sanitized

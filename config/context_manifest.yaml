@@ -27,29 +27,29 @@ contexts:
     token_budget: 1000
     sanitized: true
     last_updated: 2026-04-16
-  - id: company-brief-alias-a
-    path: reports/company-brief/alias-a_company-brief.md
+  - id: brief-alias-a
+    path: reports/briefs/alias-a_company-brief.md
     visibility: public
     priority: medium
     token_budget: 1200
     sanitized: true
     last_updated: 2026-04-16
-  - id: company-brief-alias-b
-    path: reports/company-brief/alias-b_company-brief.md
+  - id: brief-alias-b
+    path: reports/briefs/alias-b_company-brief.md
     visibility: public
     priority: medium
     token_budget: 1200
     sanitized: true
     last_updated: 2026-04-16
-  - id: jd-analysis-alias-a
-    path: reports/jd-analysis/alias-a_golang_analysis.md
+  - id: benchmark-alias-a
+    path: reports/benchmarks/alias-a_golang_analysis.md
     visibility: public
     priority: medium
     token_budget: 1600
     sanitized: true
     last_updated: 2026-04-16
-  - id: jd-analysis-alias-b
-    path: reports/jd-analysis/alias-b_senior-golang_analysis.md
+  - id: benchmark-alias-b
+    path: reports/benchmarks/alias-b_senior-golang_analysis.md
     visibility: public
     priority: medium
     token_budget: 1600

@@ -2,7 +2,7 @@
 
 **Raw JD import key:** `alias-b`  
 **Source:** Third-party recruitment posting (status Active; internal listing ref withheld).  
-**Company brief (đã làm giàu từ `data/raw`):** [alias-b_company-brief.md](../company-brief/alias-b_company-brief.md) — tổng hợp từ [data/raw/alias-b-brief-chatgpt.md](../../data/raw/alias-b-brief-chatgpt.md).
+**Company brief (đã làm giàu từ `data/raw`):** [alias-b_company-brief.md](../briefs/alias-b_company-brief.md) — tổng hợp từ [data/raw/alias-b-brief-chatgpt.md](../../data/raw/alias-b-brief-chatgpt.md).
 
 ---
 

@@ -15,19 +15,22 @@ If uncertain, classify as `NEEDS_REVIEW` with a short reason.
 |---|---|---|---|
 | `docs/*` | `public-reusable` | Track | Allowed |
 | `templates/*` | `public-reusable` | Track | Allowed |
-| `promts/*` | `public-reusable` | Track | Allowed |
+| `prompts/*` | `public-reusable` | Track | Allowed |
 | `README.md` | `public-reusable` | Track | Allowed |
 | `docs/AGENT_ROLES.md` | `public-reusable` | Track | Allowed |
 | `CURSOR.md` | `public-reusable` | Track | Allowed |
 | `data/weekly/*.md` | `derived-sanitized` | Track | Allowed after checklist |
 | `data/career_path_master.csv` | `derived-sanitized` | Track | Allowed after checklist |
-| `reports/**/*.md` | `derived-sanitized` | Track | Allowed after checklist |
-| `context_manifest.yaml` | `public-reusable` | Track | Allowed |
-| `jd_catalog.csv` | `derived-sanitized` | Track | Allowed after checklist |
+| `reports/README.md` | `public-reusable` | Track | Allowed |
+| `reports/benchmarks/**` | `derived-sanitized` | Track | Allowed after checklist |
+| `reports/briefs/**` | `derived-sanitized` | Track | Allowed after checklist |
+| `reports/private/**` | `private-sensitive` | Ignore | Blocked |
+| `config/README.md` | `public-reusable` | Track | Allowed |
+| `config/context_manifest.yaml` | `public-reusable` | Track | Allowed |
+| `config/jd_catalog.csv` | `derived-sanitized` | Track | Allowed after checklist |
 | `data/private/*` | `private-sensitive` | Ignore | Blocked |
 | `private-notes/*` | `private-sensitive` | Ignore | Blocked |
 | `interview-notes-private/*` | `private-sensitive` | Ignore | Blocked |
-| `raw-jd/*` | `raw-ingest` | Ignore | Blocked |
 | `data/raw/*` | `raw-ingest` | Ignore | Blocked |
 
 ## Classification Rules for New Files

@@ -9,12 +9,16 @@ Do not commit personal data, mentor/manager contacts, or confidential company de
 
 ## Repository layout
 
-- `CURSOR.md`: project operating guide and career decision framework.
-- `data/career_path_master.csv`: single source of truth for career milestones and progress.
-- `data/weekly/`: one data-driven weekly file per ISO week.
-- `templates/`: reusable prompt and reporting templates.
-- `reports/`: generated reports from weekly and career analysis workflows.
-- `docs/`: public safety policy and sanitization checklist.
+Full tree: **`docs/REPO_LAYOUT.md`**. Main modules:
+
+| Module | Role |
+|:-------|:-----|
+| **`docs/`** | Full map + governance (branching, classification, sanitization). |
+| **`CURSOR.md`** | Operating framework: workflows, KPIs, career decisions. |
+| **`config/`** | Agent index (`context_manifest.yaml`, `jd_catalog.csv`). |
+| **`data/`** | Tracked state + local raw/private (gitignored paths in layout doc). |
+| **`prompts/`**, **`templates/`** | Prompts and Markdown templates. |
+| **`reports/`** | Sanitized outputs (`benchmarks/`, `briefs/`). |
 
 ## Two-Branch Architecture
 
@@ -58,5 +62,5 @@ This project is licensed under the MIT License. See `LICENSE`.
 1. Define or update career milestones in `data/career_path_master.csv`.
 2. Create or update the week file in `data/weekly/`.
 3. Run capability analysis and planning with templates in `templates/`.
-4. Save outputs to `reports/`.
+4. Save sanitized outputs to `reports/benchmarks/` and `reports/briefs/` (see `reports/README.md`).
 5. Commit meaningful changes.
