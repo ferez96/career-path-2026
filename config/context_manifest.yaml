@@ -1,5 +1,6 @@
-# Agent context index — add entries as you create sanitized artifacts.
-# Prefer paths under docs/, CURSOR.md, and tracked data (no private/raw paths).
+# Agent context index — add entries as you create artifacts.
+# Prefer docs/, CURSOR.md, and tracked sanitized data for public/sharable context.
+# Optional: data/private/* — visibility: private, local only; never copy into public reports.
 
 contexts:
   - id: docs-policy
@@ -29,4 +30,11 @@ contexts:
     priority: high
     token_budget: 800
     sanitized: true
+    last_updated: 2026-04-16
+  - id: private-master-profile
+    path: data/private/master.yaml
+    visibility: private
+    priority: high
+    token_budget: 3500
+    sanitized: false
     last_updated: 2026-04-16
