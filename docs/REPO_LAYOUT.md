@@ -9,6 +9,7 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 ├── config/                 # Agent index + catalog (no PII)
 ├── data/
 │   ├── career_path_master.csv
+│   ├── daily/              # Daily reviews and logs
 │   ├── weekly/             # Weekly tracking (anonymize before public)
 │   ├── raw/                # Raw JD/benchmark — gitignored (only .keep in repo)
 │   └── private/            # Resume, master.yaml — gitignored
@@ -30,6 +31,7 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 |:-----|:---------|
 | Raw JD/benchmark, PDF, unprocessed paste | `data/raw/` (local, gitignored) |
 | Career milestones, CSV tracking | `data/career_path_master.csv` |
+| Daily review / journal | `data/daily/` |
 | Weekly plan / review | `data/weekly/` |
 | Prompts for the AI | `prompts/` |
 | Sanitized reports (public-safe) | `reports/benchmarks/`, `reports/briefs/` |
