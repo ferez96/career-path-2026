@@ -12,7 +12,7 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 │   ├── daily/              # Daily reviews and logs
 │   ├── weekly/             # Weekly tracking (anonymize before public)
 │   ├── raw/                # Raw JD/benchmark — gitignored (only .keep in repo)
-│   └── private/            # Resume, master.yaml — gitignored
+│   └── private/            # Canonical profile (master.yaml), CV — gitignored
 ├── docs/                   # Policy, workflow, classification
 ├── prompts/                # Assistant prompts
 ├── reports/

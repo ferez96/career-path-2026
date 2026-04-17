@@ -33,6 +33,8 @@
 - Hands-on sessions:
 - Learning hours:
 - DSA problems solved:
+- System design sessions (product/system trade-offs, ownership narrative):
+- AI-in-production or AI-tooling practice (optional; note evidence without PII):
 
 ## Risks and Mitigation
 - Risk:

@@ -59,7 +59,7 @@ This project is licensed under the MIT License. See `LICENSE`.
 
 ## Operating flow
 
-1. Define or update career milestones in `data/career_path_master.csv`.
+1. Keep **`data/private/master.yaml`** as the canonical profile (headline, direction, targets, skills, experience) for Assistant workflows; define or update public milestones in `data/career_path_master.csv`.
 2. Create or update the week file in `data/weekly/`.
 3. Run capability analysis and planning with templates in `templates/`.
 4. Save sanitized outputs to `reports/benchmarks/` and `reports/briefs/` (see `reports/README.md`).

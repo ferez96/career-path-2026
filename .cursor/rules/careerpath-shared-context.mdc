@@ -12,6 +12,10 @@ alwaysApply: true
 
 Không chắc vai trò → làm theo mục “Khi không chắc vai trò” trong `docs/AGENT_ROLES.md`.
 
+## Định hướng nghề nghiệp (tham chiếu)
+
+- Ưu tiên tóm tắt trong `data/private/master.yaml`: `profile.headline`, `career.direction_summary` — **systems-level delivery**, **ownership**, **AI trong production / AI-augmented tooling** khi phân tích JD hoặc lộ trình.
+
 ## Chung cho mọi phiên
 
 - Branch: `personal` → sanitize → `public` (`master`). Không merge `private-sensitive` hoặc `raw-ingest` sang `public`.

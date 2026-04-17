@@ -13,7 +13,7 @@ Copy everything inside the fence into a new chat (adjust bracketed fields).
 
 **Task:**
 1. Propose a **weekly plan** for **ISO week `<YYYY-Www>`**, covering **`<Mon>`–`<Sun>`** (or only **remaining days** if mid-week).
-2. Align with: active job search, `target_employment_horizon`, remote-first / HCMC, salary expectations, deal-breakers, domain priorities from `master.yaml`.
+2. Align with: active job search, `target_employment_horizon`, `career.direction_summary` and `target_titles`, remote-first / HCMC, salary expectations, deal-breakers, domain priorities from `master.yaml`.
 3. Output should be **ready to paste** into `data/weekly/<YYYY-Www>.md`, following the structure of `templates/weekly_plan_template.md` and the style of the previous week file (Focus checklist, KPI table, daily log, risks).
 4. Include **measurable KPIs** (outbound count, shortlist size, mock sessions, etc.) and **Assumptions** / **Risk** if any input is missing.
 
