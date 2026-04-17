@@ -1,4 +1,4 @@
-# CareerPath2026
+# Career Path 2026
 
 Personal system for career path design, skill progression, and weekly execution tracking.
 

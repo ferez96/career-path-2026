@@ -7,7 +7,7 @@ globs:
   - reports/**/*
 ---
 
-# JobSeeker — profile & fit/gap
+# Career Path 2026 — profile & fit/gap
 
 - **Nguồn chuẩn:** `data/private/master.yaml` (`profile.headline`, `career.direction_summary`, `career.target_titles`, `experience`, `skills`).
 - **Định hướng chấm điểm:** ưu tiên vai trò **distributed systems**, **ownership đầu-cuối**, **giao hàng ở tầng hệ thống**; coi **AI trong production** và **AI-augmented engineering** là điểm cộng khi JD/hồ sơ có liên quan — không thay thế nền backend/distributed.

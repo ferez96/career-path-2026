@@ -30,7 +30,7 @@ Dự án tách **hai loại agent** để tránh lẫn mục tiêu (dev repo vs 
 - `templates/*`, `prompts/*`
 - `docs/SANITIZATION_CHECKLIST.md`
 - `config/context_manifest.yaml`, `config/jd_catalog.csv`
-- `.cursor/rules/jobseeker-resume.mdc` khi chấm fit/gap so với profile
+- `.cursor/rules/career-path-resume.mdc` khi chấm fit/gap so với profile
 
 **Hành vi:**
 
