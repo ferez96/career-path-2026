@@ -9,7 +9,7 @@ Do not commit personal data, mentor/manager contacts, or confidential company de
 
 ## Repository layout
 
-Full tree: **`docs/REPO_LAYOUT.md`**. Main modules:
+Full tree: **`docs/REPO_LAYOUT.md`**. Release notes: **`CHANGELOG.md`**. Main modules:
 
 | Module | Role |
 |:-------|:-----|
