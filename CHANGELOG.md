@@ -12,14 +12,7 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
-- **JD catalog:** [`templates/jd_catalog_template.csv`](templates/jd_catalog_template.csv) — header row only; copy to `config/jd_catalog.csv` locally (gitignored).
-
 ### Changed
-
-- [`.gitignore`](.gitignore): ignore `config/jd_catalog.csv` so job rows stay machine-local (same idea as `data/private/`).
-- [`config/README.md`](config/README.md): document template → local catalog workflow.
-- [`templates/opportunities_tracker_template.yaml`](templates/opportunities_tracker_template.yaml): `jd_source` comment references the JD catalog template + local file.
-- [`.cursor/rules/careerpath-shared-context.mdc`](.cursor/rules/careerpath-shared-context.mdc): index line distinguishes tracked template vs local `jd_catalog.csv`.
 
 ### Fixed
 
@@ -27,17 +20,15 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ---
 
-## [0.0.2] — draft (chưa tag; cập nhật ngày khi release)
-
-> Nội dung dưới đây tóm tắt thay đổi trên nhánh phát triển so với `v0.0.1`. Chỉnh lại trước khi tag.
+## [0.0.2] — 2026-04-18
 
 ### Added
 
 - **Opportunity tracking:** schema [`templates/opportunities_tracker_template.yaml`](templates/opportunities_tracker_template.yaml) (bản thử nghiệm dùng `data/private/opportunities.yaml`); prompts `prompts/opportunity-*.md` (từ JD, cập nhật, ba loại báo cáo); templates báo cáo `templates/opportunity_report_*.md`; rule [`.cursor/rules/opportunity-tracking.mdc`](.cursor/rules/opportunity-tracking.mdc); mục Opportunity Tracking trong [`CURSOR.md`](CURSOR.md); mục trong [`config/context_manifest.yaml`](config/context_manifest.yaml).
+- **JD catalog:** [`templates/jd_catalog_template.csv`](templates/jd_catalog_template.csv) — header row only; copy to `config/jd_catalog.csv` locally (gitignored).
 - **Weekly planning:** [`prompts/weekly-planning.md`](prompts/weekly-planning.md) (reuse cho job search / execution).
 - **Company brief:** [`prompts/company-brief.md`](prompts/company-brief.md) (mẫu prompt).
 - **Fit / resume vs JD:** [`.cursor/rules/career-path-resume.mdc`](.cursor/rules/career-path-resume.mdc) (đối chiếu `data/private/master.yaml`).
-- **Dữ liệu vận hành (tracked):** [`data/weekly/2026-W16.md`](data/weekly/2026-W16.md); daily reviews [`data/daily/2026-04-17-daily-review.md`](data/daily/2026-04-17-daily-review.md), [`data/daily/2026-04-18-daily-review.md`](data/daily/2026-04-18-daily-review.md) — *có thể gỡ khỏi changelog nếu release chỉ public framework, không kèm dữ liệu cá nhân.*
 
 ### Changed
 
@@ -47,6 +38,10 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 - [`README.md`](README.md), [`docs/AGENT_ROLES.md`](docs/AGENT_ROLES.md), [`docs/DATA_CLASSIFICATION.md`](docs/DATA_CLASSIFICATION.md), [`docs/REPO_LAYOUT.md`](docs/REPO_LAYOUT.md), [`reports/README.md`](reports/README.md), [`config/README.md`](config/README.md): đồng bộ opportunity tracking và `reports/private/`.
 - [`config/context_manifest.yaml`](config/context_manifest.yaml): thêm context (opportunity + các entry liên quan).
 - [`.cursor/rules/careerpath-shared-context.mdc`](.cursor/rules/careerpath-shared-context.mdc), [`.cursor/rules/agent-assistant.mdc`](.cursor/rules/agent-assistant.mdc): cập nhật hướng dẫn agent.
+- [`.gitignore`](.gitignore): ignore `config/jd_catalog.csv`; ignore `data/daily/` and `data/weekly/` so planning notes stay local on `personal` and off public `master` (see [`docs/BRANCH_WORKFLOW.md`](docs/BRANCH_WORKFLOW.md)).
+- [`config/README.md`](config/README.md): document template → local JD catalog workflow.
+- [`templates/opportunities_tracker_template.yaml`](templates/opportunities_tracker_template.yaml): `jd_source` comment references the JD catalog template + local file.
+- [`docs/BRANCH_WORKFLOW.md`](docs/BRANCH_WORKFLOW.md): squash merge to `master`, sync `personal` after publish.
 
 ### Fixed
 
@@ -55,6 +50,7 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 ### Repo / governance
 
 - [`LICENSE`](LICENSE): chỉnh nhẹ (metadata).
+- **Publish workflow:** Prefer **squash merge** from `personal` to `master` so the public branch does not replay every intermediate commit from `personal`. After publishing, merge `master` back into `personal` to align trees (documented in `docs/BRANCH_WORKFLOW.md`).
 
 ---
 
