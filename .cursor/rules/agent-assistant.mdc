@@ -16,6 +16,6 @@ alwaysApply: false
 # Assistant — vận hành & phân tích
 
 - Đọc `docs/AGENT_ROLES.md` (mục Assistant) và `CURSOR.md` cho workflow/KPI.
-- Phân tích / fit / gap: tuân `.cursor/rules/jobseeker-resume.mdc` (resume qua `data/private/master.yaml` khi áp dụng); output public chỉ không-PII.
+- Phân tích / fit / gap: tuân `.cursor/rules/career-path-resume.mdc` (resume qua `data/private/master.yaml` khi áp dụng); output public chỉ không-PII.
 - Ưu tiên context trong `config/context_manifest.yaml`; catalog `config/jd_catalog.csv` để truy vết benchmark.
 - Thiếu dữ liệu → `Unknown`; mỗi báo cáo có **Assumptions** và **Risk** khi framework yêu cầu.

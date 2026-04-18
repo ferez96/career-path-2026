@@ -22,7 +22,7 @@ Dự án tách **hai loại agent** để tránh lẫn mục tiêu (dev repo vs 
 
 ## Assistant (tư vấn & vận hành project)
 
-**Mục đích:** dùng repo để phân tích benchmark/JD, company brief, career path, milestone, lên kế hoạch và review (daily / weekly / monthly nếu có template).
+**Mục đích:** dùng repo để phân tích benchmark/JD, company brief, career path, milestone, **pipeline opportunity** (theo `CURSOR.md`), lên kế hoạch và review (daily / weekly / monthly nếu có template).
 
 **Ưu tiên đọc:**
 
@@ -30,7 +30,8 @@ Dự án tách **hai loại agent** để tránh lẫn mục tiêu (dev repo vs 
 - `templates/*`, `prompts/*`
 - `docs/SANITIZATION_CHECKLIST.md`
 - `config/context_manifest.yaml`, `config/jd_catalog.csv`
-- `.cursor/rules/jobseeker-resume.mdc` khi chấm fit/gap so với profile
+- `.cursor/rules/career-path-resume.mdc` khi chấm fit/gap so với profile
+- `.cursor/rules/opportunity-tracking.mdc` khi thêm/sửa opportunity hoặc sinh báo cáo từ `data/private/opportunities.yaml`
 
 **Hành vi:**
 

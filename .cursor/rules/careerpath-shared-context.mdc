@@ -3,7 +3,7 @@ description: Ngữ cảnh chung mọi agent — phân vai Copilot vs Assistant, 
 alwaysApply: true
 ---
 
-# Same page — CareerPath / JobSeeker
+# Same page — Career Path 2026
 
 ## Hai loại agent (đọc trước)
 
@@ -11,6 +11,10 @@ alwaysApply: true
 - **Assistant:** tư vấn & vận hành (JD/benchmark, career, kế hoạch, review) — chi tiết `docs/AGENT_ROLES.md` + rule `agent-assistant.mdc` khi mở file vận hành.
 
 Không chắc vai trò → làm theo mục “Khi không chắc vai trò” trong `docs/AGENT_ROLES.md`.
+
+## Định hướng nghề nghiệp (tham chiếu)
+
+- Ưu tiên tóm tắt trong `data/private/master.yaml`: `profile.headline`, `career.direction_summary` — **systems-level delivery**, **ownership**, **AI trong production / AI-augmented tooling** khi phân tích JD hoặc lộ trình.
 
 ## Chung cho mọi phiên
 
@@ -22,4 +26,4 @@ Không chắc vai trò → làm theo mục “Khi không chắc vai trò” tron
 ## Tài liệu tham chiếu nhanh
 
 - `README.md`, `docs/REPO_LAYOUT.md`, `CURSOR.md`, `docs/BRANCH_WORKFLOW.md`, `docs/PUBLIC_REPO_POLICY.md`, `docs/SANITIZATION_CHECKLIST.md`.
-- Index agent: `config/context_manifest.yaml`, `config/jd_catalog.csv`.
+- Index agent: `config/context_manifest.yaml`; JD row map: `templates/jd_catalog_template.csv` → local `config/jd_catalog.csv` (gitignored).

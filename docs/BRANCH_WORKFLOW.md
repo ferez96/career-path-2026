@@ -54,10 +54,21 @@ Before merging to `public` (`master`), all checks must pass:
 
 Any failed check means no merge to `public`.
 
+## Publishing `personal` to `master` (squash)
+
+Use a **squash merge** when promoting work from `personal` to `master` so the public branch gets **one** combined commit instead of replaying every intermediate commit from `personal` (reduces accidental detail in public history).
+
+**CLI (local):** `git checkout master` → `git merge --squash personal` → review staged diff → `git commit` with a single message. **GitHub:** open a PR and choose **Squash and merge**.
+
+**`data/daily/` and `data/weekly/`:** These paths are **gitignored** and not tracked in the repo. Keep any planning files **only on your machine** for your `personal` workflow; they must not appear in the tree on `master`.
+
+**After publishing:** On `personal`, run **`git merge master`** to bring the squashed commit into your branch and keep your working tree aligned with `master` for continued work.
+
 ## Recommended PR Flow
 
 1. Prepare changes in `personal`.
 2. Classify changed files using `docs/DATA_CLASSIFICATION.md`.
 3. Sanitize and re-check content.
 4. Open PR from a sanitized working branch to `public` (`master`).
-5. Include validation notes and decision mode result in PR description.
+5. Prefer **Squash and merge** (or local squash as in the section above).
+6. Include validation notes and decision mode result in PR description.

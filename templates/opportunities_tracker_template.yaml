@@ -1,0 +1,23 @@
+# Opportunities tracker — copy to data/private/opportunities.yaml
+# Class: private-sensitive (gitignored). Do not commit real rows to the public branch.
+# See CURSOR.md § Opportunity Tracking and prompts/opportunity-*.md
+#
+# active[] fields:
+#   id (slug), company_display, role_title, stage, stage_entered_at (optional),
+#   next_action, next_action_date (YYYY-MM-DD), priority (P0|P1|P2), notes,
+#   jd_source: { job_id?, raw_path? } — link to local config/jd_catalog.csv (from templates/jd_catalog_template.csv) / data/raw/
+#   milestone_id (optional) — link to data/career_path_master.csv
+#   updated_at (ISO date), history (optional short strings), outcome, closed_at when Closed
+#
+# Pipeline stages: Interested → Applied → RecruiterScreen → HiringManager → Technical →
+#   OnsiteOrFinal → Offer → Closed (outcome: accepted|declined|rejected|withdrawn)
+#
+# future_desired[] fields:
+#   id, target_role, company_or_tier_hint, time_horizon, priority, status,
+#   notes, next_action / next_action_date (optional, for rollup reports)
+
+schema_version: 1
+
+active: []
+
+future_desired: []

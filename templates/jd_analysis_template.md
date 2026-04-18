@@ -23,11 +23,15 @@
 - Responsibilities:
 
 ### 3) Fit Scoring (Weighted)
-- Core Backend Skills (40%):
-- System Design / Scalability (25%):
-- Domain & Product Fit (15%):
-- Seniority Match (10%):
-- Practical Constraints (10%):
+Theo `CURSOR.md` §8 (hướng systems ownership + AI khi JD có). Khi JD không có AI/ML, ghi rõ và phân bổ lại trọng số AI.
+
+- Distributed systems & backend execution (32%):
+- System design & scalability / reliability (22%):
+- Systems-level product ownership & cross-functional delivery (18%):
+- AI/ML in production / AI-augmented engineering (5%, hoặc 0% + ghi cách chia lại):
+- Domain & industry fit (5%):
+- Seniority match (8%):
+- Practical constraints (10%):
 - Final Fit Score (0-100):
 - Gap Summary:
 

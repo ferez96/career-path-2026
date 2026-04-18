@@ -3,7 +3,7 @@
 ## 1) Mục tiêu dự án
 
 Career Path 2026 là hệ thống hỗ trợ cá nhân để:
-- Thiết kế lộ trình nghề nghiệp dài hạn theo giai đoạn (6-12-24 tháng).
+- Thiết kế lộ trình nghề nghiệp dài hạn theo giai đoạn (6-12-24 tháng), **theo định hướng ưu tiên: giao hàng ở tầng hệ thống (systems-level ownership), kết hợp AI / ML trong production và AI-augmented tooling để tăng hiệu năng delivery** (chi tiết trong `data/private/master.yaml` → `career.direction_summary`, `profile.headline`).
 - Theo dõi tiến độ năng lực và kết quả thực thi theo tuần/tháng.
 - Lập kế hoạch và review theo tuần/ngày.
 - Thu thập và chuẩn hóa benchmark từ role/JD làm dữ liệu tham chiếu (không bắt buộc apply ngay).
@@ -37,10 +37,10 @@ Output:
 
 ```yaml
 target_profile:
-  primary_role: "Senior Backend Software Engineer"
+  primary_role: "Distributed Systems Engineer"
   fallback_role:
     allowed: true
-    role: "Mid-level Backend Software Engineer"
+    role: "Senior Software Engineer (Backend / Distributed Systems)"
     company_tier_condition: "FAANG+"
   preferred_company_tiers:
     - "Tier-1"
@@ -77,10 +77,11 @@ target_profile:
 ### C. Learning & Skill Sharpening
 - Theo dõi lộ trình học:
   - DSA
-  - System Design
+  - System Design (ưu tiên bài có trade-off sản phẩm, ownership, reliability)
   - Coding
   - Problem Solving
-- Mapping kỹ năng còn thiếu theo role mục tiêu.
+  - AI/ML trong production & AI-augmented engineering (theo nhu cầu JD / gap)
+- Mapping kỹ năng còn thiếu theo role mục tiêu và `career.direction_summary` trong `master.yaml`.
 - Đề xuất bài tập và kế hoạch cải thiện theo tuần/ngày.
 
 ### D. Planning & Review
@@ -139,7 +140,7 @@ target_profile:
 2. Chuẩn hóa nội dung.
 3. Trích lọc thông tin chính.
 4. Tạo benchmark summary ngắn + bảng kỹ năng.
-5. **Đọc resume ứng viên:** path resume là do người dùng chỉ định (có thể là file private local hoặc link public). Ưu tiên đọc từ trường `profile.resume` (ví dụ thường để trong `data/private/master.yaml`, chỉ chủ sở hữu truy cập được). Chỉ trích xuất nội dung cần thiết để đối chiếu JD và kinh nghiệm; báo cáo public chỉ dùng tóm tắt không-PII, tuyệt đối không copy thông tin cá nhân (email/SĐT/địa chỉ) vào `reports/`.
+5. **Đọc hồ sơ ứng viên:** nguồn chuẩn là `data/private/master.yaml` (headline, `career.direction_summary`, kinh nghiệm, kỹ năng, mục tiêu). Nếu có thêm CV/PDF riêng, người dùng chỉ định path; không bắt buộc trường `profile.resume`. Chỉ trích xuất nội dung cần để đối chiếu JD; báo cáo public chỉ tóm tắt không-PII, không copy email/SĐT/địa chỉ vào `reports/`.
 6. Chấm gap/fit score với profile cá nhân (dựa trên resume + metadata mục tiêu trong file này).
 7. Gán priority + đề xuất hành động học tập.
 8. Ghi vào tracking report.
@@ -168,13 +169,31 @@ target_profile:
 4. Cập nhật next action.
 5. Chuẩn bị kế hoạch ngày tiếp theo.
 
+### Opportunity Tracking (pipeline + báo cáo)
+
+**Nguồn dữ liệu:** `data/private/opportunities.yaml` (local, gitignored) — copy schema từ `templates/opportunities_tracker_template.yaml`. JD thô đặt trong `data/raw/`; tùy chọn gắn `job_id` qua `config/jd_catalog.csv`.
+
+| Bước | Việc | Prompt / template |
+|:-----|:-----|:------------------|
+| 1 | Thêm opportunity từ một file JD | `prompts/opportunity-from-jd.md` |
+| 2 | Đổi trạng thái / nội dung (stage, next steps, notes, đóng deal) | `prompts/opportunity-update.md` |
+| 3 | Báo cáo danh sách đang theo dõi | `prompts/opportunity-report-tracking.md`, `templates/opportunity_report_tracking.md` |
+| 4 | Báo cáo next steps cho **một** opportunity | `prompts/opportunity-report-next-steps-one.md`, `templates/opportunity_report_next_steps_one.md` |
+| 5 | Báo cáo next steps **tổng hợp** (sort theo ngày → priority) | `prompts/opportunity-report-next-steps-rollup.md`, `templates/opportunity_report_next_steps_rollup.md` |
+
+**Báo cáo có tên công ty / chi tiết nhạy cảm:** mặc định `reports/private/` (gitignored). Bản rút gọn public-safe → `reports/briefs/` sau `docs/SANITIZATION_CHECKLIST.md`. Liên kết tùy chọn: `milestone_id` với `data/career_path_master.csv`, `jd_source` với raw JD / catalog.
+
 ## 8) Fit Score Weights (bản thử nghiệm)
 
-- Core Backend Skills: 40%
-- System Design / Scalability: 25%
-- Domain & Product Fit: 15%
-- Seniority Match: 10%
-- Practical Constraints (location/timezone/work mode): 10%
+Định hướng **systems ownership + AI trong delivery**; khi JD không đụng AI/ML, phân bổ phần trăm AI vào *Distributed systems* và *System design*.
+
+- Distributed systems & backend execution: 32%
+- System design & scalability / reliability: 22%
+- Systems-level product ownership & cross-functional delivery: 18%
+- AI/ML in production hoặc AI-augmented engineering (khi JD có yếu tố này): 5% — nếu không: cộng dồn vào hai mục đầu
+- Domain & industry fit: 5%
+- Seniority match: 8%
+- Practical constraints (location/timezone/work mode): 10%
 
 ## 9) KPI gợi ý
 
@@ -189,7 +208,9 @@ target_profile:
 - Số giờ học tập trung / tuần
 - Số bài DSA hoàn thành
 - Số mock interview
-- Số chủ đề System Design hoàn thành
+- Số chủ đề System Design hoàn thành (ưu tiên case có **product trade-offs**, multi-team ownership, SLO/incident story)
+- Thời gian hoặc bài tập liên quan **AI/ML trong production** (serving, evaluation, cost/latency, data pipelines) — khi roadmap tuần có mục này
+- Thử nghiệm **AI-augmented workflow** (review, codegen, test) có bằng chứng (note ngắn, không cần PII)
 - Số lỗi lặp lại đã khắc phục
 
 ### Execution KPI
