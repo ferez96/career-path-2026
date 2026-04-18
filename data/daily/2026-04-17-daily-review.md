@@ -3,6 +3,11 @@
 ## Date
 - 2026-04-17
 
+## Done today (cập nhật)
+
+- [x] Cập nhật LinkedIn
+- [x] Career direction (định hướng / rõ ràng hơn)
+
 ## Planned Checklist
 - [x] Clarify career path direction and shortlist opportunities
 - [x] Deliver project to GitHub
@@ -16,7 +21,6 @@
   - Setup lai moi truong lam viec ca nhan (Cursor + M365 + ...) chay on.
   - Hoc tu duy cho Leetcode 526 (Beautiful Arrangement), co them kinh nghiem.
 - Not completed:
-  - Chua cap nhat LinkedIn.
   - Chua thiet lap/ghi tracking applications.
   - Chua hoan thanh bai Leetcode nao.
   - Chua hoan thanh chuong giao trinh nao.
@@ -42,13 +46,13 @@
 
 ## Tomorrow Suggestion Plan
 - Priority P0:
-  - Cap nhat LinkedIn (headline + about + 1 project highlight) trong 45 phut.
+  - Tiep REQ208: recruiter confirmations + story prep + Python narrative (neu chua xong).
 - Priority P1:
   - Tao file tracking applications va log it nhat 1 application.
 - Priority P2:
   - Chot 1 deliverable hoc tap: AC 1 Leetcode hoac hoan thanh 1 chuong nho giao trinh.
 - Evidence to capture:
-  - Link LinkedIn da cap nhat.
+  - Tom tat email/tin nhan recruiter (khong PII) hoac checklist da xac nhan REQ208.
   - Anh/chup hoac file tracking co it nhat 1 dong moi.
   - Link commit/ghi chu chung minh task hoc da hoan thanh.
 
