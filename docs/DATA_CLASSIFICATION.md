@@ -15,7 +15,10 @@ If uncertain, classify as `NEEDS_REVIEW` with a short reason.
 |---|---|---|---|
 | `docs/*` | `public-reusable` | Track | Allowed |
 | `templates/*` | `public-reusable` | Track | Allowed |
+| `templates/opportunities_tracker_template.yaml` | `public-reusable` | Track | Allowed (schema only; no real opportunities) |
+| `templates/opportunity_report_*.md` | `public-reusable` | Track | Allowed (empty placeholders) |
 | `prompts/*` | `public-reusable` | Track | Allowed |
+| `prompts/opportunity-*.md` | `public-reusable` | Track | Allowed |
 | `README.md` | `public-reusable` | Track | Allowed |
 | `docs/AGENT_ROLES.md` | `public-reusable` | Track | Allowed |
 | `CURSOR.md` | `public-reusable` | Track | Allowed |
@@ -28,7 +31,7 @@ If uncertain, classify as `NEEDS_REVIEW` with a short reason.
 | `config/README.md` | `public-reusable` | Track | Allowed |
 | `config/context_manifest.yaml` | `public-reusable` | Track | Allowed |
 | `config/jd_catalog.csv` | `derived-sanitized` | Track | Allowed after checklist |
-| `data/private/*` | `private-sensitive` | Ignore | Blocked |
+| `data/private/*` | `private-sensitive` | Ignore | Blocked (includes `opportunities.yaml` — schema: `templates/opportunities_tracker_template.yaml`) |
 | `private-notes/*` | `private-sensitive` | Ignore | Blocked |
 | `interview-notes-private/*` | `private-sensitive` | Ignore | Blocked |
 | `data/raw/*` | `raw-ingest` | Ignore | Blocked |

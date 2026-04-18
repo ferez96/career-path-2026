@@ -14,11 +14,11 @@ Full tree: **`docs/REPO_LAYOUT.md`**. Main modules:
 | Module | Role |
 |:-------|:-----|
 | **`docs/`** | Full map + governance (branching, classification, sanitization). |
-| **`CURSOR.md`** | Operating framework: workflows, KPIs, career decisions. |
+| **`CURSOR.md`** | Operating framework: workflows, KPIs, career decisions, opportunity pipeline. |
 | **`config/`** | Agent index (`context_manifest.yaml`, `jd_catalog.csv`). |
 | **`data/`** | Tracked state + local raw/private (gitignored paths in layout doc). |
-| **`prompts/`**, **`templates/`** | Prompts and Markdown templates. |
-| **`reports/`** | Sanitized outputs (`benchmarks/`, `briefs/`). |
+| **`prompts/`**, **`templates/`** | Prompts; Markdown + YAML templates (incl. JD analysis, weekly/daily, **opportunity tracker schema**). |
+| **`reports/`** | Sanitized outputs (`benchmarks/`, `briefs/`); full-detail / PII-heavy outputs under `reports/private/` (gitignored). |
 
 ## Two-Branch Architecture
 
@@ -60,7 +60,8 @@ This project is licensed under the MIT License. See `LICENSE`.
 ## Operating flow
 
 1. Keep **`data/private/master.yaml`** as the canonical profile (headline, direction, targets, skills, experience) for Assistant workflows; define or update public milestones in `data/career_path_master.csv`.
-2. Create or update the week file in `data/weekly/`.
-3. Run capability analysis and planning with templates in `templates/`.
-4. Save sanitized outputs to `reports/benchmarks/` and `reports/briefs/` (see `reports/README.md`).
-5. Commit meaningful changes.
+2. **Optional — job search pipeline:** maintain **`data/private/opportunities.yaml`** (copy from `templates/opportunities_tracker_template.yaml`); raw JDs live in `data/raw/`. Prompts: `prompts/opportunity-*.md` — see `CURSOR.md` (Opportunity Tracking).
+3. Create or update the week file in `data/weekly/`.
+4. Run capability analysis and planning with templates in `templates/`.
+5. Save sanitized outputs to `reports/benchmarks/` and `reports/briefs/` (see `reports/README.md`); opportunity detail reports may go to `reports/private/` until sanitized.
+6. Commit meaningful changes.

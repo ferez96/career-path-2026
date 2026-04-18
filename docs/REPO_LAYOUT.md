@@ -12,14 +12,14 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 │   ├── daily/              # Daily reviews and logs
 │   ├── weekly/             # Weekly tracking (anonymize before public)
 │   ├── raw/                # Raw JD/benchmark — gitignored (only .keep in repo)
-│   └── private/            # Canonical profile (master.yaml), CV — gitignored
+│   └── private/            # Canonical profile (master.yaml), opportunities.yaml, CV — gitignored
 ├── docs/                   # Policy, workflow, classification
 ├── prompts/                # Assistant prompts
 ├── reports/
 │   ├── benchmarks/         # Benchmark / JD analysis (derived-sanitized)
 │   ├── briefs/             # Company / org brief (derived-sanitized)
 │   └── private/            # Private reports — gitignored
-├── templates/              # Markdown templates
+├── templates/              # Markdown + YAML templates (e.g. opportunity tracker schema)
 ├── .cursor/rules/          # Cursor rules (Copilot vs Assistant)
 ├── CURSOR.md
 └── README.md
@@ -35,6 +35,9 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 | Weekly plan / review | `data/weekly/` |
 | Prompts for the AI | `prompts/` |
 | Sanitized reports (public-safe) | `reports/benchmarks/`, `reports/briefs/` |
+| Private opportunity reports (full detail) | `reports/private/` (gitignored) |
+| Opportunity tracker (schema template) | `templates/opportunities_tracker_template.yaml` → copy to `data/private/opportunities.yaml` |
+| Opportunity prompts | `prompts/opportunity-*.md` |
 | Context index + job mapping | `config/context_manifest.yaml`, `config/jd_catalog.csv` |
 
 

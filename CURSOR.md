@@ -169,6 +169,20 @@ target_profile:
 4. Cập nhật next action.
 5. Chuẩn bị kế hoạch ngày tiếp theo.
 
+### Opportunity Tracking (pipeline + báo cáo)
+
+**Nguồn dữ liệu:** `data/private/opportunities.yaml` (local, gitignored) — copy schema từ `templates/opportunities_tracker_template.yaml`. JD thô đặt trong `data/raw/`; tùy chọn gắn `job_id` qua `config/jd_catalog.csv`.
+
+| Bước | Việc | Prompt / template |
+|:-----|:-----|:------------------|
+| 1 | Thêm opportunity từ một file JD | `prompts/opportunity-from-jd.md` |
+| 2 | Đổi trạng thái / nội dung (stage, next steps, notes, đóng deal) | `prompts/opportunity-update.md` |
+| 3 | Báo cáo danh sách đang theo dõi | `prompts/opportunity-report-tracking.md`, `templates/opportunity_report_tracking.md` |
+| 4 | Báo cáo next steps cho **một** opportunity | `prompts/opportunity-report-next-steps-one.md`, `templates/opportunity_report_next_steps_one.md` |
+| 5 | Báo cáo next steps **tổng hợp** (sort theo ngày → priority) | `prompts/opportunity-report-next-steps-rollup.md`, `templates/opportunity_report_next_steps_rollup.md` |
+
+**Báo cáo có tên công ty / chi tiết nhạy cảm:** mặc định `reports/private/` (gitignored). Bản rút gọn public-safe → `reports/briefs/` sau `docs/SANITIZATION_CHECKLIST.md`. Liên kết tùy chọn: `milestone_id` với `data/career_path_master.csv`, `jd_source` với raw JD / catalog.
+
 ## 8) Fit Score Weights (bản thử nghiệm)
 
 Định hướng **systems ownership + AI trong delivery**; khi JD không đụng AI/ML, phân bổ phần trăm AI vào *Distributed systems* và *System design*.

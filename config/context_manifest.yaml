@@ -38,3 +38,66 @@ contexts:
     token_budget: 3500
     sanitized: false
     last_updated: 2026-04-18
+  - id: opportunities-tracker-template
+    path: templates/opportunities_tracker_template.yaml
+    visibility: public
+    priority: medium
+    token_budget: 900
+    sanitized: true
+    last_updated: 2026-04-18
+  - id: opportunity-report-template-tracking
+    path: templates/opportunity_report_tracking.md
+    visibility: public
+    priority: medium
+    token_budget: 600
+    sanitized: true
+    last_updated: 2026-04-18
+  - id: opportunity-report-template-next-one
+    path: templates/opportunity_report_next_steps_one.md
+    visibility: public
+    priority: medium
+    token_budget: 500
+    sanitized: true
+    last_updated: 2026-04-18
+  - id: opportunity-report-template-rollup
+    path: templates/opportunity_report_next_steps_rollup.md
+    visibility: public
+    priority: medium
+    token_budget: 500
+    sanitized: true
+    last_updated: 2026-04-18
+  - id: opportunity-prompt-from-jd
+    path: prompts/opportunity-from-jd.md
+    visibility: public
+    priority: medium
+    token_budget: 900
+    sanitized: true
+    last_updated: 2026-04-18
+  - id: opportunity-prompt-update
+    path: prompts/opportunity-update.md
+    visibility: public
+    priority: medium
+    token_budget: 700
+    sanitized: true
+    last_updated: 2026-04-18
+  - id: opportunity-prompt-report-tracking
+    path: prompts/opportunity-report-tracking.md
+    visibility: public
+    priority: medium
+    token_budget: 600
+    sanitized: true
+    last_updated: 2026-04-18
+  - id: opportunity-prompt-report-next-one
+    path: prompts/opportunity-report-next-steps-one.md
+    visibility: public
+    priority: medium
+    token_budget: 600
+    sanitized: true
+    last_updated: 2026-04-18
+  - id: opportunity-prompt-report-rollup
+    path: prompts/opportunity-report-next-steps-rollup.md
+    visibility: public
+    priority: medium
+    token_budget: 600
+    sanitized: true
+    last_updated: 2026-04-18
