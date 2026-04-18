@@ -5,7 +5,7 @@
 # active[] fields:
 #   id (slug), company_display, role_title, stage, stage_entered_at (optional),
 #   next_action, next_action_date (YYYY-MM-DD), priority (P0|P1|P2), notes,
-#   jd_source: { job_id?, raw_path? } — link to config/jd_catalog.csv / data/raw/
+#   jd_source: { job_id?, raw_path? } — link to local config/jd_catalog.csv (from templates/jd_catalog_template.csv) / data/raw/
 #   milestone_id (optional) — link to data/career_path_master.csv
 #   updated_at (ISO date), history (optional short strings), outcome, closed_at when Closed
 #
