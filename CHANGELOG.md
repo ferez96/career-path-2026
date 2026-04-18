@@ -12,7 +12,14 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
+- **JD catalog:** [`templates/jd_catalog_template.csv`](templates/jd_catalog_template.csv) — header row only; copy to `config/jd_catalog.csv` locally (gitignored).
+
 ### Changed
+
+- [`.gitignore`](.gitignore): ignore `config/jd_catalog.csv` so job rows stay machine-local (same idea as `data/private/`).
+- [`config/README.md`](config/README.md): document template → local catalog workflow.
+- [`templates/opportunities_tracker_template.yaml`](templates/opportunities_tracker_template.yaml): `jd_source` comment references the JD catalog template + local file.
+- [`.cursor/rules/careerpath-shared-context.mdc`](.cursor/rules/careerpath-shared-context.mdc): index line distinguishes tracked template vs local `jd_catalog.csv`.
 
 ### Fixed
 
