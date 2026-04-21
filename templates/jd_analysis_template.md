@@ -23,12 +23,12 @@
 - Responsibilities:
 
 ### 3) Fit Scoring (Weighted)
-Theo `CURSOR.md` §8 (hướng systems ownership + AI khi JD có). Khi JD không có AI/ML, ghi rõ và phân bổ lại trọng số AI.
+Per `CURSOR.md` §8 (systems ownership + AI when the JD includes it). If the JD has no AI/ML, state that and redistribute the AI weight.
 
 - Distributed systems & backend execution (32%):
 - System design & scalability / reliability (22%):
 - Systems-level product ownership & cross-functional delivery (18%):
-- AI/ML in production / AI-augmented engineering (5%, hoặc 0% + ghi cách chia lại):
+- AI/ML in production / AI-augmented engineering (5%, or 0% + note how weights were redistributed):
 - Domain & industry fit (5%):
 - Seniority match (8%):
 - Practical constraints (10%):

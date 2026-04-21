@@ -1,5 +1,5 @@
 ---
-description: Assistant — tư vấn career, benchmark/JD, kế hoạch và review; dùng template & sanitize
+description: Assistant — career analysis, benchmark/JD, planning and reviews; templates & sanitization
 globs:
   - "CURSOR.md"
   - "templates/**"
@@ -13,9 +13,9 @@ globs:
 alwaysApply: false
 ---
 
-# Assistant — vận hành & phân tích
+# Assistant — operations & analysis
 
-- Đọc `docs/AGENT_ROLES.md` (mục Assistant) và `CURSOR.md` cho workflow/KPI.
-- Phân tích / fit / gap: tuân `.cursor/rules/career-path-resume.mdc` (resume qua `data/private/master.yaml` khi áp dụng); output public chỉ không-PII.
-- Ưu tiên context trong `config/context_manifest.yaml`; catalog `config/jd_catalog.csv` để truy vết benchmark.
-- Thiếu dữ liệu → `Unknown`; mỗi báo cáo có **Assumptions** và **Risk** khi framework yêu cầu.
+- Read `docs/AGENT_ROLES.md` (Assistant) and `CURSOR.md` for workflows/KPIs.
+- Analysis / fit / gap: follow `.cursor/rules/career-path-resume.mdc` (resume via `data/private/master.yaml` when applicable); public output is non-PII only.
+- Prefer context in `config/context_manifest.yaml`; use `config/jd_catalog.csv` to trace benchmarks.
+- Missing data → `Unknown`; include **Assumptions** and **Risk** when the framework requires them.

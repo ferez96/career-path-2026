@@ -1,5 +1,5 @@
 ---
-description: Fit/gap vs profile — dùng master.yaml, định hướng systems + AI delivery; output public không PII
+description: Fit/gap vs profile — use master.yaml, systems + AI delivery emphasis; no PII in public output
 globs:
   - data/private/master.yaml
   - templates/**/*.md
@@ -9,7 +9,7 @@ globs:
 
 # Career Path 2026 — profile & fit/gap
 
-- **Nguồn chuẩn:** `data/private/master.yaml` (`profile.headline`, `career.direction_summary`, `career.target_titles`, `experience`, `skills`).
-- **Định hướng chấm điểm:** ưu tiên vai trò **distributed systems**, **ownership đầu-cuối**, **giao hàng ở tầng hệ thống**; coi **AI trong production** và **AI-augmented engineering** là điểm cộng khi JD/hồ sơ có liên quan — không thay thế nền backend/distributed.
-- **Fit score:** tuân trọng số §8 trong `CURSOR.md` (cập nhật theo hướng trên); khi JD không có AI, bỏ trọng số AI và phân bổ lại như ghi trong `CURSOR.md`.
-- **Output** bound for `reports/` hoặc public: chỉ mô tả năng lực đã khử PII; không copy email, SĐT, địa chỉ, tên công ty nhạy cảm nếu policy yêu cầu sanitize.
+- **Canonical source:** `data/private/master.yaml` (`profile.headline`, `career.direction_summary`, `career.target_titles`, `experience`, `skills`).
+- **Scoring emphasis:** Prefer **distributed systems**, **end-to-end ownership**, **systems-level delivery**; treat **AI in production** and **AI-augmented engineering** as a plus when the JD/profile supports it—they do not replace backend/distributed depth.
+- **Fit score:** Follow §8 weights in `CURSOR.md` (updated per above); when the JD has no AI, drop the AI weight and redistribute as in `CURSOR.md`.
+- **Output** for `reports/` or public: capability descriptions with PII removed; do not copy email, phone, address, or sensitive company names when policy requires sanitization.

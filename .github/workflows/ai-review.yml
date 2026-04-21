@@ -1,0 +1,306 @@
+name: PR Advisory Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  models: read
+
+jobs:
+  advisory-review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run advisory checks on changed files
+        uses: actions/github-script@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const files = await github.paginate(
+              github.rest.pulls.listFiles,
+              {
+                owner,
+                repo,
+                pull_number: pr.number,
+                per_page: 100
+              }
+            );
+
+            const isPublicBoundPath = (path) =>
+              /^(docs\/|templates\/|reports\/briefs\/|reports\/benchmarks\/|README\.md$|CHANGELOG\.md$|CURSOR\.md$|config\/context_manifest\.yaml$)/i.test(
+                path
+              );
+            const ignorePath = (path) =>
+              /(^reports\/private\/|^data\/private\/|^data\/raw\/|^data\/daily\/|^data\/weekly\/|^config\/jd_catalog\.csv$)/i.test(
+                path
+              );
+
+            const targetFiles = files.filter(
+              (file) => file.status !== "removed" && isPublicBoundPath(file.filename) && !ignorePath(file.filename)
+            );
+
+            if (targetFiles.length === 0) {
+              core.info("No public-bound files changed; advisory checks skipped.");
+              return;
+            }
+
+            const blockingRules = [
+              {
+                id: "token",
+                regex: /\b(?:ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})\b/,
+                reason: "Possible secret token/key"
+              },
+              {
+                id: "private-url",
+                regex: /\b(?:https?:\/\/)?(?:drive\.google\.com|docs\.google\.com|notion\.so|confluence|jira)\b/i,
+                reason: "Possible private collaboration URL"
+              }
+            ];
+            const warningRules = [
+              { id: "email", regex: /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i, reason: "Possible email address" },
+              // Stricter phone rule: require long digit-only sequence after removing separators.
+              { id: "phone", regex: /\b(?:\+?\d[\d\s().-]{9,}\d)\b/, reason: "Possible phone number" }
+            ];
+            const safeEmailDomains = ["example.com", "company.com", "acme.com"];
+            const sensitiveTerms = [
+              "passport",
+              "national id",
+              "citizen id",
+              "home address",
+              "personal email",
+              "personal phone"
+            ];
+
+            const findings = [];
+            const warnings = [];
+
+            for (const file of targetFiles) {
+              const patch = file.patch || "";
+              if (!patch) {
+                warnings.push(`- ${file.filename}: no patch content available; cannot deep-scan.`);
+                continue;
+              }
+
+              const addedLines = patch
+                .split("\n")
+                .filter((line) => line.startsWith("+") && !line.startsWith("+++"))
+                .map((line) => line.slice(1))
+                .slice(0, 1200);
+
+              for (const line of addedLines) {
+                for (const rule of blockingRules) {
+                  if (rule.regex.test(line)) {
+                    findings.push(`- [high] ${file.filename}: ${rule.reason} in added content.`);
+                    break;
+                  }
+                }
+
+                for (const rule of warningRules) {
+                  if (!rule.regex.test(line)) continue;
+                  if (rule.id === "email") {
+                    const emailMatch = line.match(/\b[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z]{2,})\b/i);
+                    const domain = emailMatch?.[1]?.toLowerCase() || "";
+                    if (safeEmailDomains.includes(domain)) continue;
+                  }
+                  if (rule.id === "phone") {
+                    const digits = line.replace(/\D/g, "");
+                    if (digits.length < 10 || digits.length > 15) continue;
+                  }
+                  warnings.push(`- [warn] ${file.filename}: ${rule.reason} in added content.`);
+                  break;
+                }
+
+                const lowered = line.toLowerCase();
+                const sensitiveHit = sensitiveTerms.find((term) => lowered.includes(term));
+                if (sensitiveHit) {
+                  findings.push(`- [high] ${file.filename}: contains sensitive term '${sensitiveHit}'.`);
+                }
+              }
+
+              const privatePathReference = addedLines.find((line) =>
+                /(\[[^\]]*\]\((?:\.\.\/)*?(?:reports\/private\/|data\/private\/)[^)]+\)|\b(?:reports\/private\/|data\/private\/)\S+\.(?:md|txt|yaml|yml|csv|json)\b)/i.test(
+                  line
+                )
+              );
+              if (privatePathReference) {
+                warnings.push(`- [warn] ${file.filename}: references private-only path in added content.`);
+              }
+            }
+
+            const uniqueFindings = [...new Set(findings)];
+            const uniqueWarnings = [...new Set(warnings)];
+            const hasFindings = uniqueFindings.length > 0;
+            const findingLines = hasFindings ? uniqueFindings : ["- No major issues detected by deterministic checks."];
+            const warningLines = uniqueWarnings.length > 0 ? uniqueWarnings : ["- None"];
+            const aiPrompt = [
+              "You are a senior code reviewer in advisory mode (non-blocking).",
+              "Focus on potential gaps: sanitization, PII leakage, private-path exposure, missing validation, and weak assumptions.",
+              "Return concise markdown:",
+              "## AI Advisory Summary",
+              "1-2 sentences.",
+              "## AI Potential Gaps",
+              "- bullets with severity tag [high|medium|low].",
+              "## AI Suggested Checks",
+              "- bullets for manual follow-up.",
+              "If no issues, say 'No major AI concerns detected.'"
+            ].join("\n");
+
+            const perFilePatchCharLimit = 2000;
+            const totalPatchCharLimit = 12000;
+            let aiPatchPayload = "";
+            let aiIncludedFiles = 0;
+            for (const file of targetFiles) {
+              const rawPatch = file.patch || "(no patch available)";
+              const trimmedPatch =
+                rawPatch.length > perFilePatchCharLimit
+                  ? `${rawPatch.slice(0, perFilePatchCharLimit)}\n... [patch truncated]`
+                  : rawPatch;
+              const block = `### ${file.filename}\n\`\`\`diff\n${trimmedPatch}\n\`\`\`\n\n`;
+              if ((aiPatchPayload + block).length > totalPatchCharLimit) break;
+              aiPatchPayload += block;
+              aiIncludedFiles += 1;
+            }
+
+            let aiSection = [
+              "## AI Advisory Summary",
+              "AI advisory unavailable.",
+              "",
+              "## AI Potential Gaps",
+              "- None (model call skipped or unavailable).",
+              "",
+              "## AI Suggested Checks",
+              "- Review deterministic findings and warnings manually."
+            ].join("\n");
+
+            if (aiPatchPayload.trim()) {
+              try {
+                const candidateModels = ["gpt-5.4-mini", "gpt-4o-mini", "gpt-4.1-mini", "gpt-4o"];
+                let aiResponse = null;
+
+                for (const model of candidateModels) {
+                  const response = await fetch("https://models.inference.ai.azure.com/chat/completions", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Authorization": `Bearer ${process.env.GITHUB_TOKEN}`
+                    },
+                    body: JSON.stringify({
+                      model,
+                      messages: [
+                        { role: "system", content: aiPrompt },
+                        {
+                          role: "user",
+                          content: `PR title: ${pr.title}\nIncluded files: ${aiIncludedFiles}\n\nChanged patches:\n${aiPatchPayload}`
+                        }
+                      ],
+                      temperature: 0.1
+                    })
+                  });
+
+                  if (response.ok) {
+                    const data = await response.json();
+                    aiResponse = data?.choices?.[0]?.message?.content?.trim();
+                    core.info(`AI advisory model: ${model}`);
+                    break;
+                  }
+
+                  const err = await response.text();
+                  core.warning(`AI model ${model} unavailable (${response.status}). ${err}`);
+                  if (response.status !== 400 || !/unknown_model/i.test(err)) {
+                    break;
+                  }
+                }
+
+                if (aiResponse) {
+                  aiSection = aiResponse;
+                } else {
+                  aiSection = [
+                    "## AI Advisory Summary",
+                    "AI advisory unavailable for this run.",
+                    "",
+                    "## AI Potential Gaps",
+                    "- None returned by model.",
+                    "",
+                    "## AI Suggested Checks",
+                    "- Manually inspect high-risk files and sanitization-sensitive content."
+                  ].join("\n");
+                }
+              } catch (error) {
+                aiSection = [
+                  "## AI Advisory Summary",
+                  "AI advisory request failed; deterministic report still generated.",
+                  "",
+                  "## AI Potential Gaps",
+                  `- Error: ${String(error?.message || error)}`,
+                  "",
+                  "## AI Suggested Checks",
+                  "- Proceed with manual review on sensitive paths."
+                ].join("\n");
+              }
+            }
+
+            const reviewText = [
+              "## Advisory Summary",
+              hasFindings ? "Potential gaps found. Please review before merging." : "No major advisory issues found.",
+              "",
+              "## Potential Gaps",
+              ...findingLines,
+              "",
+              "## Notes",
+              ...warningLines,
+              "",
+              "## Missing Coverage To Consider",
+              "- Sensitive data sanitization in public-bound content.",
+              "- Accidental references to private-only paths/files.",
+              "- Placeholder hygiene (`Unknown` usage where data is missing).",
+              "",
+              "## Scope",
+              `- Checked ${targetFiles.length} public-bound changed file(s).`,
+              "- Deterministic checks + best-effort OpenAI model advisory.",
+              "- Advisory mode: this workflow never blocks PR merge."
+            ].join("\n");
+
+            const marker = "<!-- ai-review-bot -->";
+            const body = `${marker}\n## PR Advisory Report\n\n${reviewText}\n\n${aiSection}`;
+
+            const existingComments = await github.paginate(
+              github.rest.issues.listComments,
+              {
+                owner,
+                repo,
+                issue_number: pr.number,
+                per_page: 100
+              }
+            );
+
+            const existing = existingComments.find(
+              (comment) => comment.user?.type === "Bot" && comment.body?.includes(marker)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: pr.number,
+                body
+              });
+            }
+
+            core.info("Advisory review completed (non-blocking).");

@@ -51,9 +51,6 @@ data/weekly/
 data/raw/*
 data/private/*
 reports/private/*
-!data/raw/.keep
-!data/private/.keep
-!reports/private/.keep
 
 # Large or generated binaries
 *.zip
