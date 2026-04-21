@@ -1,0 +1,28 @@
+# Canonical profile — copy to data/private/master.yaml via scripts/bootstrap.* (private; gitignored).
+# Fill by hand, or paste resume / plaintext and ask your AI agent to map into this shape.
+# Public outputs must not copy PII — see docs/SANITIZATION_CHECKLIST.md
+
+profile:
+  headline: "Your role | stack | what you optimize for (systems, ownership, reliability, …)"
+  # Optional private fields (never paste into public reports): name, email, phone, linkedin, github, location
+
+career:
+  job_search_status: exploring # active | exploring | passive
+  target_employment_horizon: YYYY-MM-DD # optional
+  direction_summary: >-
+    Short paragraph: systems-level delivery, domains, how you use AI/ML in production or tooling—replace with your story.
+  target_titles:
+    primary: Your target title
+    also_consider: []
+    minimum_acceptable: ""
+  work_mode: Remote-first # Remote-first | Hybrid | Onsite
+  preferred_location: City / region
+  deal_breakers: []
+  domains: []
+
+skills:
+  top_skills: []
+  programming_languages: []
+  backend_architecture: []
+
+experience: []

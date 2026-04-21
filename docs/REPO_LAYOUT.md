@@ -11,9 +11,10 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 │   ├── career_path_master.csv
 │   ├── daily/              # Daily reviews and logs
 │   ├── weekly/             # Weekly tracking (anonymize before public)
-│   ├── raw/                # Raw JD/benchmark — gitignored (only .keep in repo)
+│   ├── raw/                # Raw JD/benchmark — contents gitignored
 │   └── private/            # Canonical profile (master.yaml), opportunities.yaml, CV — gitignored
 ├── docs/                   # Policy, workflow, classification
+├── scripts/                # bootstrap.ps1 / bootstrap.sh
 ├── prompts/                # Assistant prompts
 ├── reports/
 │   ├── benchmarks/         # Benchmark / JD analysis (derived-sanitized)

@@ -1,12 +1,12 @@
 # Agent roles — Copilot vs Assistant
 
-Dự án tách **hai loại agent** để tránh lẫn mục tiêu (dev repo vs vận hành career).
+The project separates **two agent types** to avoid mixing goals (repo development vs career operations).
 
-## Copilot (phát triển dự án)
+## Copilot (framework development)
 
-**Mục đích:** bảo trì khung repo, công cụ, rule, tài liệu governance, cấu trúc thư mục, Git/LFS, merge an toàn lên nhánh public.
+**Purpose:** Maintain the repo framework, tooling, rules, governance docs, directory layout, Git/LFS, and safe merges to the public branch.
 
-**Ưu tiên đọc:**
+**Read first:**
 
 - `README.md`
 - `docs/BRANCH_WORKFLOW.md`
@@ -14,36 +14,36 @@ Dự án tách **hai loại agent** để tránh lẫn mục tiêu (dev repo vs 
 - `docs/PUBLIC_REPO_POLICY.md`
 - `.gitignore`, `.gitattributes`
 
-**Hành vi:**
+**Behavior:**
 
-- Thay đổi phải gắn **decision mode**: `ALLOW_PUBLIC` | `REQUIRE_SANITIZATION` | `PRIVATE_ONLY`.
-- Không track `private-sensitive` / `raw-ingest` trên nhánh `public` (`master`).
-- Rule và template mới: nêu rõ track/ignore, public/private, có cần sanitize trước publish.
+- Changes must declare **decision mode**: `ALLOW_PUBLIC` | `REQUIRE_SANITIZATION` | `PRIVATE_ONLY`.
+- Do not track `private-sensitive` / `raw-ingest` on the `public` (`master`) branch.
+- New rules/templates: state track/ignore, public/private, and whether sanitize is required before publish.
 
-## Assistant (tư vấn & vận hành project)
+## Assistant (analysis & operations)
 
-**Mục đích:** dùng repo để phân tích benchmark/JD, company brief, career path, milestone, **pipeline opportunity** (theo `CURSOR.md`), lên kế hoạch và review (daily / weekly / monthly nếu có template).
+**Purpose:** Use the repo for benchmark/JD analysis, company briefs, career path, milestones, **opportunity pipeline** (per `CURSOR.md`), planning, and reviews (daily / weekly / monthly when templates exist).
 
-**Ưu tiên đọc:**
+**Read first:**
 
 - `CURSOR.md`
 - `templates/*`, `prompts/*`
 - `docs/SANITIZATION_CHECKLIST.md`
 - `config/context_manifest.yaml`, `config/jd_catalog.csv`
-- `.cursor/rules/career-path-resume.mdc` khi chấm fit/gap so với profile
-- `.cursor/rules/opportunity-tracking.mdc` khi thêm/sửa opportunity hoặc sinh báo cáo từ `data/private/opportunities.yaml`
+- `.cursor/rules/career-path-resume.mdc` when scoring fit/gap vs profile
+- `.cursor/rules/opportunity-tracking.mdc` when adding/editing opportunities or generating reports from `data/private/opportunities.yaml`
 
-**Hành vi:**
+**Behavior:**
 
-- Ưu tiên context **derived-sanitized**; chỉ truy `raw-ingest` khi cần đối chiếu nguồn.
-- Không đưa PII vào output dùng cho public; thiếu dữ liệu → `Unknown`, không bịa.
-- Output có cấu trúc (bảng/checklist), có **Assumptions** và **Risk** khi `CURSOR.md` yêu cầu.
+- Prefer **derived-sanitized** context; touch `raw-ingest` only when reconciling source material.
+- No PII in outputs intended for public; missing data → `Unknown`, do not invent.
+- Structured outputs (tables/checklists), with **Assumptions** and **Risk** when `CURSOR.md` requires them.
 
-## Giao điểm (cả hai)
+## Overlap (both)
 
-- Luồng dữ liệu: `personal` → sanitize → `public` (`master`).
-- Bốn class: `public-reusable`, `derived-sanitized`, `raw-ingest`, `private-sensitive`; không rõ → `NEEDS_REVIEW`.
+- Data flow: `personal` → sanitize → `public` (`master`).
+- Four classes: `public-reusable`, `derived-sanitized`, `raw-ingest`, `private-sensitive`; if unclear → `NEEDS_REVIEW`.
 
-## Khi không chắc vai trò
+## When the role is unclear
 
-Mặc định: nếu task chủ yếu là **sửa file trong `.cursor/`, `.github/`, policy docs, Git config** → coi như **Copilot**. Nếu task chủ yếu là **điền `data/`, `reports/`, dùng template phân tích** → coi như **Assistant**.
+Default: tasks mainly touching **`.cursor/`, `.github/`, policy docs, Git config** → treat as **Copilot**. Tasks mainly **filling `data/`, `reports/`, or using analysis templates** → treat as **Assistant**.

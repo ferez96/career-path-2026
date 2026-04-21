@@ -7,6 +7,10 @@ Personal system for career path design, skill progression, and weekly execution 
 This public repository stores only sanitized and anonymized content.
 Do not commit personal data, mentor/manager contacts, or confidential company details.
 
+## Language
+
+Docs, templates, and prompts in this repo are **English-first**. You can still chat with your agent in Vietnamese (or another language); see `CURSOR.md` (Language).
+
 ## Repository layout
 
 Full tree: **`docs/REPO_LAYOUT.md`**. Release notes: **`CHANGELOG.md`**. Main modules:
@@ -45,6 +49,13 @@ Suggested commit pattern:
 - `docs: update career growth framework`
 - `data: add weekly progress file`
 - `templates: refine capability analysis template`
+
+## Pull request sanitization gate
+
+- Workflow: `.github/workflows/ai-review.yml` runs on PR updates and posts one gate report comment.
+- The gate scans **public-bound changed files only** and blocks on risky patterns (PII/secrets/private-only references).
+- Designed for free tier and large PRs: deterministic checks only, no model-token usage.
+- To enforce merge blocking, set this workflow check as a required status check in branch protection.
 
 ## Public Safety Rules
 

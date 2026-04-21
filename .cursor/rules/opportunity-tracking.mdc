@@ -1,5 +1,5 @@
 ---
-description: Opportunity pipeline + reports — đọc opportunities.yaml private; sanitize trước khi public
+description: Opportunity pipeline + reports — read private opportunities.yaml; sanitize before public
 globs:
   - "templates/opportunities_tracker_template.yaml"
   - "templates/opportunity_report*.md"
@@ -9,8 +9,8 @@ alwaysApply: false
 
 # Opportunity tracking
 
-- **Nguồn chuẩn:** `data/private/opportunities.yaml` (gitignored). Schema: `templates/opportunities_tracker_template.yaml`.
-- **JD thô:** `data/raw/` (`raw-ingest`). Tùy chọn: dòng trong `config/jd_catalog.csv`.
-- **Báo cáo đầy đủ (tên công ty, chi tiết):** `reports/private/` hoặc chỉ trong phiên chat — class `private-sensitive`.
-- **Output hướng public / `reports/briefs/`:** chỉ alias hoặc mô tả đã khử PII; làm theo `docs/SANITIZATION_CHECKLIST.md`. Không bịa JD hay trạng thái pipeline.
-- **Prompts:** `prompts/opportunity-*.md` — luôn có **Assumptions** / **Risk** khi sinh báo cáo (theo `CURSOR.md` §10).
+- **Canonical source:** `data/private/opportunities.yaml` (gitignored). Schema: `templates/opportunities_tracker_template.yaml`.
+- **Raw JDs:** `data/raw/` (`raw-ingest`). Optional: row in `config/jd_catalog.csv`.
+- **Full reports (company names, detail):** `reports/private/` or chat only — class `private-sensitive`.
+- **Public-facing / `reports/briefs/`:** aliases or scrubbed descriptions only; follow `docs/SANITIZATION_CHECKLIST.md`. Do not invent JD text or pipeline state.
+- **Prompts:** `prompts/opportunity-*.md` — always include **Assumptions** / **Risk** when generating reports (per `CURSOR.md` §10).
