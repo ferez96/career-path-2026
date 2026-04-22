@@ -27,7 +27,7 @@ Policy uses the same four mandatory classes as `docs/DATA_CLASSIFICATION.md`. Do
 
 Examples by path (see matrix for full list):
 
-- `public-reusable`: `CURSOR.md`, `templates/*`, `docs/*`, `prompts/*`, `README.md`, `config/context_manifest.yaml`
+- `public-reusable`: `CURSOR.md`, `templates/*`, `docs/*`, `.cursor/skills/**`, `prompts/*` (redirect stubs), `README.md`, `config/context_manifest.yaml`
 - `derived-sanitized` (when sanitized): `data/weekly/*.md`, `data/career_path_master.csv`, `reports/**/*.md`, `config/jd_catalog.csv`
 - `raw-ingest`: `data/raw/*` (unsanitized inputs; single ingest location)
 - `private-sensitive`: `data/private/*`, `private-notes/*`, `interview-notes-private/*`

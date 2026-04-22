@@ -12,6 +12,7 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
+- **Cursor Skills:** Assistant workflows moved to `.cursor/skills/*/SKILL.md` (one skill directory per workflow). [`config/context_manifest.yaml`](config/context_manifest.yaml) indexes those paths; `prompts/*.md` files are short redirects for stable links.
 - **Reports:** [`reports/briefs/brief-satellite-platform-backend-role-2026-04.md`](reports/briefs/brief-satellite-platform-backend-role-2026-04.md) — sanitized company/role brief (`derived-sanitized`)
 - **GitHub AI review:** added PR workflow [`.github/workflows/ai-review.yml`](.github/workflows/ai-review.yml) to generate automated review comments via GitHub Models, plus review policy context [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
 

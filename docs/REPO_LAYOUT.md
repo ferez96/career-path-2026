@@ -15,7 +15,8 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 │   └── private/            # Canonical profile (master.yaml), opportunities.yaml, CV — gitignored
 ├── docs/                   # Policy, workflow, classification
 ├── scripts/                # bootstrap.ps1 / bootstrap.sh
-├── prompts/                # Assistant prompts
+├── prompts/                # Redirect stubs → `.cursor/skills/*/SKILL.md`
+├── .cursor/skills/         # Canonical Assistant workflows (Cursor Skills)
 ├── reports/
 │   ├── benchmarks/         # Benchmark / JD analysis (derived-sanitized)
 │   ├── briefs/             # Company / org brief (derived-sanitized)
@@ -34,11 +35,12 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 | Career milestones, CSV tracking | `data/career_path_master.csv` |
 | Daily review / journal | `data/daily/` |
 | Weekly plan / review | `data/weekly/` |
-| Prompts for the AI | `prompts/` |
+| Assistant workflows (Cursor Skills) | `.cursor/skills/*/SKILL.md` |
+| Stable links / redirects | `prompts/*.md` (point to skills) |
 | Sanitized reports (public-safe) | `reports/benchmarks/`, `reports/briefs/` |
 | Private opportunity reports (full detail) | `reports/private/` (gitignored) |
 | Opportunity tracker (schema template) | `templates/opportunities_tracker_template.yaml` → copy to `data/private/opportunities.yaml` |
-| Opportunity prompts | `prompts/opportunity-*.md` |
+| Opportunity workflows | `.cursor/skills/opportunity-*/SKILL.md` (see `prompts/opportunity-*.md` redirects) |
 | Context index + job mapping | `config/context_manifest.yaml`, `config/jd_catalog.csv` |
 
 

@@ -27,7 +27,7 @@ The project separates **two agent types** to avoid mixing goals (repo developmen
 **Read first:**
 
 - `CURSOR.md`
-- `templates/*`, `prompts/*`
+- `templates/*`, `.cursor/skills/**`, `prompts/*` (redirect stubs)
 - `docs/SANITIZATION_CHECKLIST.md`
 - `config/context_manifest.yaml`, `config/jd_catalog.csv`
 - `.cursor/rules/career-path-resume.mdc` when scoring fit/gap vs profile

@@ -4,6 +4,7 @@ globs:
   - data/private/master.yaml
   - templates/**/*.md
   - prompts/**/*.md
+  - .cursor/skills/**/SKILL.md
   - reports/**/*
 ---
 
