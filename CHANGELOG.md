@@ -12,20 +12,36 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
-- **Cursor Skills:** Assistant workflows moved to `.cursor/skills/*/SKILL.md` (one skill directory per workflow). [`config/context_manifest.yaml`](config/context_manifest.yaml) indexes those paths; `prompts/*.md` files are short redirects for stable links.
-- **Reports:** [`reports/briefs/brief-satellite-platform-backend-role-2026-04.md`](reports/briefs/brief-satellite-platform-backend-role-2026-04.md) — sanitized company/role brief (`derived-sanitized`)
-- **GitHub AI review:** added PR workflow [`.github/workflows/ai-review.yml`](.github/workflows/ai-review.yml) to generate automated review comments via GitHub Models, plus review policy context [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
-
 ### Changed
-
-- [`reports/README.md`](reports/README.md): link to example brief under `briefs/`.
-- **AI review gate:** updated [`.github/workflows/ai-review.yml`](.github/workflows/ai-review.yml) to fail CI on blocking findings, with emphasis on sanitization/PII violations for public-bound changes.
-- **Sanitization gate (free-tier friendly):** replaced model-dependent PR review with deterministic sanitization checks scoped to public-bound files, avoiding token/model limits on large PRs.
-- **English-first repo:** Translated remaining Vietnamese in `CURSOR.md`, `docs/AGENT_ROLES.md`, `.cursor/rules/*.mdc`, `prompts/company-brief.md`, `templates/jd_analysis_template.md`, `CHANGELOG.md` (historical entries); added language notes to [`README.md`](README.md) and [`CURSOR.md`](CURSOR.md) §2 (chat may use Vietnamese; tracked content stays English-first).
 
 ### Fixed
 
 ### Removed
+
+---
+
+## [0.0.3] — 2026-04-23
+
+### Added
+
+- **Cursor skills:** assistant workflows in `.cursor/skills/*/SKILL.md` (one directory per workflow). [`config/context_manifest.yaml`](config/context_manifest.yaml) indexes those paths; `prompts/*.md` files are short redirects for stable links.
+- **Quick start and bootstrap:** [`QUICKSTART.md`](QUICKSTART.md), [`scripts/bootstrap.ps1`](scripts/bootstrap.ps1) / [`scripts/bootstrap.sh`](scripts/bootstrap.sh), and [`templates/master_template.yaml`](templates/master_template.yaml) for first-time local setup (templates are copied only when the target is missing).
+- **Reports:** [`reports/briefs/brief-satellite-platform-backend-role-2026-04.md`](reports/briefs/brief-satellite-platform-backend-role-2026-04.md) — sanitized company/role brief (`derived-sanitized`).
+- **GitHub AI review:** PR workflow [`.github/workflows/ai-review.yml`](.github/workflows/ai-review.yml) for automated review comments via GitHub Models, plus review policy context in [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
+
+### Changed
+
+- [`reports/README.md`](reports/README.md): link to example brief under `briefs/`.
+- **AI review gate:** [`.github/workflows/ai-review.yml`](.github/workflows/ai-review.yml) fails CI on blocking findings, with emphasis on sanitization/PII violations for public-bound changes.
+- **Sanitization gate (free-tier friendly):** replaced model-dependent PR review with deterministic checks scoped to public-bound files, avoiding token/model limits on large PRs.
+- **English-first repo:** translated remaining Vietnamese in `CURSOR.md`, `docs/AGENT_ROLES.md`, `.cursor/rules/*.mdc`, `prompts/company-brief.md`, `templates/jd_analysis_template.md`, and `CHANGELOG.md` (historical entries); added language notes to [`README.md`](README.md) and the language section in [`CURSOR.md`](CURSOR.md) (chat may use Vietnamese; tracked content stays English-first).
+- **Docs and layout:** minor alignment in `docs/AGENT_ROLES.md`, [`docs/REPO_LAYOUT.md`](docs/REPO_LAYOUT.md), [`docs/DATA_CLASSIFICATION.md`](docs/DATA_CLASSIFICATION.md), and [`docs/PUBLIC_REPO_POLICY.md`](docs/PUBLIC_REPO_POLICY.md); `templates/opportunities_tracker_template.yaml` comment tidy.
+
+### Fixed
+
+### Removed
+
+- **Placeholder tree markers:** empty `.keep` files under `data/`, `reports/benchmarks/`, and `reports/briefs/` in favor of bootstrap-driven setup (see `QUICKSTART.md`).
 
 ---
 
