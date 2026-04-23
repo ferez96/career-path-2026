@@ -4,6 +4,7 @@ globs:
   - "templates/opportunities_tracker_template.yaml"
   - "templates/opportunity_report*.md"
   - "prompts/opportunity*.md"
+  - ".cursor/skills/opportunity*/SKILL.md"
 alwaysApply: false
 ---
 
@@ -13,4 +14,4 @@ alwaysApply: false
 - **Raw JDs:** `data/raw/` (`raw-ingest`). Optional: row in `config/jd_catalog.csv`.
 - **Full reports (company names, detail):** `reports/private/` or chat only — class `private-sensitive`.
 - **Public-facing / `reports/briefs/`:** aliases or scrubbed descriptions only; follow `docs/SANITIZATION_CHECKLIST.md`. Do not invent JD text or pipeline state.
-- **Prompts:** `prompts/opportunity-*.md` — always include **Assumptions** / **Risk** when generating reports (per `CURSOR.md` §10).
+- **Skills:** `.cursor/skills/opportunity*/SKILL.md` (stable links: `prompts/opportunity-*.md`) — always include **Assumptions** / **Risk** when generating reports (per `CURSOR.md` §10).

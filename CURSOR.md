@@ -12,8 +12,8 @@ Career Path 2026 is a personal system to:
 
 ## 2) Language
 
-- **Repository default:** English-first (docs, templates, prompts, and structured outputs in this repo).
-- **Chat with your agent:** You may use Vietnamese (or another language) when talking to the assistant; the assistant should follow your language in conversation while keeping **repo artifacts** (files under `docs/`, `templates/`, `prompts/`, `reports/` when shared publicly) aligned with English-first unless you ask otherwise.
+- **Repository default:** English-first (docs, templates, Cursor skills under `.cursor/skills/`, `prompts/` redirect stubs, and structured outputs in this repo).
+- **Chat with your agent:** You may use Vietnamese (or another language) when talking to the assistant; the assistant should follow your language in conversation while keeping **repo artifacts** (files under `docs/`, `templates/`, `.cursor/skills/`, `prompts/`, `reports/` when shared publicly) aligned with English-first unless you ask otherwise.
 
 ## 3) Supported file formats
 
@@ -169,13 +169,13 @@ target_profile:
 
 **Data source:** `data/private/opportunities.yaml` (local, gitignored)—copy schema from `templates/opportunities_tracker_template.yaml`. Raw JDs live in `data/raw/`; optionally link `job_id` via `config/jd_catalog.csv`.
 
-| Step | Task | Prompt / template |
-|:-----|:-----|:------------------|
-| 1 | Add opportunity from a JD file | `prompts/opportunity-from-jd.md` |
-| 2 | Update status/content (stage, next steps, notes, close deal) | `prompts/opportunity-update.md` |
-| 3 | Report tracked list | `prompts/opportunity-report-tracking.md`, `templates/opportunity_report_tracking.md` |
-| 4 | Next steps for **one** opportunity | `prompts/opportunity-report-next-steps-one.md`, `templates/opportunity_report_next_steps_one.md` |
-| 5 | **Rollup** next steps (sort by date → priority) | `prompts/opportunity-report-next-steps-rollup.md`, `templates/opportunity_report_next_steps_rollup.md` |
+| Step | Task | Skill / template |
+|:-----|:-----|:-----------------|
+| 1 | Add opportunity from a JD file | `.cursor/skills/opportunity-from-jd/SKILL.md` |
+| 2 | Update status/content (stage, next steps, notes, close deal) | `.cursor/skills/opportunity-update/SKILL.md` |
+| 3 | Report tracked list | `.cursor/skills/opportunity-report-tracking/SKILL.md`, `templates/opportunity_report_tracking.md` |
+| 4 | Next steps for **one** opportunity | `.cursor/skills/opportunity-report-next-steps-one/SKILL.md`, `templates/opportunity_report_next_steps_one.md` |
+| 5 | **Rollup** next steps (sort by date → priority) | `.cursor/skills/opportunity-report-next-steps-rollup/SKILL.md`, `templates/opportunity_report_next_steps_rollup.md` |
 
 **Reports with company names / sensitive detail:** default to `reports/private/` (gitignored). Public-safe excerpts → `reports/briefs/` after `docs/SANITIZATION_CHECKLIST.md`. Optional links: `milestone_id` with `data/career_path_master.csv`, `jd_source` with raw JD / catalog.
 

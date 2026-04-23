@@ -39,14 +39,14 @@ Quickest: provide your AI agent with either a resume file or a short plaintext b
 ## Step 3 — Add an opportunity (JD)
 
 1. Save the JD text or file under **`data/raw/`** (e.g. `data/raw/acme-backend.md`).
-2. Open **`prompts/opportunity-from-jd.md`** in Cursor and run it with your Assistant, including the JD and context from **`data/private/master.yaml`**.
-3. Update **`data/private/opportunities.yaml`** when you move stages or set next actions (or use **`prompts/opportunity-update.md`**).
+2. Open **`.cursor/skills/opportunity-from-jd/SKILL.md`** (or invoke the **opportunity-from-jd** Cursor skill) with your Assistant, including the JD and context from **`data/private/master.yaml`**.
+3. Update **`data/private/opportunities.yaml`** when you move stages or set next actions (or use **`.cursor/skills/opportunity-update/SKILL.md`** / skill **opportunity-update**).
 
 ---
 
 ## Step 4 — Weekly and daily plan
 
-1. **Weekly** — Open **`prompts/weekly-planning.md`**, set the ISO week and your inputs, run with your Assistant. Save the result as **`data/weekly/<YYYY-Www>.md`** (you can start from `data/weekly/weekly-plan-TEMPLATE.md` or rename/copy it).
+1. **Weekly** — Open **`.cursor/skills/weekly-planning/SKILL.md`** (or skill **weekly-planning**), set the ISO week and your inputs, run with your Assistant. Save the result as **`data/weekly/<YYYY-Www>.md`** (you can start from `data/weekly/weekly-plan-TEMPLATE.md` or rename/copy it).
 2. **Daily** — Use **`data/daily/daily-review-TEMPLATE.md`** as a base for **`data/daily/YYYY-MM-dd-daily-review.md`**, or ask your Assistant to break the current weekly plan into today’s checklist using **`templates/daily_review_template.md`**.
 
 ---
@@ -69,13 +69,15 @@ Sanitized reports, benchmarks, briefs, publishing to `public`, and the full prom
 
 Full tree: [docs/REPO_LAYOUT.md](docs/REPO_LAYOUT.md).
 
-### Other opportunity prompts
+### Other opportunity skills
 
 | Goal | Open |
 |:-----|:-----|
-| Update stage, notes, or close | `prompts/opportunity-update.md` |
-| Full tracking list | `prompts/opportunity-report-tracking.md` |
-| Next steps (one role / rollup) | `prompts/opportunity-report-next-steps-one.md`, `prompts/opportunity-report-next-steps-rollup.md` |
+| Update stage, notes, or close | `.cursor/skills/opportunity-update/SKILL.md` |
+| Full tracking list | `.cursor/skills/opportunity-report-tracking/SKILL.md` |
+| Next steps (one role / rollup) | `.cursor/skills/opportunity-report-next-steps-one/SKILL.md`, `.cursor/skills/opportunity-report-next-steps-rollup/SKILL.md` |
+
+Stable links under `prompts/*.md` redirect to the same `SKILL.md` files.
 
 ### Before you publish to `public`
 

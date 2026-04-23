@@ -1,6 +1,6 @@
 # Opportunities tracker — copy to data/private/opportunities.yaml
 # Class: private-sensitive (gitignored). Do not commit real rows to the public branch.
-# See CURSOR.md § Opportunity Tracking and prompts/opportunity-*.md
+# See CURSOR.md § Opportunity Tracking and .cursor/skills/opportunity*/SKILL.md
 #
 # active[] fields:
 #   id (slug), company_display, role_title, stage, stage_entered_at (optional),

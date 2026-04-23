@@ -66,38 +66,52 @@ contexts:
     token_budget: 500
     sanitized: true
     last_updated: 2026-04-18
-  - id: opportunity-prompt-from-jd
-    path: prompts/opportunity-from-jd.md
+  - id: skill-weekly-planning
+    path: .cursor/skills/weekly-planning/SKILL.md
     visibility: public
     priority: medium
     token_budget: 900
     sanitized: true
-    last_updated: 2026-04-18
-  - id: opportunity-prompt-update
-    path: prompts/opportunity-update.md
+    last_updated: 2026-04-23
+  - id: skill-company-brief
+    path: .cursor/skills/company-brief/SKILL.md
+    visibility: public
+    priority: medium
+    token_budget: 4000
+    sanitized: true
+    last_updated: 2026-04-23
+  - id: skill-opportunity-from-jd
+    path: .cursor/skills/opportunity-from-jd/SKILL.md
+    visibility: public
+    priority: medium
+    token_budget: 900
+    sanitized: true
+    last_updated: 2026-04-23
+  - id: skill-opportunity-update
+    path: .cursor/skills/opportunity-update/SKILL.md
     visibility: public
     priority: medium
     token_budget: 700
     sanitized: true
-    last_updated: 2026-04-18
-  - id: opportunity-prompt-report-tracking
-    path: prompts/opportunity-report-tracking.md
+    last_updated: 2026-04-23
+  - id: skill-opportunity-report-tracking
+    path: .cursor/skills/opportunity-report-tracking/SKILL.md
     visibility: public
     priority: medium
     token_budget: 600
     sanitized: true
-    last_updated: 2026-04-18
-  - id: opportunity-prompt-report-next-one
-    path: prompts/opportunity-report-next-steps-one.md
+    last_updated: 2026-04-23
+  - id: skill-opportunity-report-next-steps-one
+    path: .cursor/skills/opportunity-report-next-steps-one/SKILL.md
     visibility: public
     priority: medium
     token_budget: 600
     sanitized: true
-    last_updated: 2026-04-18
-  - id: opportunity-prompt-report-rollup
-    path: prompts/opportunity-report-next-steps-rollup.md
+    last_updated: 2026-04-23
+  - id: skill-opportunity-report-next-steps-rollup
+    path: .cursor/skills/opportunity-report-next-steps-rollup/SKILL.md
     visibility: public
     priority: medium
     token_budget: 600
     sanitized: true
-    last_updated: 2026-04-18
+    last_updated: 2026-04-23

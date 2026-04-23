@@ -4,6 +4,7 @@ globs:
   - "CURSOR.md"
   - "templates/**"
   - "prompts/**"
+  - ".cursor/skills/**"
   - "reports/**"
   - "data/**"
   - "config/**"
