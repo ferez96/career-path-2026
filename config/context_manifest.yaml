@@ -1,7 +1,137 @@
-# Agent context index — add entries as you create artifacts.
-# Prefer docs/, CURSOR.md, and tracked sanitized data for public/sharable context.
-# Optional: data/private/* — visibility: private, local only; never copy into public reports.
+# Agent context index
+#
+# Structure:
+#   groups:   — named clusters of context IDs loaded together.
+#               Reference in triggers or request manually: "load group: <name>".
+#   triggers: — map skill/task name → groups to load.
+#               Always includes listed groups; never loads outside them.
+#   contexts: — individual file entries (path, budget, visibility).
+#               Add new entries here; reference their id in groups above.
+#
+# Usage:
+#   - Agent picks the matching trigger for the current task.
+#   - Loads all groups listed under that trigger (deduplicated).
+#   - Falls back to always-required + contexts with priority: high when no trigger matches.
+#
+# Data notes:
+#   - data/private/* — visibility: private, local only; never copy PII into public reports.
+#   - Prefer docs/, CURSOR.md, and tracked sanitized data for public/sharable context.
 
+# ──────────────────────────────────────────────────────────────────────────────
+# GROUPS
+# ──────────────────────────────────────────────────────────────────────────────
+groups:
+
+  always-required:
+    description: Every Assistant session — framework index, output rules, sanitization checklist
+    token_budget: 1800
+    contexts:
+      - cursor-framework      # CURSOR.md index         500t
+      - cursor-prompting      # language + output rules  300t
+      - docs-sanitization     # sanitization checklist  1000t
+
+  weekly-planning:
+    description: Weekly/daily planning and review cadence
+    token_budget: 3350
+    contexts:
+      - cursor-workflows      # workflows 1–4           1300t
+      - cursor-cadence        # KPIs + cadence           350t
+      - career-master         # milestone CSV            800t
+      - skill-weekly-planning # SKILL.md                 900t
+
+  fit-scoring:
+    description: JD/benchmark analysis and fit/gap scoring
+    token_budget: 4600
+    contexts:
+      - cursor-fit-weights    # weights rubric            300t
+      - private-master-profile # canonical profile       3500t
+      - career-master          # milestone context        800t
+
+  company-brief:
+    description: Company research and SWE-focused brief with personal fit
+    token_budget: 7800
+    contexts:
+      - cursor-fit-weights    # scoring rubric            300t
+      - private-master-profile # profile for fit section 3500t
+      - skill-company-brief   # brief SKILL.md           4000t
+
+  opportunity-core:
+    description: Add or update opportunities in the pipeline
+    token_budget: 7300
+    contexts:
+      - cursor-workflows           # opportunity tracking section 1300t
+      - private-master-profile     # profile for fit notes       3500t
+      - opportunities-tracker-template # schema                   900t
+      - skill-opportunity-from-jd  # add skill                    900t
+      - skill-opportunity-update   # update skill                 700t
+
+  opportunity-reports:
+    description: Generate opportunity tracking and next-steps reports
+    token_budget: 8200
+    contexts:
+      - cursor-workflows                        # pipeline context           1300t
+      - private-master-profile                  # profile for fit notes      3500t
+      - opportunity-report-template-tracking    # report template             600t
+      - opportunity-report-template-next-one    # next-steps template         500t
+      - opportunity-report-template-rollup      # rollup template             500t
+      - skill-opportunity-report-tracking       # tracking skill              600t
+      - skill-opportunity-report-next-steps-one # next-steps (one) skill      600t
+      - skill-opportunity-report-next-steps-rollup # rollup skill             600t
+
+  governance:
+    description: Copilot — repo framework, governance, public-merge prep
+    token_budget: 1200
+    contexts:
+      - docs-policy           # public repo policy      1200t
+
+# ──────────────────────────────────────────────────────────────────────────────
+# TRIGGERS
+# ──────────────────────────────────────────────────────────────────────────────
+# Keys match .cursor/skills/ folder names and generic task types.
+# total_budget = sum of all group budgets listed (rough upper bound).
+
+triggers:
+
+  weekly-planning:
+    groups: [always-required, weekly-planning]
+    total_budget: 5150   # 1800 + 3350
+
+  fit-scoring:
+    groups: [always-required, fit-scoring]
+    total_budget: 6400   # 1800 + 4600
+
+  company-brief:
+    groups: [always-required, company-brief]
+    total_budget: 9600   # 1800 + 7800
+
+  opportunity-from-jd:
+    groups: [always-required, opportunity-core]
+    total_budget: 9100   # 1800 + 7300
+
+  opportunity-update:
+    groups: [always-required, opportunity-core]
+    total_budget: 9100   # 1800 + 7300
+
+  opportunity-report-tracking:
+    groups: [always-required, opportunity-reports]
+    total_budget: 10000  # 1800 + 8200
+
+  opportunity-report-next-steps-one:
+    groups: [always-required, opportunity-reports]
+    total_budget: 10000  # 1800 + 8200
+
+  opportunity-report-next-steps-rollup:
+    groups: [always-required, opportunity-reports]
+    total_budget: 10000  # 1800 + 8200
+
+  governance:
+    groups: [governance]
+    total_budget: 1200   # no always-required; Copilot tasks don't need Assistant prompting rules
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CONTEXTS — individual file entries
+# Add new entries here; reference their id in a group above.
+# ──────────────────────────────────────────────────────────────────────────────
 contexts:
   - id: docs-policy
     path: docs/PUBLIC_REPO_POLICY.md
