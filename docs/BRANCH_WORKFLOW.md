@@ -75,39 +75,40 @@ Use a **squash merge** when promoting work from `personal` to `master` so the pu
 
 ## Release Flow
 
-Releases are tagged on `master` after merging a final set of PR(s). **Semantic Versioning** applies loosely: **MAJOR** = breaking governance/layout changes; **MINOR** = new workflows, templates, or features; **PATCH** = fixes and small doc updates.
+Releases are tagged on `master` after merging a final set of PR(s). For versioning rules, see **Semantic Versioning** in [`CHANGELOG.md`](../CHANGELOG.md) (line 5).
+
+### Pre-Release Checklist
+
+Before cutting a release, verify:
+
+- [ ] No incomplete commits or TODOs on `master` since last version.
+- [ ] All framework/governance changes documented in [`CHANGELOG.md`](../CHANGELOG.md) or `docs/`.
+- [ ] No breaking data-flow or branch-workflow changes without coordination.
 
 ### Steps
 
-1. **Prepare release branch** (optional, for staging final changes):
-   - Create `release/vX.Y.Z` from `master`.
-   - Or work directly on `master` if the final commit is ready.
+1. **Prepare release branch** (optional):
+   - Create `release/vX.Y.Z` from `master` for final staging, or commit directly to `master`.
+   - Use only when coordinating multi-maintainer releases or parallel development.
 
 2. **Update `CHANGELOG.md`:**
-   - Move all items from `[Unreleased]` into a new `## [X.Y.Z] - YYYY-MM-DD` section (using today's date).
-   - Keep `[Unreleased]` as an empty template for future entries.
+   - Move all items from `[Unreleased]` into a new `## [X.Y.Z] — YYYY-MM-DD` section.
+   - Keep `[Unreleased]` as a template for future entries.
    - Example:
      ```markdown
      ## [Unreleased]
 
      ### Added
 
-     ### Changed
-
-     ### Fixed
-
-     ### Removed
-
      ---
 
-     ## [X.Y.Z] — 2026-MM-DD
+     ## [X.Y.Z] — 2026-04-27
 
      ### Added
-     - (items from [Unreleased])
+     - (items moved from [Unreleased])
 
      ### Changed
-     - (items from [Unreleased])
-     ...
+     - (items moved from [Unreleased])
      ```
 
 3. **Commit CHANGELOG update to `master`:**
@@ -119,27 +120,38 @@ Releases are tagged on `master` after merging a final set of PR(s). **Semantic V
 
 4. **Tag the commit:**
    ```bash
-   git tag -a vX.Y.Z -m "Release X.Y.Z"
-   ```
-   Or for lightweight tag:
-   ```bash
-   git tag vX.Y.Z
+   git tag -a vX.Y.Z -m "Release vX.Y.Z — see CHANGELOG.md for details"
    ```
 
-5. **Push to remote:**
+5. **Verify the tag:**
+   ```bash
+   git tag -l -n1 vX.Y.Z
+   ```
+
+6. **Push to remote:**
    ```bash
    git push origin master
    git push origin vX.Y.Z
    ```
 
-6. **GitHub Releases (optional):**
+7. **GitHub Releases (standard):**
    - Go to **Releases** on GitHub.
    - Create a release from tag `vX.Y.Z`.
-   - Use the `## [X.Y.Z]` section from `CHANGELOG.md` as the release notes.
+   - Copy the `## [X.Y.Z]` section from `CHANGELOG.md` as release notes.
+
+### Rollback (if tag is incorrect)
+
+If you tag incorrectly, undo locally and on remote:
+
+```bash
+git tag -d vX.Y.Z                    # Delete local tag
+git push origin --delete tag vX.Y.Z  # Delete remote tag
+# Then re-run steps 4–7 after fixing the commit or CHANGELOG
+```
 
 ### Notes
 
 - All release tags are on `master`. Do not tag `personal`.
 - Keep `[Unreleased]` in `CHANGELOG.md` for future work (do not delete).
-- If a release is needed from a long-lived branch other than `master`, document the exception in the release notes.
 - Version strings in code (if any) should match the tag (`vX.Y.Z`); update before tagging.
+- For multi-part releases or coordinated coordination, consider a release branch to allow final tweaks without blocking `master` development.
