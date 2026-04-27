@@ -21,9 +21,37 @@ contexts:
     path: CURSOR.md
     visibility: public
     priority: high
-    token_budget: 2000
+    token_budget: 500
     sanitized: true
-    last_updated: 2026-04-18
+    last_updated: 2026-04-27
+  - id: cursor-workflows
+    path: docs/cursor/workflows.md
+    visibility: public
+    priority: high
+    token_budget: 1300
+    sanitized: true
+    last_updated: 2026-04-27
+  - id: cursor-fit-weights
+    path: docs/cursor/fit-weights.md
+    visibility: public
+    priority: medium
+    token_budget: 300
+    sanitized: true
+    last_updated: 2026-04-27
+  - id: cursor-prompting
+    path: docs/cursor/prompting.md
+    visibility: public
+    priority: high
+    token_budget: 300
+    sanitized: true
+    last_updated: 2026-04-27
+  - id: cursor-cadence
+    path: docs/cursor/cadence.md
+    visibility: public
+    priority: medium
+    token_budget: 350
+    sanitized: true
+    last_updated: 2026-04-27
   - id: career-master
     path: data/career_path_master.csv
     visibility: public

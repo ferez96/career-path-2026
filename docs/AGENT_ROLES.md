@@ -22,7 +22,7 @@ The project separates **two agent types** to avoid mixing goals (repo developmen
 
 ## Assistant (analysis & operations)
 
-**Purpose:** Use the repo for benchmark/JD analysis, company briefs, career path, milestones, **opportunity pipeline** (per `CURSOR.md`), planning, and reviews (daily / weekly / monthly when templates exist).
+**Purpose:** Use the repo for benchmark/JD analysis, company briefs, career path, milestones, **opportunity pipeline** (per `docs/cursor/workflows.md`), planning, and reviews (daily / weekly / monthly when templates exist).
 
 **Read first:**
 
@@ -37,7 +37,7 @@ The project separates **two agent types** to avoid mixing goals (repo developmen
 
 - Prefer **derived-sanitized** context; touch `raw-ingest` only when reconciling source material.
 - No PII in outputs intended for public; missing data → `Unknown`, do not invent.
-- Structured outputs (tables/checklists), with **Assumptions** and **Risk** when `CURSOR.md` requires them.
+- Structured outputs (tables/checklists), with **Assumptions** and **Risk** when `docs/cursor/prompting.md` requires them.
 
 ## Overlap (both)
 

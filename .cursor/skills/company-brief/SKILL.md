@@ -37,7 +37,7 @@ Act as a **Senior / Staff-level engineer** with a **distributed systems** backgr
 After gathering company data, compare to `master.yaml` (do not paste PII):
 
 - **Role fit:** distributed systems / backend / platform / ML-infra — which aligns with `career.target_titles` and `career.direction_summary`?
-- **Reference weights** (adjust as needed): `CURSOR.md` §8 — distributed & execution, system design, ownership & cross-team delivery, AI in production (if JD/team), domain, seniority, practical constraints.
+- **Reference weights** (adjust as needed): `docs/cursor/fit-weights.md` — distributed & execution, system design, ownership & cross-team delivery, AI in production (if JD/team), domain, seniority, practical constraints.
 - **Constraints:** `work_mode`, location, `deal_breakers` (e.g. outsourcing-only / body-shop if signals appear).
 
 ---
