@@ -65,5 +65,7 @@ reports/private/*
 venv/
 .venv/
 
-# Claude
+# Claude Code local files
 .claude/settings.json
+.claude/settings.local.json
+.claude/worktrees/
