@@ -18,11 +18,20 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 - **OpenAI provider adapter + wrapper:** `adapters/llm/openai_adapter.py` and `core/tasks/llm_wrapper.py` using `OPENAI_API_KEY`.
 - **Cost and budget modules:** `core/cost/{pricing.py,costing.py,budget.py}` plus shared domain types in `core/types.py`.
 - **Config files:** `config/token_pricing.yaml` and `config/token_budgets.yaml`.
+- **Framework chunks** (`docs/cursor/`): split monolithic `CURSOR.md` (8.9 KB) into four focused files so rules and skills load only what each task needs — [`workflows.md`](docs/cursor/workflows.md) (functional scope + Workflows 1–4 + Opportunity Tracking), [`fit-weights.md`](docs/cursor/fit-weights.md) (target metadata + scoring rubric), [`prompting.md`](docs/cursor/prompting.md) (language convention + Assumptions/Risk rules), [`cadence.md`](docs/cursor/cadence.md) (KPIs + weekly cadence).
+- **`CLAUDE.md`** project entry point for Claude Code: 36-line file covering role routing (Copilot vs Assistant), always-apply rules, framework chunk map, and key private paths.
+- **`.claude/agents/`** Claude Code subagents: [`assistant.md`](.claude/agents/assistant.md) (career ops — loads chunks by task type) and [`copilot.md`](.claude/agents/copilot.md) (repo framework — governance, Git, public-merge rules). Zero token cost when not spawned.
+- **`config/context_manifest.yaml` groups + triggers:** 7 named context groups (`always-required`, `weekly-planning`, `fit-scoring`, `company-brief`, `opportunity-core`, `opportunity-reports`, `governance`) and 9 skill/task triggers for deterministic, scoped context loading (replaces flat-list guesswork; estimated 40–85% token reduction per task vs worst-case flat load).
 
 ### Changed
 
 - `README.md`: new Token Monitor MVP section (setup, run commands, env-key handling).
 - `docs/REPO_LAYOUT.md`, `config/README.md`: documented runtime/code placement and new config files.
+- [`CURSOR.md`](CURSOR.md): reduced from 8.9 KB to 2.4 KB; now a slim index with a framework-chunks table linking to `docs/cursor/`.
+- `.cursor/rules/` (`agent-assistant.mdc`, `career-path-resume.mdc`, `opportunity-tracking.mdc`): updated section references (`§8`, `§10`, `CURSOR.md for workflows/KPIs`) to point to specific chunk files.
+- `.cursor/skills/` (`company-brief/SKILL.md`, `opportunity-report-next-steps-one/SKILL.md`): same chunk-ref updates.
+- `templates/jd_analysis_template.md`, `templates/opportunities_tracker_template.yaml`, `docs/AGENT_ROLES.md`, `README.md`, `QUICKSTART.md`, `config/README.md`: updated links and descriptions to reflect chunked framework and three-section manifest.
+- [`config/context_manifest.yaml`](config/context_manifest.yaml): added `groups:` and `triggers:` sections above the unchanged `contexts:` list; added 4 chunk entries for `docs/cursor/*.md`; reduced `cursor-framework` token budget 2 000 → 500.
 
 ### Fixed
 
