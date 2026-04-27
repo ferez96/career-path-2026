@@ -15,6 +15,9 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 │   └── private/            # Canonical profile (master.yaml), opportunities.yaml, CV — gitignored
 ├── docs/                   # Policy, workflow, classification
 ├── scripts/                # bootstrap.ps1 / bootstrap.sh
+├── apps/                   # Runtime entry points (web, cli)
+├── core/                   # Business logic (cost, index/tasks/prompts interfaces)
+├── adapters/               # Provider, storage, and telemetry integrations
 ├── prompts/                # Redirect stubs → `.cursor/skills/*/SKILL.md`
 ├── .cursor/skills/         # Canonical Assistant workflows (Cursor Skills)
 ├── reports/
@@ -42,6 +45,9 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 | Opportunity tracker (schema template) | `templates/opportunities_tracker_template.yaml` → copy to `data/private/opportunities.yaml` |
 | Opportunity workflows | `.cursor/skills/opportunity-*/SKILL.md` (see `prompts/opportunity-*.md` redirects) |
 | Context index + job mapping | `config/context_manifest.yaml`, `config/jd_catalog.csv` |
+| Token pricing / budget configs | `config/token_pricing.yaml`, `config/token_budgets.yaml` |
+| Token monitor runtime | `apps/web/`, `apps/cli/`, `core/cost/`, `adapters/{llm,telemetry,storage/sqlite}` |
+| Token usage local DB | `data/private/token_usage.db` (local, gitignored) |
 
 
 ## When unsure

@@ -12,7 +12,17 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
+- **Token monitor MVP runtime:** `apps/web/flask_server.py` (internal UI + `POST /api/llm/chat`), `apps/cli/main.py`, and `scripts/token-monitor.ps1` for tracked operations.
+- **Telemetry architecture skeleton:** new `apps/`, `core/`, and `adapters/` packages with extension points for `index`, `tasks`, and `prompts`.
+- **SQLite telemetry storage:** `adapters/storage/sqlite/{migrations.py,repository.py}` with `usage_events`, `monthly_rollups`, and `budget_alerts`.
+- **OpenAI provider adapter + wrapper:** `adapters/llm/openai_adapter.py` and `core/tasks/llm_wrapper.py` using `OPENAI_API_KEY`.
+- **Cost and budget modules:** `core/cost/{pricing.py,costing.py,budget.py}` plus shared domain types in `core/types.py`.
+- **Config files:** `config/token_pricing.yaml` and `config/token_budgets.yaml`.
+
 ### Changed
+
+- `README.md`: new Token Monitor MVP section (setup, run commands, env-key handling).
+- `docs/REPO_LAYOUT.md`, `config/README.md`: documented runtime/code placement and new config files.
 
 ### Fixed
 

@@ -23,6 +23,7 @@ Full tree: **`docs/REPO_LAYOUT.md`**. Release notes: **`CHANGELOG.md`**. Main mo
 | **`data/`** | Tracked state + local raw/private (gitignored paths in layout doc). |
 | **`.cursor/skills/`**, **`prompts/`**, **`templates/`** | Cursor Skills (canonical workflows); `prompts/` holds redirect stubs; Markdown + YAML templates (incl. JD analysis, weekly/daily, **opportunity tracker schema**). |
 | **`reports/`** | Sanitized outputs (`benchmarks/`, `briefs/`); full-detail / PII-heavy outputs under `reports/private/` (gitignored). |
+| **`apps/`**, **`core/`**, **`adapters/`** | MVP runtime for token/cost tracking (`UI -> API wrapper -> provider`) and future extension points (`index`, `tasks`, `prompts`). |
 
 ## Two-Branch Architecture
 
@@ -76,3 +77,66 @@ This project is licensed under the MIT License. See `LICENSE`.
 4. Run capability analysis and planning with templates in `templates/`.
 5. Save sanitized outputs to `reports/benchmarks/` and `reports/briefs/` (see `reports/README.md`); opportunity detail reports may go to `reports/private/` until sanitized.
 6. Commit meaningful changes.
+
+## Token Monitor MVP
+
+This repository now includes a local-first token/cost monitoring path for tracked LLM requests:
+
+- Internal flow: `UI -> POST /api/llm/chat -> OpenAI API -> SQLite telemetry`.
+- Pricing source: `config/token_pricing.yaml` (local config, manually maintained).
+- Budget source: `config/token_budgets.yaml` (monthly limits + warning ratio).
+- Local database: `data/private/token_usage.db` (gitignored).
+
+### Setup
+
+1. Install Python dependency:
+   - `pip install -r apps/requirements-token-monitor.txt`
+2. Set provider key in local environment:
+   - PowerShell: `$env:OPENAI_API_KEY="your_key_here"`
+3. Initialize DB:
+   - `scripts/token-monitor.ps1 -Command init-db`
+
+### Run
+
+- Start internal UI + API wrapper:
+  - `scripts/token-monitor.ps1 -Command run-web`
+- Start with auto-reload for development:
+  - `scripts/token-monitor.ps1 -Command run-web-dev`
+- Web stack: Flask + HTMX + Bootstrap (`apps/web/flask_server.py`).
+- Monthly summary:
+  - `scripts/token-monitor.ps1 -Command monthly`
+- Monthly alerts:
+  - `scripts/token-monitor.ps1 -Command alerts`
+
+### Local file context chat (Cursor-lite)
+
+You can attach local files to improve grounded answers:
+
+- UI: fill **Attached file paths** in the chat form (comma/newline separated).
+- JSON API: send `attached_paths` as a list (or comma/newline string).
+
+Example:
+
+```json
+{
+  "task_type": "weekly-planning",
+  "provider": "openai",
+  "model": "gpt-4.1-mini",
+  "messages": [
+    { "role": "user", "content": "Review this week's plan and suggest improvements." }
+  ],
+  "attached_paths": [
+    "data/weekly/2026-W17.md",
+    "docs/CURSOR.md"
+  ]
+}
+```
+
+Safety limits:
+
+- Allowed roots only: `data/`, `docs/`, `templates/`, `config/`.
+- Out-of-repo and path traversal are blocked.
+- Non-UTF8/binary files are skipped.
+- Context size is capped and may be truncated.
+
+Do not commit secrets (`OPENAI_API_KEY`) or local DB files.
