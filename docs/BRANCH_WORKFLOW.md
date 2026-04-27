@@ -72,3 +72,74 @@ Use a **squash merge** when promoting work from `personal` to `master` so the pu
 4. Open PR from a sanitized working branch to `public` (`master`).
 5. Prefer **Squash and merge** (or local squash as in the section above).
 6. Include validation notes and decision mode result in PR description.
+
+## Release Flow
+
+Releases are tagged on `master` after merging a final set of PR(s). **Semantic Versioning** applies loosely: **MAJOR** = breaking governance/layout changes; **MINOR** = new workflows, templates, or features; **PATCH** = fixes and small doc updates.
+
+### Steps
+
+1. **Prepare release branch** (optional, for staging final changes):
+   - Create `release/vX.Y.Z` from `master`.
+   - Or work directly on `master` if the final commit is ready.
+
+2. **Update `CHANGELOG.md`:**
+   - Move all items from `[Unreleased]` into a new `## [X.Y.Z] - YYYY-MM-DD` section (using today's date).
+   - Keep `[Unreleased]` as an empty template for future entries.
+   - Example:
+     ```markdown
+     ## [Unreleased]
+
+     ### Added
+
+     ### Changed
+
+     ### Fixed
+
+     ### Removed
+
+     ---
+
+     ## [X.Y.Z] — 2026-MM-DD
+
+     ### Added
+     - (items from [Unreleased])
+
+     ### Changed
+     - (items from [Unreleased])
+     ...
+     ```
+
+3. **Commit CHANGELOG update to `master`:**
+   ```bash
+   git checkout master
+   git add CHANGELOG.md
+   git commit -m "chore: cut release vX.Y.Z"
+   ```
+
+4. **Tag the commit:**
+   ```bash
+   git tag -a vX.Y.Z -m "Release X.Y.Z"
+   ```
+   Or for lightweight tag:
+   ```bash
+   git tag vX.Y.Z
+   ```
+
+5. **Push to remote:**
+   ```bash
+   git push origin master
+   git push origin vX.Y.Z
+   ```
+
+6. **GitHub Releases (optional):**
+   - Go to **Releases** on GitHub.
+   - Create a release from tag `vX.Y.Z`.
+   - Use the `## [X.Y.Z]` section from `CHANGELOG.md` as the release notes.
+
+### Notes
+
+- All release tags are on `master`. Do not tag `personal`.
+- Keep `[Unreleased]` in `CHANGELOG.md` for future work (do not delete).
+- If a release is needed from a long-lived branch other than `master`, document the exception in the release notes.
+- Version strings in code (if any) should match the tag (`vX.Y.Z`); update before tagging.
