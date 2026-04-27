@@ -1,0 +1,126 @@
+<input type="hidden" id="month-input" value="{{ month }}" />
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="card h-100 text-center p-3">
+      <div class="kpi-value text-info">{{ metrics.total_requests }}</div>
+      <div class="kpi-label">Requests this month</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card h-100 text-center p-3">
+      <div class="kpi-value text-warning">${{ "%.4f"|format(metrics.total_cost) }}</div>
+      <div class="kpi-label">Total cost (USD)</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card h-100 text-center p-3">
+      <div class="kpi-value text-{{ 'danger' if metrics.alerts else 'success' }}">{{ metrics.alerts|length }}</div>
+      <div class="kpi-label">Open alerts</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card h-100 text-center p-3">
+      <div class="kpi-value text-secondary">{{ metrics.breakdown|length }}</div>
+      <div class="kpi-label">Active task types</div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex align-items-center gap-2 mb-4">
+  <a href="/?month={{ prev_month }}" class="btn btn-outline-secondary btn-sm">&larr; {{ prev_month }}</a>
+  <span class="fw-semibold fs-5">{{ month }}</span>
+  <a href="/?month={{ next_month }}" class="btn btn-outline-secondary btn-sm">{{ next_month }} &rarr;</a>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header fw-semibold">Budget Alerts</div>
+  <div class="card-body py-2">
+    {% if metrics.alerts %}
+      {% for a in metrics.alerts %}
+        <div class="alert alert-{{ 'danger' if a.severity == 'critical' else 'warning' }} d-flex justify-content-between align-items-center py-2" role="alert">
+          <div>
+            <span class="badge bg-{{ 'danger' if a.severity == 'critical' else 'warning' }} text-uppercase">{{ a.severity }}</span>
+            <strong>{{ a.scope_type }}</strong>: {{ a.scope_value }}
+          </div>
+          <div class="text-end">
+            <span class="fw-bold">${{ "%.4f"|format(a.current_usd) }}</span> / ${{ "%.4f"|format(a.limit_usd) }}
+            <small class="text-muted">{{ a.triggered_at[:10] }}</small>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="text-success mb-0"><i>No open alerts - within budget.</i></p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header fw-semibold">Monthly Breakdown - {{ month }}</div>
+  <div class="table-responsive">
+    <table class="table table-sm table-striped table-hover mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Task</th><th>Provider</th><th>Model</th>
+          <th class="text-end">Reqs</th>
+          <th class="text-end">Input</th>
+          <th class="text-end">Output</th>
+          <th class="text-end">Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if metrics.breakdown %}
+          {% for row in metrics.breakdown %}
+            <tr>
+              <td><span class="badge bg-secondary">{{ row.task_type }}</span></td>
+              <td>{{ row.provider }}</td>
+              <td><code>{{ row.model }}</code></td>
+              <td class="text-end">{{ row.requests }}</td>
+              <td class="text-end">{{ "{:,}".format(row.input_tokens) }}</td>
+              <td class="text-end">{{ "{:,}".format(row.output_tokens) }}</td>
+              <td class="text-end fw-semibold">${{ "%.6f"|format(row.total_cost) }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td colspan="7" class="text-center text-muted py-3">No data for this month yet.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header fw-semibold">Recent Requests</div>
+  <div class="table-responsive">
+    <table class="table table-sm table-striped table-hover mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Time</th><th>Task</th><th>Model</th>
+          <th class="text-end">In</th>
+          <th class="text-end">Out</th>
+          <th class="text-end">Cost</th>
+          <th class="text-end">ms</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if metrics.recent_usage %}
+          {% for r in metrics.recent_usage %}
+            <tr>
+              <td class="text-muted small">{{ r.ts[:19]|replace("T", " ") }}</td>
+              <td><span class="badge bg-secondary">{{ r.task_type }}</span></td>
+              <td><code>{{ r.model }}</code></td>
+              <td class="text-end">{{ "{:,}".format(r.input_tokens) }}</td>
+              <td class="text-end">{{ "{:,}".format(r.output_tokens) }}</td>
+              <td class="text-end">${{ "%.6f"|format(r.cost_total) }}</td>
+              <td class="text-end">{{ r.duration_ms }} ms</td>
+              <td><span class="badge {{ 'bg-success' if r.status == 'success' else 'bg-danger' }}">{{ r.status }}</span></td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td colspan="8" class="text-center text-muted py-3">No recent requests.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+

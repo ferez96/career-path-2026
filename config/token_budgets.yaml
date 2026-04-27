@@ -1,0 +1,9 @@
+warn_ratio: 0.8
+monthly:
+  global_limit_usd: 30.0
+  task_limits_usd:
+    weekly-planning: 10.0
+    opportunity-update: 8.0
+    opportunity-from-jd: 7.0
+    company-brief: 12.0
+
