@@ -18,7 +18,7 @@ description: >-
 1. Select the record by **`id`**: `<OPPORTUNITY_ID>` (or company + role if user specifies — resolve ambiguity).
 2. Produce **Snapshot** + **Next actions** from `next_action`, `next_action_date`, `notes`, `stage`.
 3. Add **Blockers / risks** from notes and stage.
-4. Add **Suggested 24–72h moves** aligned with `CURSOR.md` execution style.
+4. Add **Suggested 24–72h moves** aligned with the workflow style in `docs/cursor/workflows.md` (Workflow 2).
 5. **Assumptions** / **Risk**.
 
 **Output:** Markdown for `reports/private/opportunity-next-steps-<id>-<YYYY-MM-DD>.md` or paste-only.

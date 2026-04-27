@@ -53,7 +53,7 @@ Quickest: provide your AI agent with either a resume file or a short plaintext b
 
 ## More later
 
-Sanitized reports, benchmarks, briefs, publishing to `public`, and the full prompt list live in **[CURSOR.md](CURSOR.md)** and the sections below.
+Sanitized reports, benchmarks, briefs, publishing to `public`, and the full prompt list live in **[CURSOR.md](CURSOR.md)** (and its chunked framework under `docs/cursor/`) and the sections below.
 
 ### Where things live
 
@@ -94,6 +94,6 @@ Flow: **`personal` → sanitize → `public` (`master`)**. Only non-PII, sanitiz
 
 ### Read next
 
-- **[CURSOR.md](CURSOR.md)** — Full workflows, KPIs, opportunity table.
+- **[CURSOR.md](CURSOR.md)** — Operating framework index → `docs/cursor/{workflows,fit-weights,prompting,cadence}.md`.
 - **[reports/README.md](reports/README.md)** — `benchmarks/` vs `briefs/` vs `private/`.
 - **[config/context_manifest.yaml](config/context_manifest.yaml)** — Agent context index.

@@ -16,7 +16,7 @@ alwaysApply: false
 
 # Assistant — operations & analysis
 
-- Read `docs/AGENT_ROLES.md` (Assistant) and `CURSOR.md` for workflows/KPIs.
+- Read `docs/AGENT_ROLES.md` (Assistant). For workflows see `docs/cursor/workflows.md`; for KPIs/cadence see `docs/cursor/cadence.md`; for prompting rules see `docs/cursor/prompting.md`.
 - Analysis / fit / gap: follow `.cursor/rules/career-path-resume.mdc` (resume via `data/private/master.yaml` when applicable); public output is non-PII only.
 - Prefer context in `config/context_manifest.yaml`; use `config/jd_catalog.csv` to trace benchmarks.
 - Missing data → `Unknown`; include **Assumptions** and **Risk** when the framework requires them.
