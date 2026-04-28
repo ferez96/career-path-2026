@@ -12,26 +12,43 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+---
+
+## [0.2.0] — 2026-04-28
+
+### Added
+
+- **[`jd-process` skill](`.cursor/skills/jd-process/SKILL.md`):** end-to-end JD processing pipeline — drop a raw JD file and invoke `/jd-process` to normalize, research the company, score fit/gap, generate three private reports (analysis, company brief, decision), and produce a ready-to-import opportunity YAML snippet and catalog row. Orchestrates `company-brief` and `opportunity-from-jd` as sub-workflows.
+- **`data/jds/` directory:** normalized JD storage (`derived-sanitized` class). Files named `{slug}.md` follow a standardized template (role, company, skills, responsibilities, compensation).
+- **[`docs/guides/jd-process.md`](docs/guides/jd-process.md):** step-by-step usage guide for the jd-process workflow — file drop, invocation, slug confirmation, reviewing reports, YAML/CSV insertion, and optional sanitized publish flow.
 - **Token monitor MVP runtime:** `apps/web/flask_server.py` (internal UI + `POST /api/llm/chat`), `apps/cli/main.py`, and `scripts/token-monitor.ps1` for tracked operations.
 - **Telemetry architecture skeleton:** new `apps/`, `core/`, and `adapters/` packages with extension points for `index`, `tasks`, and `prompts`.
 - **SQLite telemetry storage:** `adapters/storage/sqlite/{migrations.py,repository.py}` with `usage_events`, `monthly_rollups`, and `budget_alerts`.
 - **OpenAI provider adapter + wrapper:** `adapters/llm/openai_adapter.py` and `core/tasks/llm_wrapper.py` using `OPENAI_API_KEY`.
 - **Cost and budget modules:** `core/cost/{pricing.py,costing.py,budget.py}` plus shared domain types in `core/types.py`.
 - **Config files:** `config/token_pricing.yaml` and `config/token_budgets.yaml`.
-- **Framework chunks** (`docs/cursor/`): split monolithic `CURSOR.md` (8.9 KB) into four focused files so rules and skills load only what each task needs — [`workflows.md`](docs/cursor/workflows.md) (functional scope + Workflows 1–4 + Opportunity Tracking), [`fit-weights.md`](docs/cursor/fit-weights.md) (target metadata + scoring rubric), [`prompting.md`](docs/cursor/prompting.md) (language convention + Assumptions/Risk rules), [`cadence.md`](docs/cursor/cadence.md) (KPIs + weekly cadence).
-- **`CLAUDE.md`** project entry point for Claude Code: 36-line file covering role routing (Copilot vs Assistant), always-apply rules, framework chunk map, and key private paths.
-- **`.claude/agents/`** Claude Code subagents: [`assistant.md`](.claude/agents/assistant.md) (career ops — loads chunks by task type) and [`copilot.md`](.claude/agents/copilot.md) (repo framework — governance, Git, public-merge rules). Zero token cost when not spawned.
-- **`config/context_manifest.yaml` groups + triggers:** 7 named context groups (`always-required`, `weekly-planning`, `fit-scoring`, `company-brief`, `opportunity-core`, `opportunity-reports`, `governance`) and 9 skill/task triggers for deterministic, scoped context loading (replaces flat-list guesswork; estimated 40–85% token reduction per task vs worst-case flat load).
+- **Framework chunks** (`docs/cursor/`): split monolithic `CURSOR.md` (8.9 KB) into four focused files — [`workflows.md`](docs/cursor/workflows.md), [`fit-weights.md`](docs/cursor/fit-weights.md), [`prompting.md`](docs/cursor/prompting.md), [`cadence.md`](docs/cursor/cadence.md). Rules and skills now load only what each task needs.
+- **`CLAUDE.md`** project entry point for Claude Code: role routing (Copilot vs Assistant), always-apply rules, framework chunk map, and key private paths.
+- **`.claude/agents/`** Claude Code subagents: [`assistant.md`](.claude/agents/assistant.md) and [`copilot.md`](.claude/agents/copilot.md). Zero token cost when not spawned.
+- **`config/context_manifest.yaml` groups + triggers:** 8 named context groups and 10 skill/task triggers for deterministic, scoped context loading; estimated 40–85% token reduction per task vs worst-case flat load.
 
 ### Changed
 
-- `README.md`: new Token Monitor MVP section (setup, run commands, env-key handling).
+- [`docs/BRANCH_WORKFLOW.md`](docs/BRANCH_WORKFLOW.md): added **Release Flow** section — pre-release checklist, 7-step release procedure, rollback steps, and notes on tagging only `master`.
+- [`.gitignore`](.gitignore): expanded to cover Claude Code worktree paths (`.claude/worktrees/`), `settings.json`/`settings.local.json`, and additional editor artifacts.
+- [`templates/jd_catalog_template.csv`](templates/jd_catalog_template.csv): added `company` and `date_processed` columns.
+- [`config/context_manifest.yaml`](config/context_manifest.yaml): added `jd-process` group (13K token budget), trigger, `jd-analysis-template` and `skill-jd-process` context entries; also `groups:` + `triggers:` sections from prior sprint; `cursor-framework` budget 2 000 → 500.
+- `README.md`: Token Monitor MVP section (setup, run commands, env-key handling).
 - `docs/REPO_LAYOUT.md`, `config/README.md`: documented runtime/code placement and new config files.
-- [`CURSOR.md`](CURSOR.md): reduced from 8.9 KB to 2.4 KB; now a slim index with a framework-chunks table linking to `docs/cursor/`.
-- `.cursor/rules/` (`agent-assistant.mdc`, `career-path-resume.mdc`, `opportunity-tracking.mdc`): updated section references (`§8`, `§10`, `CURSOR.md for workflows/KPIs`) to point to specific chunk files.
-- `.cursor/skills/` (`company-brief/SKILL.md`, `opportunity-report-next-steps-one/SKILL.md`): same chunk-ref updates.
-- `templates/jd_analysis_template.md`, `templates/opportunities_tracker_template.yaml`, `docs/AGENT_ROLES.md`, `README.md`, `QUICKSTART.md`, `config/README.md`: updated links and descriptions to reflect chunked framework and three-section manifest.
-- [`config/context_manifest.yaml`](config/context_manifest.yaml): added `groups:` and `triggers:` sections above the unchanged `contexts:` list; added 4 chunk entries for `docs/cursor/*.md`; reduced `cursor-framework` token budget 2 000 → 500.
+- [`CURSOR.md`](CURSOR.md): reduced from 8.9 KB to 2.4 KB; now a slim index linking to `docs/cursor/` chunks.
+- `.cursor/rules/` and `.cursor/skills/`: updated framework references to point at specific chunk files.
+- `templates/`, `docs/AGENT_ROLES.md`, `QUICKSTART.md`: updated links and descriptions to reflect chunked framework.
 
 ### Fixed
 
