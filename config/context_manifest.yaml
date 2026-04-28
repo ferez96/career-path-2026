@@ -78,6 +78,19 @@ groups:
       - skill-opportunity-report-next-steps-one # next-steps (one) skill      600t
       - skill-opportunity-report-next-steps-rollup # rollup skill             600t
 
+  jd-process:
+    description: Full JD workflow — normalize, research, score, report, import
+    token_budget: 13000
+    contexts:
+      - skill-jd-process          # master orchestration skill  2000t
+      - cursor-fit-weights        # scoring weights            300t
+      - cursor-prompting          # output rules               300t
+      - private-master-profile    # profile for fit scoring   3500t
+      - jd-analysis-template      # JD analysis structure     1200t
+      - opportunities-tracker-template # opportunity schema   900t
+      - skill-company-brief       # company research sub-skill 4000t
+      - skill-opportunity-from-jd # opportunity import sub-skill 900t
+
   governance:
     description: Copilot — repo framework, governance, public-merge prep
     token_budget: 1200
@@ -123,6 +136,10 @@ triggers:
   opportunity-report-next-steps-rollup:
     groups: [always-required, opportunity-reports]
     total_budget: 10000  # 1800 + 8200
+
+  jd-process:
+    groups: [always-required, jd-process]
+    total_budget: 12800  # 1800 + 11000
 
   governance:
     groups: [governance]
@@ -180,6 +197,13 @@ contexts:
     visibility: public
     priority: medium
     token_budget: 350
+    sanitized: true
+    last_updated: 2026-04-27
+  - id: jd-analysis-template
+    path: templates/jd_analysis_template.md
+    visibility: public
+    priority: medium
+    token_budget: 1200
     sanitized: true
     last_updated: 2026-04-27
   - id: career-master
@@ -273,3 +297,10 @@ contexts:
     token_budget: 600
     sanitized: true
     last_updated: 2026-04-23
+  - id: skill-jd-process
+    path: .cursor/skills/jd-process/SKILL.md
+    visibility: public
+    priority: high
+    token_budget: 2000
+    sanitized: true
+    last_updated: 2026-04-28
