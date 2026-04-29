@@ -75,7 +75,9 @@ Use a **squash merge** when promoting work from `personal` to `master` so the pu
 
 ## Release Flow
 
-Releases are tagged on `master` after merging a final set of PR(s). For versioning rules, see **Semantic Versioning** in [`CHANGELOG.md`](../CHANGELOG.md) (line 5).
+Releases are tagged on `master` after merging a release branch PR. For versioning rules, see **Semantic Versioning** in [`CHANGELOG.md`](../CHANGELOG.md) (line 5).
+
+CHANGELOG format follows [keepachangelog v1.1.0](https://keepachangelog.com/en/1.1.0/): version headers use `## [X.Y.Z] - YYYY-MM-DD` (hyphen, not em-dash).
 
 ### Pre-Release Checklist
 
@@ -85,59 +87,36 @@ Before cutting a release, verify:
 - [ ] All framework/governance changes documented in [`CHANGELOG.md`](../CHANGELOG.md) or `docs/`.
 - [ ] No breaking data-flow or branch-workflow changes without coordination.
 
-### Steps
+### Automated Release Workflows
 
-1. **Prepare release branch** (optional):
-   - Create `release/vX.Y.Z` from `master` for final staging, or commit directly to `master`.
-   - Use only when coordinating multi-maintainer releases or parallel development.
+Two GitHub Actions workflows handle the release process end-to-end.
 
-2. **Update `CHANGELOG.md`:**
-   - Move all items from `[Unreleased]` into a new `## [X.Y.Z] — YYYY-MM-DD` section.
-   - Keep `[Unreleased]` as a template for future entries.
-   - Example:
-     ```markdown
-     ## [Unreleased]
+#### Step 1 — Start Release
 
-     ### Added
+Run the **[Start Release](.github/workflows/release-start.yml)** workflow (`Actions → Start Release → Run workflow`) with the target version (e.g. `0.3.0`).
 
-     ---
+The workflow will:
+1. Validate the version (semver format, tag not yet existing, branch not yet existing)
+2. Fail fast if `[Unreleased]` is empty
+3. Create branch `release/vX.Y.Z` from `master`
+4. Update `CHANGELOG.md`: normalize all version headers to hyphen format, move `[Unreleased]` items into `## [X.Y.Z] - YYYY-MM-DD`, reset `[Unreleased]` to empty template
+5. Commit `chore: prepare release vX.Y.Z` on the release branch
+6. Open a PR from `release/vX.Y.Z` → `master` with release notes as PR body
 
-     ## [X.Y.Z] — 2026-04-27
+#### Step 2 — Review and merge
 
-     ### Added
-     - (items moved from [Unreleased])
+Review the auto-opened PR. The PR body shows exactly what will be released. Merge when ready (regular merge or squash merge both work).
 
-     ### Changed
-     - (items moved from [Unreleased])
-     ```
+#### Step 3 — Tag and draft release (automatic)
 
-3. **Commit CHANGELOG update to `master`:**
-   ```bash
-   git checkout master
-   git add CHANGELOG.md
-   git commit -m "chore: cut release vX.Y.Z"
-   ```
+When the PR is merged, the **[Tag & Draft Release](.github/workflows/release-tag.yml)** workflow triggers automatically and:
+1. Creates an annotated tag `vX.Y.Z` on master HEAD
+2. Pushes the tag to remote
+3. Creates a **draft** GitHub Release with the `## [X.Y.Z]` CHANGELOG section as release notes
 
-4. **Tag the commit:**
-   ```bash
-   git tag -a vX.Y.Z -m "Release vX.Y.Z — see CHANGELOG.md for details"
-   ```
+#### Step 4 — Publish release (manual)
 
-5. **Verify the tag:**
-   ```bash
-   git tag -l -n1 vX.Y.Z
-   ```
-
-6. **Push to remote:**
-   ```bash
-   git push origin master
-   git push origin vX.Y.Z
-   ```
-
-7. **GitHub Releases (standard):**
-   - Go to **Releases** on GitHub.
-   - Create a release from tag `vX.Y.Z`.
-   - Copy the `## [X.Y.Z]` section from `CHANGELOG.md` as release notes.
+Go to **Releases** on GitHub, open the draft, review the notes, and click **Publish release**. It will become the Latest release.
 
 ### Rollback (if tag is incorrect)
 
@@ -146,12 +125,24 @@ If you tag incorrectly, undo locally and on remote:
 ```bash
 git tag -d vX.Y.Z                    # Delete local tag
 git push origin --delete tag vX.Y.Z  # Delete remote tag
-# Then re-run steps 4–7 after fixing the commit or CHANGELOG
+# Then re-run the Start Release workflow or use the manual alternative below
 ```
+
+### Manual Alternative (fallback)
+
+Use these steps if the automated workflows cannot run (e.g. branch protection blocking the bot):
+
+1. Create `release/vX.Y.Z` from `master` and update `CHANGELOG.md` manually (move `[Unreleased]` → new versioned section, reset `[Unreleased]` template).
+2. Commit `chore: prepare release vX.Y.Z`, push, open PR → `master`.
+3. After merging, tag the commit:
+   ```bash
+   git tag -a vX.Y.Z -m "Release vX.Y.Z — see CHANGELOG.md for details"
+   git push origin vX.Y.Z
+   ```
+4. Go to **Releases** on GitHub, create a release from tag `vX.Y.Z`, paste the `## [X.Y.Z]` section from `CHANGELOG.md` as release notes, save as draft, then publish.
 
 ### Notes
 
 - All release tags are on `master`. Do not tag `personal`.
 - Keep `[Unreleased]` in `CHANGELOG.md` for future work (do not delete).
-- Version strings in code (if any) should match the tag (`vX.Y.Z`); update before tagging.
-- For multi-part releases or coordinated coordination, consider a release branch to allow final tweaks without blocking `master` development.
+- Version strings in code (if any) should match the tag (`vX.Y.Z`); update before triggering the workflow.

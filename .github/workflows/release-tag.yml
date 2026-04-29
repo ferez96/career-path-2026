@@ -1,0 +1,94 @@
+name: Tag & Draft Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  tag-and-draft:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extract version from branch name
+        id: meta
+        run: |
+          BRANCH="${{ github.event.pull_request.head.ref }}"
+          VERSION="${BRANCH#release/v}"
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Could not extract valid semver from branch name '$BRANCH'."
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout master
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Verify tag does not already exist
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          if git tag -l "v${VERSION}" | grep -q "v${VERSION}"; then
+            echo "::error::Tag v${VERSION} already exists."
+            exit 1
+          fi
+
+      - name: Configure git
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create annotated tag
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          git tag -a "v${VERSION}" -m "Release v${VERSION} — see CHANGELOG.md for details"
+
+      - name: Push tag
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: git push origin "v${VERSION}"
+
+      - name: Extract release notes from CHANGELOG
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          python3 << 'PYEOF'
+          import os, re, pathlib, sys
+
+          version = os.environ["VERSION"]
+          text    = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+
+          # Handles both hyphen (normalized) and em-dash (legacy fallback)
+          pattern = re.compile(
+              r'(## \[' + re.escape(version) + r'\]\s*[-—]\s*\d{4}-\d{2}-\d{2}.*?)(?=\n---|\Z)',
+              re.DOTALL
+          )
+          m = pattern.search(text)
+          if not m:
+              print(f"::error::Cannot find ## [{version}] section in CHANGELOG.md.")
+              sys.exit(1)
+
+          notes = m.group(1).strip()
+          pathlib.Path("/tmp/release_notes.md").write_text(notes, encoding="utf-8")
+          print(f"Release notes written ({len(notes)} chars).")
+          PYEOF
+
+      - name: Create draft GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          gh release create "v${VERSION}" \
+            --draft \
+            --title "v${VERSION}" \
+            --notes-file /tmp/release_notes.md \
+            --target master
