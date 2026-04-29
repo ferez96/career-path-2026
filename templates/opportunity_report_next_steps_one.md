@@ -11,6 +11,19 @@
 - Stage: 
 - Priority: 
 
+## Contacts
+
+| Name | Role | Channels | Notes |
+|------|------|----------|-------|
+| | | | |
+
+## Check here (manual)
+
+| Purpose | URL |
+|---------|-----|
+| Application portal | |
+| Job posting | |
+
 ## Next actions (ordered)
 
 1. 

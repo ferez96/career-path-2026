@@ -22,7 +22,9 @@ description: >-
 
 **Output:** Markdown ready to save as `reports/private/opportunity-tracking-<YYYY-MM-DD>.md` (path local / gitignored).
 
-**Constraints:** No PII in public-bound copy; if user requests public summary, produce a second sanitized table.
+**Constraints:**
+- No PII in public-bound copy; if user requests public summary, produce a second sanitized table.
+- **Do not fabricate.** Table cells must reflect field values exactly as stored. If a field is absent or empty, write "—" in the cell. Do not substitute guesses or defaults.
 
 **My inputs (collect, confirm, or ask):**
 - If whether to **include closed** in the appendix is **not** stated in chat or memory: **ask** (or propose a default such as `no` and **ask for confirmation**).

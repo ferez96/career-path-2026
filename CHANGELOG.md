@@ -12,9 +12,22 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
+- **`contacts[]` and `links` fields on opportunity entries:** each active opportunity can now track contacts (recruiter, HM, referral, etc.) with a `channels` free map (any platform: `linkedin`, `zalo`, `whatsapp`, `telegram`, `messenger`, `email`, `phone`, …) plus a `links` map for manual status checks (application portal, job posting, or any free key → URL). Schema documented in [`templates/opportunities_tracker_template.yaml`](templates/opportunities_tracker_template.yaml).
+- **Contacts and "Check here (manual)" sections** added to [`templates/opportunity_report_next_steps_one.md`](templates/opportunity_report_next_steps_one.md).
+- **[`scripts/validate_opportunities.py`](scripts/validate_opportunities.py):** local schema validator for `data/private/opportunities.yaml` — checks required fields, stage/priority/outcome/contact-role enums, `contacts[].channels` structure, and `history` length (max 5). Run with `python scripts/validate_opportunities.py`.
+
 ### Changed
 
+- **`templates/opportunities_tracker_template.yaml`:** `future_desired[].status` now has an explicit enum (`watching|not_started|in_research|ready_to_apply`); `updated_at` added to `future_desired[]`; `history[]` max-5 convention documented in schema comment; annotated example entry added.
+- **[`.cursor/skills/opportunity-from-jd/SKILL.md`](.cursor/skills/opportunity-from-jd/SKILL.md):** collects contacts and links during opportunity creation; asks user for a label if company name is absent from JD.
+- **[`.cursor/skills/opportunity-update/SKILL.md`](.cursor/skills/opportunity-update/SKILL.md):** supports merging contacts and links; enforces `stage_entered_at` on every stage change.
+- **[`.cursor/skills/opportunity-report-next-steps-one/SKILL.md`](.cursor/skills/opportunity-report-next-steps-one/SKILL.md):** populates Contacts and Check here sections from `contacts[]` and `links`; missing data → "None recorded." / "No data recorded."
+- **[`.cursor/skills/jd-process/SKILL.md`](.cursor/skills/jd-process/SKILL.md):** stops and asks user for a company label/alias when JD does not name the company; skips the `company-brief` sub-workflow entirely when company is unidentified (prevents fabrication).
+
 ### Fixed
+
+- **No-fabrication rule enforced across all 6 skills** (`opportunity-from-jd`, `opportunity-update`, `opportunity-report-next-steps-one`, `opportunity-report-next-steps-rollup`, `opportunity-report-tracking`, `jd-process`): agents must not invent, infer, or extrapolate any content not present in source data or stated by the user. Missing fields must be stated explicitly; all inferences must be listed in the Assumptions section.
+- **Bug: unknown company in `jd-process`:** previously the skill would pass "Unknown" to the `company-brief` sub-workflow, risking fabricated company research. Now blocks at Step 2 and requires a user-provided label before proceeding.
 
 ### Removed
 
