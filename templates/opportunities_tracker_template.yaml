@@ -7,17 +7,53 @@
 #   next_action, next_action_date (YYYY-MM-DD), priority (P0|P1|P2), notes,
 #   jd_source: { job_id?, raw_path? } — link to local config/jd_catalog.csv (from templates/jd_catalog_template.csv) / data/raw/
 #   milestone_id (optional) — link to data/career_path_master.csv
-#   updated_at (ISO date), history (optional short strings), outcome, closed_at when Closed
+#   updated_at (ISO date), outcome, closed_at when Closed
+#   history (optional list of short strings — max 5 lines; drop oldest when appending)
+#
+#   contacts (optional list) — people to reach out to or check with:
+#     - name, role (recruiter|hiring_manager|referral|hr|other),
+#       channels: free map of platform → handle/URL/number
+#         e.g. linkedin, email, zalo, whatsapp, telegram, messenger, phone, ...
+#       notes (e.g. "reached out 2026-04-28")
+#
+#   links (optional map) — URLs for manual status checks:
+#     application_portal, job_posting, other (free key → URL)
 #
 # Pipeline stages: Interested → Applied → RecruiterScreen → HiringManager → Technical →
 #   OnsiteOrFinal → Offer → Closed (outcome: accepted|declined|rejected|withdrawn)
 #
 # future_desired[] fields:
-#   id, target_role, company_or_tier_hint, time_horizon, priority, status,
-#   notes, next_action / next_action_date (optional, for rollup reports)
+#   id, target_role, company_or_tier_hint, time_horizon, priority,
+#   status (watching|not_started|in_research|ready_to_apply),
+#   notes, updated_at (ISO date),
+#   next_action / next_action_date (optional, for rollup reports)
 
 schema_version: 1
 
-active: []
+active:
+  # Example entry (remove when populating real data):
+  # - id: acme-senior-backend-2026
+  #   company_display: Acme Corp
+  #   role_title: Senior Backend Engineer
+  #   stage: Interested
+  #   priority: P1
+  #   next_action: Submit application
+  #   next_action_date: "2026-05-05"
+  #   notes: ""
+  #   jd_source:
+  #     raw_path: data/raw/acme-senior-backend.txt
+  #   contacts:
+  #     - name: Jane Doe
+  #       role: recruiter
+  #       channels:
+  #         linkedin: https://linkedin.com/in/janedoe
+  #         email: jane.doe@acme.com
+  #         zalo: "0901234567"
+  #       notes: ""
+  #   links:
+  #     application_portal: https://jobs.acme.com/apply/12345
+  #     job_posting: https://linkedin.com/jobs/view/12345
+  #   updated_at: "2026-04-28"
+  #   history: []
 
 future_desired: []

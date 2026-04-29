@@ -22,8 +22,10 @@ description: >-
 3. Set initial **`stage`**: usually `Interested` or `Applied` (user may override).
 4. Set **`jd_source`**: at minimum `raw_path: "data/raw/<FILENAME>"`. If user wants catalog tracking, output one CSV row for `jd_catalog.csv` with columns `job_id,alias,role,raw_path,normalized_path,status` (fill unknowns with placeholder or ask).
 5. Set **`next_action`** and **`next_action_date`** (concrete, within 7 days if possible), **`priority`** (P0/P1/P2), short **`notes`**.
-6. Set **`updated_today`** in **`updated_at`** (ISO date).
-7. Output a **YAML snippet** ready to append under `active:` in `data/private/opportunities.yaml` (or merge instructions if file already exists). Do not duplicate `id`.
+6. If the user supplies any contact info (recruiter, HM, referral), populate **`contacts[]`** — each item: `name`, `role` (`recruiter|hiring_manager|referral|hr|other`), `channels` (free map: any platform key → handle/URL/number, e.g. `linkedin`, `email`, `zalo`, `whatsapp`, `telegram`, `messenger`, `phone`), and `notes`. Omit the key entirely if no contacts are known.
+7. If the JD or user provides a portal or posting URL, populate **`links`** (`application_portal`, `job_posting`, or a free key). These are the canonical spots for manual status checks. Omit the key if no URLs are known.
+8. Set **`updated_at`** to today (ISO date).
+9. Output a **YAML snippet** ready to append under `active:` in `data/private/opportunities.yaml` (or merge instructions if file already exists). Do not duplicate `id`.
 
 **Output sections:**
 - YAML block for the new `active[]` item only
@@ -40,3 +42,5 @@ description: >-
 - Path to JD under `data/raw/`: `<...>`
 - Desired initial stage: `<Interested | Applied | ...>`
 - job_id for catalog (or "skip catalog"): `<...>`
+- Contacts (recruiter / HM / referral name + role + linkedin/email if known, or "none"): `<...>`
+- Application portal / job posting URL (or "none"): `<...>`

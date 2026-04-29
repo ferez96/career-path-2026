@@ -17,9 +17,11 @@ description: >-
 **Task:**
 1. Select the record by **`id`**: `<OPPORTUNITY_ID>` (or company + role if user specifies — resolve ambiguity).
 2. Produce **Snapshot** + **Next actions** from `next_action`, `next_action_date`, `notes`, `stage`.
-3. Add **Blockers / risks** from notes and stage.
-4. Add **Suggested 24–72h moves** aligned with the workflow style in `docs/cursor/workflows.md` (Workflow 2).
-5. **Assumptions** / **Risk**.
+3. Populate **Contacts** table from `contacts[]`; if empty, write "None recorded."
+4. Populate **Check here (manual)** table from `links`; if empty, write "None recorded."
+5. Add **Blockers / risks** from notes and stage.
+6. Add **Suggested 24–72h moves** aligned with the workflow style in `docs/cursor/workflows.md` (Workflow 2).
+7. **Assumptions** / **Risk**.
 
 **Output:** Markdown for `reports/private/opportunity-next-steps-<id>-<YYYY-MM-DD>.md` or paste-only.
 
