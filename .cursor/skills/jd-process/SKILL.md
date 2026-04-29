@@ -216,7 +216,12 @@ Next Steps:
   - `data/raw/{filename}` → `raw-ingest` (ignore, do not commit)
   - `data/jds/{slug}.md` → `derived-sanitized` (track after sanitization)
   - `reports/private/{slug}-*.md` → `private-sensitive` (ignore, do not commit)
-- **Accuracy:** Do not invent company facts. Missing data → `Unknown`, ask user to verify from source.
+- **Do not fabricate.** This applies to every step: role extraction, company research, fit scoring, action plans, and next steps. Only use information explicitly present in the JD file, `master.yaml`, or stated by the user.
+  - Missing JD fields (salary, team size, work mode, etc.) → `"Not disclosed"` or `"Unknown"`. Do not guess.
+  - Fit scoring rationale must cite specific JD text or profile data. Do not invent supporting evidence.
+  - Action plans and next steps (Steps 7a, 7c) must be grounded in the analysis output. Do not add generic career advice not derived from the data.
+  - All inferences must be listed in the **Assumptions / Risk** output section (Step 7c and final checklist).
+  - The `company-brief` sub-workflow inherits its own no-fabrication rules (fact / inference / unknown labeling per claim).
 - **Opportunity ID collision:** Check `config/jd_catalog.csv` for existing slugs; ask before override.
 
 ---
