@@ -29,6 +29,8 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 - **No-fabrication rule enforced across all 6 skills** (`opportunity-from-jd`, `opportunity-update`, `opportunity-report-next-steps-one`, `opportunity-report-next-steps-rollup`, `opportunity-report-tracking`, `jd-process`): agents must not invent, infer, or extrapolate any content not present in source data or stated by the user. Missing fields must be stated explicitly; all inferences must be listed in the Assumptions section.
 - **Bug: unknown company in `jd-process`:** previously the skill would pass "Unknown" to the `company-brief` sub-workflow, risking fabricated company research. Now blocks at Step 2 and requires a user-provided label before proceeding.
 
+### Removed
+
 ---
 
 ## [0.2.0] — 2026-04-28
