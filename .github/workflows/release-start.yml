@@ -1,0 +1,197 @@
+name: Start Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. 0.3.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  start-release:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ github.event.inputs.version }}
+
+    steps:
+      - name: Validate version format
+        run: |
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Version '$VERSION' is not a valid semver X.Y.Z string."
+            exit 1
+          fi
+
+      - name: Check tag does not already exist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          STATUS=$(gh api repos/${{ github.repository }}/git/refs/tags/v${VERSION} \
+            --silent -i 2>&1 | head -1 | grep -oP '(?<=HTTP/\S\s)\d+' || echo "404")
+          if [ "$STATUS" = "200" ]; then
+            echo "::error::Tag v${VERSION} already exists. Bump the version."
+            exit 1
+          fi
+
+      - name: Check release branch does not already exist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          STATUS=$(gh api "repos/${{ github.repository }}/git/refs/heads/release%2Fv${VERSION}" \
+            --silent -i 2>&1 | head -1 | grep -oP '(?<=HTTP/\S\s)\d+' || echo "404")
+          if [ "$STATUS" = "200" ]; then
+            echo "::error::Branch release/v${VERSION} already exists."
+            exit 1
+          fi
+
+      - name: Checkout master
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Validate [Unreleased] is not empty
+        run: |
+          python3 << 'PYEOF'
+          import sys, re, pathlib
+
+          text = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+
+          m = re.search(r'## \[Unreleased\](.*?)(?=\n---)', text, re.DOTALL)
+          if not m:
+              print("::error::Could not locate [Unreleased] section in CHANGELOG.md.")
+              sys.exit(1)
+
+          block = m.group(1)
+          items = [ln for ln in block.splitlines() if ln.strip().startswith('-')]
+          if not items:
+              print("::error::[Unreleased] section is empty — nothing to release.")
+              sys.exit(1)
+
+          print(f"Found {len(items)} item line(s) in [Unreleased]. Proceeding.")
+          PYEOF
+
+      - name: Create release branch
+        run: git checkout -b release/v${VERSION}
+
+      - name: Update CHANGELOG.md
+        run: |
+          TODAY=$(date -u '+%Y-%m-%d')
+          export TODAY
+          python3 << 'PYEOF'
+          import os, re, pathlib, textwrap, sys
+
+          version = os.environ["VERSION"]
+          today   = os.environ["TODAY"]
+          path    = pathlib.Path("CHANGELOG.md")
+          text    = path.read_text(encoding="utf-8")
+
+          # Phase 1: normalize em-dash → hyphen in ALL version headers
+          text = re.sub(
+              r'(## \[[^\]]+\])\s*—\s*(\d{4}-\d{2}-\d{2})',
+              r'\1 - \2',
+              text
+          )
+
+          # Phase 2: extract [Unreleased] body (between heading and first \n---)
+          m = re.search(r'## \[Unreleased\](.*?)(?=\n---)', text, re.DOTALL)
+          if not m:
+              print("::error::Cannot find [Unreleased] block.")
+              sys.exit(1)
+          unreleased_body = m.group(1)
+
+          # Phase 3: build versioned section — strip empty subsections
+          SUBSECTIONS = ["Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"]
+          sub_pat = re.compile(
+              r'### (' + '|'.join(SUBSECTIONS) + r')(.*?)(?=### |\Z)',
+              re.DOTALL
+          )
+          parts = [f"## [{version}] - {today}"]
+          for sub in sub_pat.finditer(unreleased_body):
+              items = [ln for ln in sub.group(2).splitlines() if ln.strip().startswith('-')]
+              if items:
+                  parts.append(f"\n### {sub.group(1)}\n")
+                  parts.extend(items)
+          versioned_section = "\n".join(parts)
+
+          # Phase 4: empty [Unreleased] template (all 6 keepachangelog types)
+          EMPTY = textwrap.dedent("""\
+              ## [Unreleased]
+
+              ### Added
+
+              ### Changed
+
+              ### Deprecated
+
+              ### Removed
+
+              ### Fixed
+
+              ### Security""")
+
+          # Phase 5: reconstruct — replace [Unreleased] block, insert new versioned section
+          new_block = EMPTY + "\n\n---\n\n" + versioned_section + "\n"
+          text = re.sub(
+              r'## \[Unreleased\].*?(?=\n---)',
+              new_block,
+              text, count=1, flags=re.DOTALL
+          )
+          path.write_text(text, encoding="utf-8")
+          print(f"CHANGELOG.md updated: [Unreleased] reset, [{version}] - {today} section added.")
+          PYEOF
+
+      - name: Commit CHANGELOG update
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git commit -m "chore: prepare release v${VERSION}"
+
+      - name: Push release branch
+        run: git push origin release/v${VERSION}
+
+      - name: Upsert release PR label
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create release \
+            --color "0075ca" \
+            --description "Release preparation PR" \
+            --force
+
+      - name: Extract release notes for PR body
+        run: |
+          python3 << 'PYEOF'
+          import os, re, pathlib
+
+          version = os.environ["VERSION"]
+          text    = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+
+          m = re.search(
+              r'(## \[' + re.escape(version) + r'\]\s*-\s*\d{4}-\d{2}-\d{2}.*?)(?=\n---|\Z)',
+              text, re.DOTALL
+          )
+          notes = m.group(1).strip() if m else f"Release v{version}"
+          pathlib.Path("/tmp/pr_body.md").write_text(
+              f"{notes}\n\n"
+              "---\n_Merge this PR to trigger the Tag & Draft Release workflow._",
+              encoding="utf-8"
+          )
+          print("PR body written to /tmp/pr_body.md")
+          PYEOF
+
+      - name: Open pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --base master \
+            --head release/v${VERSION} \
+            --title "chore: release v${VERSION}" \
+            --body-file /tmp/pr_body.md \
+            --label release
