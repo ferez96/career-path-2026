@@ -34,7 +34,9 @@ description: >-
 
 **Constraints:**
 - No PII in any content intended for public `reports/` or `reports/briefs/`.
-- If data missing, use `Unknown` and ask one clarifying question before locking `id` or `company_display`.
+- **Do not fabricate.** Only use values explicitly present in the JD file or stated by the user. Do not invent role details, company facts, contact info, or URLs.
+- If a field cannot be extracted from the JD or user input: use `Unknown` as a placeholder, note it in **Assumptions**, and ask one clarifying question before locking `id` or `company_display`.
+- Every inference (e.g. stage guessed from tone, priority guessed from urgency language) must be listed in **Assumptions** and confirmed by the user before final output.
 
 **My inputs (collect, confirm, or ask):**
 - If any item below is **not** already known from memory, prior messages, or repo (`data/raw/`, `opportunities.yaml`): **ask** before emitting final YAML.

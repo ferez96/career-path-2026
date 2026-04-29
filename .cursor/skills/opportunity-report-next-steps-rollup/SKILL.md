@@ -23,7 +23,10 @@ description: >-
 
 **Output:** Markdown for `reports/private/opportunity-next-steps-rollup-<YYYY-MM-DD>.md` or paste-only.
 
-**Constraints:** Private report may use real names; public summary requires sanitization.
+**Constraints:**
+- Private report may use real names; public summary requires sanitization.
+- **Do not fabricate.** Populate rows only from `next_action` and `next_action_date` fields as recorded. Do not invent or extrapolate actions not present in the data.
+- **Missing data → state it explicitly.** If `next_action_date` is absent, sort the row last and mark the date cell as "Not set". Do not guess a date.
 
 **My inputs (collect, confirm, or ask):**
 - If whether to **include future_desired** rows with `next_action` is **not** stated in chat or memory: **ask** (or propose a default and **ask for confirmation**).

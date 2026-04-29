@@ -33,6 +33,8 @@ description: >-
 **Constraints:**
 - Do not remove unrelated opportunities.
 - No PII in public-bound outputs.
+- **Do not fabricate.** Only apply changes explicitly stated by the user. Do not infer, fill in, or default unmentioned fields.
+- Every inference (e.g. resolving id from company name, assuming stage_entered_at = today) must be listed in **Assumptions** and confirmed before applying the patch.
 
 **My inputs (collect, confirm, or ask):**
 - If **opportunity id** or **intended changes** are **not** clear from memory, chat, or `data/private/opportunities.yaml`: **ask** before proposing the patch.

@@ -25,7 +25,11 @@ description: >-
 
 **Output:** Markdown for `reports/private/opportunity-next-steps-<id>-<YYYY-MM-DD>.md` or paste-only.
 
-**Constraints:** Full detail stays private; sanitize before any public `reports/briefs/` excerpt.
+**Constraints:**
+- Full detail stays private; sanitize before any public `reports/briefs/` excerpt.
+- **Do not fabricate.** Every sentence in the report must be traceable to a field in the YAML record (`stage`, `next_action`, `notes`, `history`, `contacts`, `links`). Do not add general career advice, invented timelines, or assumed details not present in the data.
+- **Missing data → state it explicitly.** If a section has no supporting data, write "No data recorded." Do not fill the gap with plausible-sounding content.
+- **Assumptions section is mandatory.** Any interpretation beyond a direct field read (e.g. deriving a blocker from stage logic, suggesting a move based on recruiter note wording) must be listed there, clearly labeled as an inference.
 
 **My inputs (collect, confirm, or ask):**
 - If **opportunity id** (or company + role) is **not** in memory, chat, or unambiguous from `opportunities.yaml`: **ask** before generating the report.
