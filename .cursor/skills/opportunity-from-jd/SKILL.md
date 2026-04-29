@@ -17,7 +17,7 @@ description: >-
 - Optional: `config/jd_catalog.csv` to register `job_id`
 
 **Task:**
-1. Read the JD. Extract **role_title**, a **company_display** string (as written in JD or user label), location/work mode if relevant for notes.
+1. Read the JD. Extract **role_title** and **company_display** (use exact text from JD). If company name is not stated in the JD: do not guess — use the user-provided label (e.g. `"Unknown (SF-based startup)"`). If no label was provided either, ask before proceeding.
 2. Propose **`id`**: short slug, unique in `data/private/opportunities.yaml` (e.g. `acme-senior-backend-2026`).
 3. Set initial **`stage`**: usually `Interested` or `Applied` (user may override).
 4. Set **`jd_source`**: at minimum `raw_path: "data/raw/<FILENAME>"`. If user wants catalog tracking, output one CSV row for `jd_catalog.csv` with columns `job_id,alias,role,raw_path,normalized_path,status` (fill unknowns with placeholder or ask).

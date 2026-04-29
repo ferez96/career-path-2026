@@ -34,6 +34,7 @@ description: >-
 ### 2. JD Normalization
 Read the raw JD and extract + structure key fields into a standardized markdown template:
 - **Job Summary:** role_title, company_name, location, work_mode, level (e.g. IC3/Senior)
+- **If company name is not stated in the JD:** do not guess. Stop and ask the user: *"Company name not found in JD — please provide a label or alias to use (e.g. 'sf-startup', 'unknown-fintech')."* Do not proceed to Step 3 until a label is confirmed.
 - **Key Responsibilities:** 3-5 bullet points from JD
 - **Required Skills:** must-have technical skills (languages, frameworks, domains)
 - **Nice-to-Have Skills:** preferred but not required
@@ -92,7 +93,9 @@ Write normalized markdown to: `data/jds/{slug}.md`
 ```
 
 ### 5. Research Company (Sub-Workflow)
-**Invoke `company-brief` skill with:**
+**If company name is unknown (user provided only an alias):** skip this step entirely. Note in Assumptions: "Company-brief skipped — company identity not disclosed in JD." Proceed to Step 6.
+
+**If company name is known:** invoke `company-brief` skill with:
 - Company name (from normalized JD)
 - Request scope: tier classification (startup/scale-up/FAANG/enterprise), size, product, reviews, engineering culture, DX, remote policy, AI/ML involvement
 - Reference: user's profile from `master.yaml` for fit comparison
@@ -187,7 +190,7 @@ Next Steps:
 
 **Required (ask if not provided):**
 - Path to raw JD: `data/raw/<FILENAME>` — confirm file exists
-- Company name (disambiguation if needed): used for slug + company-brief scope
+- Company name or alias: used for slug + company-brief scope. If not in JD, ask user for a short label (e.g. `sf-startup`, `unknown-fintech`). Do not proceed without this.
 
 **Optional (user may override):**
 - Initial opportunity stage: default `Interested` (or `Applied` if already submitted)
