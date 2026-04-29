@@ -12,6 +12,22 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+---
+
+## [0.2.1] - 2026-04-29
+
+### Added
+
 - **`contacts[]` and `links` fields on opportunity entries:** each active opportunity can now track contacts (recruiter, HM, referral, etc.) with a `channels` free map (any platform: `linkedin`, `zalo`, `whatsapp`, `telegram`, `messenger`, `email`, `phone`, …) plus a `links` map for manual status checks (application portal, job posting, or any free key → URL). Schema documented in [`templates/opportunities_tracker_template.yaml`](templates/opportunities_tracker_template.yaml).
 - **Contacts and "Check here (manual)" sections** added to [`templates/opportunity_report_next_steps_one.md`](templates/opportunity_report_next_steps_one.md).
 - **[`scripts/validate_opportunities.py`](scripts/validate_opportunities.py):** local schema validator for `data/private/opportunities.yaml` — checks required fields, stage/priority/outcome/contact-role enums, `contacts[].channels` structure, and `history` length (max 5). Run with `python scripts/validate_opportunities.py`.
@@ -29,11 +45,9 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 - **No-fabrication rule enforced across all 6 skills** (`opportunity-from-jd`, `opportunity-update`, `opportunity-report-next-steps-one`, `opportunity-report-next-steps-rollup`, `opportunity-report-tracking`, `jd-process`): agents must not invent, infer, or extrapolate any content not present in source data or stated by the user. Missing fields must be stated explicitly; all inferences must be listed in the Assumptions section.
 - **Bug: unknown company in `jd-process`:** previously the skill would pass "Unknown" to the `company-brief` sub-workflow, risking fabricated company research. Now blocks at Step 2 and requires a user-provided label before proceeding.
 
-### Removed
-
 ---
 
-## [0.2.0] — 2026-04-28
+## [0.2.0] - 2026-04-28
 
 ### Added
 
@@ -69,7 +83,7 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ---
 
-## [0.0.3] — 2026-04-23
+## [0.0.3] - 2026-04-23
 
 ### Added
 
@@ -94,7 +108,7 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ---
 
-## [0.0.2] — 2026-04-18
+## [0.0.2] - 2026-04-18
 
 ### Added
 
@@ -128,6 +142,6 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ---
 
-## [0.0.1] — 2026-04-16
+## [0.0.1] - 2026-04-16
 
 First baseline tagged `v0.0.1`: career-path repo skeleton, governance docs, core templates/prompts, initial `data/` / `config/`. *(Per-file detail can be expanded if a fuller archive is needed.)*
