@@ -71,4 +71,4 @@ For each task, load in this order:
 1. **Profile** — `data/private/master.yaml` (fit/gap or planning tasks)
 2. **Framework doc** — the relevant `docs/framework/*.md` file for the task type
 3. **SKILL.md** — the matching skill file from the table above
-4. **Data** — `data/private/o
+4. **Data** — task-specific files per the skill (e.g. `data/private/opportunities.yaml`, `data/raw/`, `data/jds/<slug>.md`, `config/jd_catalog.csv`).
