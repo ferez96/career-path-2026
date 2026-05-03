@@ -24,18 +24,19 @@ groups:
 
   always-required:
     description: Every Assistant session — framework index, output rules, sanitization checklist
-    token_budget: 1800
+    token_budget: 2400
     contexts:
-      - cursor-framework      # CURSOR.md index         500t
-      - cursor-prompting      # language + output rules  300t
-      - docs-sanitization     # sanitization checklist  1000t
+      - claude-framework      # CLAUDE.md skills index + context map  600t
+      - cursor-framework      # CURSOR.md index                       500t
+      - framework-prompting      # language + output rules               300t
+      - docs-sanitization     # sanitization checklist               1000t
 
   weekly-planning:
     description: Weekly/daily planning and review cadence
     token_budget: 3350
     contexts:
-      - cursor-workflows      # workflows 1–4           1300t
-      - cursor-cadence        # KPIs + cadence           350t
+      - framework-workflows      # workflows 1–4           1300t
+      - framework-cadence        # KPIs + cadence           350t
       - career-master         # milestone CSV            800t
       - skill-weekly-planning # SKILL.md                 900t
 
@@ -43,7 +44,7 @@ groups:
     description: JD/benchmark analysis and fit/gap scoring
     token_budget: 4600
     contexts:
-      - cursor-fit-weights    # weights rubric            300t
+      - framework-fit-weights    # weights rubric            300t
       - private-master-profile # canonical profile       3500t
       - career-master          # milestone context        800t
 
@@ -51,7 +52,7 @@ groups:
     description: Company research and SWE-focused brief with personal fit
     token_budget: 7800
     contexts:
-      - cursor-fit-weights    # scoring rubric            300t
+      - framework-fit-weights    # scoring rubric            300t
       - private-master-profile # profile for fit section 3500t
       - skill-company-brief   # brief SKILL.md           4000t
 
@@ -59,7 +60,7 @@ groups:
     description: Add or update opportunities in the pipeline
     token_budget: 7300
     contexts:
-      - cursor-workflows           # opportunity tracking section 1300t
+      - framework-workflows           # opportunity tracking section 1300t
       - private-master-profile     # profile for fit notes       3500t
       - opportunities-tracker-template # schema                   900t
       - skill-opportunity-from-jd  # add skill                    900t
@@ -69,7 +70,7 @@ groups:
     description: Generate opportunity tracking and next-steps reports
     token_budget: 8200
     contexts:
-      - cursor-workflows                        # pipeline context           1300t
+      - framework-workflows                        # pipeline context           1300t
       - private-master-profile                  # profile for fit notes      3500t
       - opportunity-report-template-tracking    # report template             600t
       - opportunity-report-template-next-one    # next-steps template         500t
@@ -83,8 +84,8 @@ groups:
     token_budget: 13000
     contexts:
       - skill-jd-process          # master orchestration skill  2000t
-      - cursor-fit-weights        # scoring weights            300t
-      - cursor-prompting          # output rules               300t
+      - framework-fit-weights        # scoring weights            300t
+      - framework-prompting          # output rules               300t
       - private-master-profile    # profile for fit scoring   3500t
       - jd-analysis-template      # JD analysis structure     1200t
       - opportunities-tracker-template # opportunity schema   900t
@@ -100,7 +101,7 @@ groups:
 # ──────────────────────────────────────────────────────────────────────────────
 # TRIGGERS
 # ──────────────────────────────────────────────────────────────────────────────
-# Keys match .cursor/skills/ folder names and generic task types.
+# Keys match docs/skills/ folder names and generic task types.
 # total_budget = sum of all group budgets listed (rough upper bound).
 
 triggers:
@@ -150,6 +151,22 @@ triggers:
 # Add new entries here; reference their id in a group above.
 # ──────────────────────────────────────────────────────────────────────────────
 contexts:
+  - id: opp-cli-reference
+    path: docs/opp-cli.md
+    visibility: public
+    priority: medium
+    token_budget: 200
+    sanitized: true
+    last_updated: 2026-05-04
+    notes: Single source of truth for scripts/opp.py commands — referenced by all agent files
+  - id: claude-framework
+    path: CLAUDE.md
+    visibility: public
+    priority: high
+    token_budget: 600
+    sanitized: true
+    last_updated: 2026-05-04
+    notes: Claude/Cowork entry point — skills index, context loading pattern, key paths
   - id: docs-policy
     path: docs/PUBLIC_REPO_POLICY.md
     visibility: public
@@ -171,29 +188,29 @@ contexts:
     token_budget: 500
     sanitized: true
     last_updated: 2026-04-27
-  - id: cursor-workflows
-    path: docs/cursor/workflows.md
+  - id: framework-workflows
+    path: docs/framework/workflows.md
     visibility: public
     priority: high
     token_budget: 1300
     sanitized: true
     last_updated: 2026-04-27
-  - id: cursor-fit-weights
-    path: docs/cursor/fit-weights.md
+  - id: framework-fit-weights
+    path: docs/framework/fit-weights.md
     visibility: public
     priority: medium
     token_budget: 300
     sanitized: true
     last_updated: 2026-04-27
-  - id: cursor-prompting
-    path: docs/cursor/prompting.md
+  - id: framework-prompting
+    path: docs/framework/prompting.md
     visibility: public
     priority: high
     token_budget: 300
     sanitized: true
     last_updated: 2026-04-27
-  - id: cursor-cadence
-    path: docs/cursor/cadence.md
+  - id: framework-cadence
+    path: docs/framework/cadence.md
     visibility: public
     priority: medium
     token_budget: 350
@@ -249,56 +266,56 @@ contexts:
     sanitized: true
     last_updated: 2026-04-18
   - id: skill-weekly-planning
-    path: .cursor/skills/weekly-planning/SKILL.md
+    path: docs/skills/weekly-planning/SKILL.md
     visibility: public
     priority: medium
     token_budget: 900
     sanitized: true
     last_updated: 2026-04-23
   - id: skill-company-brief
-    path: .cursor/skills/company-brief/SKILL.md
+    path: docs/skills/company-brief/SKILL.md
     visibility: public
     priority: medium
     token_budget: 4000
     sanitized: true
     last_updated: 2026-04-23
   - id: skill-opportunity-from-jd
-    path: .cursor/skills/opportunity-from-jd/SKILL.md
+    path: docs/skills/opportunity-from-jd/SKILL.md
     visibility: public
     priority: medium
     token_budget: 900
     sanitized: true
     last_updated: 2026-04-23
   - id: skill-opportunity-update
-    path: .cursor/skills/opportunity-update/SKILL.md
+    path: docs/skills/opportunity-update/SKILL.md
     visibility: public
     priority: medium
     token_budget: 700
     sanitized: true
     last_updated: 2026-04-23
   - id: skill-opportunity-report-tracking
-    path: .cursor/skills/opportunity-report-tracking/SKILL.md
+    path: docs/skills/opportunity-report-tracking/SKILL.md
     visibility: public
     priority: medium
     token_budget: 600
     sanitized: true
     last_updated: 2026-04-23
   - id: skill-opportunity-report-next-steps-one
-    path: .cursor/skills/opportunity-report-next-steps-one/SKILL.md
+    path: docs/skills/opportunity-report-next-steps-one/SKILL.md
     visibility: public
     priority: medium
     token_budget: 600
     sanitized: true
     last_updated: 2026-04-23
   - id: skill-opportunity-report-next-steps-rollup
-    path: .cursor/skills/opportunity-report-next-steps-rollup/SKILL.md
+    path: docs/skills/opportunity-report-next-steps-rollup/SKILL.md
     visibility: public
     priority: medium
     token_budget: 600
     sanitized: true
     last_updated: 2026-04-23
   - id: skill-jd-process
-    path: .cursor/skills/jd-process/SKILL.md
+    path: docs/skills/jd-process/SKILL.md
     visibility: public
     priority: high
     token_budget: 2000

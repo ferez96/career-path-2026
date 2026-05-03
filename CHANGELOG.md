@@ -35,10 +35,10 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 ### Changed
 
 - **`templates/opportunities_tracker_template.yaml`:** `future_desired[].status` now has an explicit enum (`watching|not_started|in_research|ready_to_apply`); `updated_at` added to `future_desired[]`; `history[]` max-5 convention documented in schema comment; annotated example entry added.
-- **[`.cursor/skills/opportunity-from-jd/SKILL.md`](.cursor/skills/opportunity-from-jd/SKILL.md):** collects contacts and links during opportunity creation; asks user for a label if company name is absent from JD.
-- **[`.cursor/skills/opportunity-update/SKILL.md`](.cursor/skills/opportunity-update/SKILL.md):** supports merging contacts and links; enforces `stage_entered_at` on every stage change.
-- **[`.cursor/skills/opportunity-report-next-steps-one/SKILL.md`](.cursor/skills/opportunity-report-next-steps-one/SKILL.md):** populates Contacts and Check here sections from `contacts[]` and `links`; missing data → "None recorded." / "No data recorded."
-- **[`.cursor/skills/jd-process/SKILL.md`](.cursor/skills/jd-process/SKILL.md):** stops and asks user for a company label/alias when JD does not name the company; skips the `company-brief` sub-workflow entirely when company is unidentified (prevents fabrication).
+- **[`docs/skills/opportunity-from-jd/SKILL.md`](docs/skills/opportunity-from-jd/SKILL.md):** collects contacts and links during opportunity creation; asks user for a label if company name is absent from JD.
+- **[`docs/skills/opportunity-update/SKILL.md`](docs/skills/opportunity-update/SKILL.md):** supports merging contacts and links; enforces `stage_entered_at` on every stage change.
+- **[`docs/skills/opportunity-report-next-steps-one/SKILL.md`](docs/skills/opportunity-report-next-steps-one/SKILL.md):** populates Contacts and Check here sections from `contacts[]` and `links`; missing data → "None recorded." / "No data recorded."
+- **[`docs/skills/jd-process/SKILL.md`](docs/skills/jd-process/SKILL.md):** stops and asks user for a company label/alias when JD does not name the company; skips the `company-brief` sub-workflow entirely when company is unidentified (prevents fabrication).
 
 ### Fixed
 
@@ -51,7 +51,7 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
-- **[`jd-process` skill](`.cursor/skills/jd-process/SKILL.md`):** end-to-end JD processing pipeline — drop a raw JD file and invoke `/jd-process` to normalize, research the company, score fit/gap, generate three private reports (analysis, company brief, decision), and produce a ready-to-import opportunity YAML snippet and catalog row. Orchestrates `company-brief` and `opportunity-from-jd` as sub-workflows.
+- **[`jd-process` skill](`docs/skills/jd-process/SKILL.md`):** end-to-end JD processing pipeline — drop a raw JD file and invoke `/jd-process` to normalize, research the company, score fit/gap, generate three private reports (analysis, company brief, decision), and produce a ready-to-import opportunity YAML snippet and catalog row. Orchestrates `company-brief` and `opportunity-from-jd` as sub-workflows.
 - **`data/jds/` directory:** normalized JD storage (`derived-sanitized` class). Files named `{slug}.md` follow a standardized template (role, company, skills, responsibilities, compensation).
 - **[`docs/guides/jd-process.md`](docs/guides/jd-process.md):** step-by-step usage guide for the jd-process workflow — file drop, invocation, slug confirmation, reviewing reports, YAML/CSV insertion, and optional sanitized publish flow.
 - **Token monitor MVP runtime:** `apps/web/flask_server.py` (internal UI + `POST /api/llm/chat`), `apps/cli/main.py`, and `scripts/token-monitor.ps1` for tracked operations.
@@ -60,7 +60,7 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 - **OpenAI provider adapter + wrapper:** `adapters/llm/openai_adapter.py` and `core/tasks/llm_wrapper.py` using `OPENAI_API_KEY`.
 - **Cost and budget modules:** `core/cost/{pricing.py,costing.py,budget.py}` plus shared domain types in `core/types.py`.
 - **Config files:** `config/token_pricing.yaml` and `config/token_budgets.yaml`.
-- **Framework chunks** (`docs/cursor/`): split monolithic `CURSOR.md` (8.9 KB) into four focused files — [`workflows.md`](docs/cursor/workflows.md), [`fit-weights.md`](docs/cursor/fit-weights.md), [`prompting.md`](docs/cursor/prompting.md), [`cadence.md`](docs/cursor/cadence.md). Rules and skills now load only what each task needs.
+- **Framework chunks** (`docs/framework/`): split monolithic `CURSOR.md` (8.9 KB) into four focused files — [`workflows.md`](docs/framework/workflows.md), [`fit-weights.md`](docs/framework/fit-weights.md), [`prompting.md`](docs/framework/prompting.md), [`cadence.md`](docs/framework/cadence.md). Rules and skills now load only what each task needs.
 - **`CLAUDE.md`** project entry point for Claude Code: role routing (Copilot vs Assistant), always-apply rules, framework chunk map, and key private paths.
 - **`.claude/agents/`** Claude Code subagents: [`assistant.md`](.claude/agents/assistant.md) and [`copilot.md`](.claude/agents/copilot.md). Zero token cost when not spawned.
 - **`config/context_manifest.yaml` groups + triggers:** 8 named context groups and 10 skill/task triggers for deterministic, scoped context loading; estimated 40–85% token reduction per task vs worst-case flat load.
@@ -73,8 +73,8 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 - [`config/context_manifest.yaml`](config/context_manifest.yaml): added `jd-process` group (13K token budget), trigger, `jd-analysis-template` and `skill-jd-process` context entries; also `groups:` + `triggers:` sections from prior sprint; `cursor-framework` budget 2 000 → 500.
 - `README.md`: Token Monitor MVP section (setup, run commands, env-key handling).
 - `docs/REPO_LAYOUT.md`, `config/README.md`: documented runtime/code placement and new config files.
-- [`CURSOR.md`](CURSOR.md): reduced from 8.9 KB to 2.4 KB; now a slim index linking to `docs/cursor/` chunks.
-- `.cursor/rules/` and `.cursor/skills/`: updated framework references to point at specific chunk files.
+- [`CURSOR.md`](CURSOR.md): reduced from 8.9 KB to 2.4 KB; now a slim index linking to `docs/framework/` chunks.
+- `.cursor/rules/` and `docs/skills/`: updated framework references to point at specific chunk files.
 - `templates/`, `docs/AGENT_ROLES.md`, `QUICKSTART.md`: updated links and descriptions to reflect chunked framework.
 
 ### Fixed
@@ -87,7 +87,7 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
-- **Cursor skills:** assistant workflows in `.cursor/skills/*/SKILL.md` (one directory per workflow). [`config/context_manifest.yaml`](config/context_manifest.yaml) indexes those paths; `prompts/*.md` files are short redirects for stable links.
+- **Cursor skills:** assistant workflows in `docs/skills/*/SKILL.md` (one directory per workflow). [`config/context_manifest.yaml`](config/context_manifest.yaml) indexes those paths; `prompts/*.md` files are short redirects for stable links.
 - **Quick start and bootstrap:** [`QUICKSTART.md`](QUICKSTART.md), [`scripts/bootstrap.ps1`](scripts/bootstrap.ps1) / [`scripts/bootstrap.sh`](scripts/bootstrap.sh), and [`templates/master_template.yaml`](templates/master_template.yaml) for first-time local setup (templates are copied only when the target is missing).
 - **Reports:** [`reports/briefs/brief-satellite-platform-backend-role-2026-04.md`](reports/briefs/brief-satellite-platform-backend-role-2026-04.md) — sanitized company/role brief (`derived-sanitized`).
 - **GitHub AI review:** PR workflow [`.github/workflows/ai-review.yml`](.github/workflows/ai-review.yml) for automated review comments via GitHub Models, plus review policy context in [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
@@ -112,11 +112,11 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
-- **Opportunity tracking:** schema [`templates/opportunities_tracker_template.yaml`](templates/opportunities_tracker_template.yaml) (experimental; uses `data/private/opportunities.yaml`); prompts `prompts/opportunity-*.md` (from JD, updates, three report types); report templates `templates/opportunity_report_*.md`; rule [`.cursor/rules/opportunity-tracking.mdc`](.cursor/rules/opportunity-tracking.mdc); Opportunity Tracking section in [`CURSOR.md`](CURSOR.md); entries in [`config/context_manifest.yaml`](config/context_manifest.yaml).
+- **Opportunity tracking:** schema [`templates/opportunities_tracker_template.yaml`](templates/opportunities_tracker_template.yaml) (experimental; uses `data/private/opportunities.yaml`); prompts `prompts/opportunity-*.md` (from JD, updates, three report types); report templates `templates/opportunity_report_*.md`; rule [`docs/rules/opportunity-tracking.md`](docs/rules/opportunity-tracking.md); Opportunity Tracking section in [`CURSOR.md`](CURSOR.md); entries in [`config/context_manifest.yaml`](config/context_manifest.yaml).
 - **JD catalog:** [`templates/jd_catalog_template.csv`](templates/jd_catalog_template.csv) — header row only; copy to `config/jd_catalog.csv` locally (gitignored).
 - **Weekly planning:** [`prompts/weekly-planning.md`](prompts/weekly-planning.md) (reused for job search / execution).
 - **Company brief:** [`prompts/company-brief.md`](prompts/company-brief.md) (prompt template).
-- **Fit / resume vs JD:** [`.cursor/rules/career-path-resume.mdc`](.cursor/rules/career-path-resume.mdc) (cross-check `data/private/master.yaml`).
+- **Fit / resume vs JD:** [`docs/rules/career-path-resume.md`](docs/rules/career-path-resume.md) (cross-check `data/private/master.yaml`).
 
 ### Changed
 
@@ -125,7 +125,7 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 - [`templates/weekly_plan_template.md`](templates/weekly_plan_template.md): minor edits.
 - [`README.md`](README.md), [`docs/AGENT_ROLES.md`](docs/AGENT_ROLES.md), [`docs/DATA_CLASSIFICATION.md`](docs/DATA_CLASSIFICATION.md), [`docs/REPO_LAYOUT.md`](docs/REPO_LAYOUT.md), [`reports/README.md`](reports/README.md), [`config/README.md`](config/README.md): aligned with opportunity tracking and `reports/private/`.
 - [`config/context_manifest.yaml`](config/context_manifest.yaml): added context entries (opportunity + related).
-- [`.cursor/rules/careerpath-shared-context.mdc`](.cursor/rules/careerpath-shared-context.mdc), [`.cursor/rules/agent-assistant.mdc`](.cursor/rules/agent-assistant.mdc): updated agent guidance.
+- [`docs/rules/careerpath-shared-context.md`](docs/rules/careerpath-shared-context.md), [`docs/rules/agent-assistant.md`](docs/rules/agent-assistant.md): updated agent guidance.
 - [`.gitignore`](.gitignore): ignore `config/jd_catalog.csv`; ignore `data/daily/` and `data/weekly/` so planning notes stay local on `personal` and off public `master` (see [`docs/BRANCH_WORKFLOW.md`](docs/BRANCH_WORKFLOW.md)).
 - [`config/README.md`](config/README.md): document template → local JD catalog workflow.
 - [`templates/opportunities_tracker_template.yaml`](templates/opportunities_tracker_template.yaml): `jd_source` comment references the JD catalog template + local file.

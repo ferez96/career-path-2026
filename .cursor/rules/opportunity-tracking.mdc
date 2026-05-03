@@ -4,14 +4,10 @@ globs:
   - "templates/opportunities_tracker_template.yaml"
   - "templates/opportunity_report*.md"
   - "prompts/opportunity*.md"
-  - ".cursor/skills/opportunity*/SKILL.md"
+  - "docs/skills/opportunity*/SKILL.md"
 alwaysApply: false
 ---
 
-# Opportunity tracking
-
-- **Canonical source:** `data/private/opportunities.yaml` (gitignored). Schema: `templates/opportunities_tracker_template.yaml`.
-- **Raw JDs:** `data/raw/` (`raw-ingest`). Optional: row in `config/jd_catalog.csv`.
-- **Full reports (company names, detail):** `reports/private/` or chat only — class `private-sensitive`.
-- **Public-facing / `reports/briefs/`:** aliases or scrubbed descriptions only; follow `docs/SANITIZATION_CHECKLIST.md`. Do not invent JD text or pipeline state.
-- **Skills:** `.cursor/skills/opportunity*/SKILL.md` (stable links: `prompts/opportunity-*.md`) — always include **Assumptions** / **Risk** when generating reports (per `docs/cursor/prompting.md`).
+> **Cursor adapter.** Canonical rule content lives in [`docs/rules/opportunity-tracking.md`](../../docs/rules/opportunity-tracking.md).
+>
+> Load that file for the complete rule instructions. This wrapper exists only to carry Cursor-specific frontmatter (globs, alwaysApply).

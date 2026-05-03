@@ -12,14 +12,14 @@ Career Path 2026 is a personal system to:
 
 ## Framework chunks
 
-The operating framework is split into focused files under `docs/cursor/` so rules and skills can load only what they need:
+The operating framework is split into focused files under `docs/framework/` so rules and skills can load only what they need:
 
 | File | Contents | Load when |
 |:-----|:---------|:----------|
-| [`docs/cursor/workflows.md`](docs/cursor/workflows.md) | Functional scope (career tracking, benchmark intel, learning, planning), record schemas, and Workflows 1–4 + Opportunity Tracking | Operations: JD/benchmark, planning, reviews, opportunity pipeline |
-| [`docs/cursor/fit-weights.md`](docs/cursor/fit-weights.md) | Target metadata (`target_profile`) and weighted fit-scoring rubric | Fit/gap scoring, JD analysis, company briefs |
-| [`docs/cursor/prompting.md`](docs/cursor/prompting.md) | Language convention and the Assistant's prompting rules (Assumptions/Risk, no fabrication, structured output) | Any Assistant report or task generating output |
-| [`docs/cursor/cadence.md`](docs/cursor/cadence.md) | Suggested KPIs (career, learning, execution) and weekly cadence | Planning and review tasks |
+| [`docs/framework/workflows.md`](docs/framework/workflows.md) | Functional scope (career tracking, benchmark intel, learning, planning), record schemas, and Workflows 1–4 + Opportunity Tracking | Operations: JD/benchmark, planning, reviews, opportunity pipeline |
+| [`docs/framework/fit-weights.md`](docs/framework/fit-weights.md) | Target metadata (`target_profile`) and weighted fit-scoring rubric | Fit/gap scoring, JD analysis, company briefs |
+| [`docs/framework/prompting.md`](docs/framework/prompting.md) | Language convention and the Assistant's prompting rules (Assumptions/Risk, no fabrication, structured output) | Any Assistant report or task generating output |
+| [`docs/framework/cadence.md`](docs/framework/cadence.md) | Suggested KPIs (career, learning, execution) and weekly cadence | Planning and review tasks |
 
 ## Supported file formats
 

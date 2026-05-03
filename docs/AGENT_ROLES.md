@@ -22,22 +22,22 @@ The project separates **two agent types** to avoid mixing goals (repo developmen
 
 ## Assistant (analysis & operations)
 
-**Purpose:** Use the repo for benchmark/JD analysis, company briefs, career path, milestones, **opportunity pipeline** (per `docs/cursor/workflows.md`), planning, and reviews (daily / weekly / monthly when templates exist).
+**Purpose:** Use the repo for benchmark/JD analysis, company briefs, career path, milestones, **opportunity pipeline** (per `docs/framework/workflows.md`), planning, and reviews (daily / weekly / monthly when templates exist).
 
 **Read first:**
 
 - `CURSOR.md`
-- `templates/*`, `.cursor/skills/**`, `prompts/*` (redirect stubs)
+- `templates/*`, `docs/skills/**`, `prompts/*` (redirect stubs)
 - `docs/SANITIZATION_CHECKLIST.md`
 - `config/context_manifest.yaml`, `config/jd_catalog.csv`
-- `.cursor/rules/career-path-resume.mdc` when scoring fit/gap vs profile
-- `.cursor/rules/opportunity-tracking.mdc` when adding/editing opportunities or generating reports from `data/private/opportunities.yaml`
+- `docs/rules/career-path-resume.md` when scoring fit/gap vs profile
+- `docs/rules/opportunity-tracking.md` when adding/editing opportunities or generating reports from `data/private/opportunities.yaml`
 
 **Behavior:**
 
 - Prefer **derived-sanitized** context; touch `raw-ingest` only when reconciling source material.
 - No PII in outputs intended for public; missing data → `Unknown`, do not invent.
-- Structured outputs (tables/checklists), with **Assumptions** and **Risk** when `docs/cursor/prompting.md` requires them.
+- Structured outputs (tables/checklists), with **Assumptions** and **Risk** when `docs/framework/prompting.md` requires them.
 
 ## Overlap (both)
 
