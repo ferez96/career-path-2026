@@ -12,11 +12,7 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
-- **Use `scripts/opp.py` for opportunity interactions:** reduces token usage when creating or updating opportunities.
-
 ### Changed
-
-- **Repo layout and agent wiring:** refactored so multiple AI agent kinds (Cursor, Claude, etc.) are easier to support; clearer project structure for rules, skills, and adapters.
 
 ### Deprecated
 
@@ -25,6 +21,18 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 ### Fixed
 
 ### Security
+
+---
+
+## [0.2.2] - 2026-05-04
+
+### Added
+
+- **Use `scripts/opp.py` for opportunity interactions:** reduces token usage when creating or updating opportunities.
+
+### Changed
+
+- **Repo layout and agent wiring:** refactored so multiple AI agent kinds (Cursor, Claude, etc.) are easier to support; clearer project structure for rules, skills, and adapters.
 
 ---
 
