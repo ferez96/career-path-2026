@@ -127,13 +127,21 @@ jobs:
                 }
               }
 
-              const privatePathReference = addedLines.find((line) =>
-                /(\[[^\]]*\]\((?:\.\.\/)*?(?:reports\/private\/|data\/private\/)[^)]+\)|\b(?:reports\/private\/|data\/private\/)\S+\.(?:md|txt|yaml|yml|csv|json)\b)/i.test(
-                  line
-                )
+              const safePrivatePathPatterns = [/^data\/private\/(?:master\.yaml|opportunities\.yaml|token_usage\.db)$/i];
+              const isTemplatedPrivateReportPath = (path) =>
+                /^reports\/private\//i.test(path) && /[<{*]/.test(path);
+              const privatePathMatches = [
+                ...addedLines.join("\n").matchAll(/\b(?:reports\/private\/|data\/private\/)[^\s`)"']+\b/gi)
+              ].map((m) => m[0].replace(/[.,;:!?]+$/, ""));
+              const suspiciousPrivatePath = privatePathMatches.find(
+                (path) =>
+                  !safePrivatePathPatterns.some((pattern) => pattern.test(path)) &&
+                  !isTemplatedPrivateReportPath(path)
               );
-              if (privatePathReference) {
-                warnings.push(`- [warn] ${file.filename}: references private-only path in added content.`);
+              if (suspiciousPrivatePath) {
+                warnings.push(
+                  `- [warn] ${file.filename}: references non-canonical private path '${suspiciousPrivatePath}' in added content.`
+                );
               }
             }
 

@@ -32,28 +32,28 @@ This will generate the initial directory structure (`data/*`, `reports/*`, etc.)
 
 Edit **`data/private/master.yaml`** (created in step 1). 
 
-Quickest: provide your AI agent with either a resume file or a short plaintext bio, and have it extract and fill in the key YAML fields (headline, `career.direction_summary`, targets, skills, experience) using only information you supplied—no invented details. See guidance for fit/gap and public output in [`.cursor/rules/career-path-resume.mdc`](.cursor/rules/career-path-resume.mdc).
+Quickest: provide your AI agent with either a resume file or a short plaintext bio, and have it extract and fill in the key YAML fields (headline, `career.direction_summary`, targets, skills, experience) using only information you supplied—no invented details. See guidance for fit/gap and public output in [`docs/rules/career-path-resume.md`](docs/rules/career-path-resume.md).
 
 ---
 
 ## Step 3 — Add an opportunity (JD)
 
 1. Save the JD text or file under **`data/raw/`** (e.g. `data/raw/acme-backend.md`).
-2. Open **`.cursor/skills/opportunity-from-jd/SKILL.md`** (or invoke the **opportunity-from-jd** Cursor skill) with your Assistant, including the JD and context from **`data/private/master.yaml`**.
-3. Update **`data/private/opportunities.yaml`** when you move stages or set next actions (or use **`.cursor/skills/opportunity-update/SKILL.md`** / skill **opportunity-update**).
+2. Open **`docs/skills/opportunity-from-jd/SKILL.md`** (or invoke the **opportunity-from-jd** Cursor skill) with your Assistant, including the JD and context from **`data/private/master.yaml`**.
+3. Update **`data/private/opportunities.yaml`** when you move stages or set next actions (or use **`docs/skills/opportunity-update/SKILL.md`** / skill **opportunity-update**).
 
 ---
 
 ## Step 4 — Weekly and daily plan
 
-1. **Weekly** — Open **`.cursor/skills/weekly-planning/SKILL.md`** (or skill **weekly-planning**), set the ISO week and your inputs, run with your Assistant. Save the result as **`data/weekly/<YYYY-Www>.md`** (you can start from `data/weekly/weekly-plan-TEMPLATE.md` or rename/copy it).
+1. **Weekly** — Open **`docs/skills/weekly-planning/SKILL.md`** (or skill **weekly-planning**), set the ISO week and your inputs, run with your Assistant. Save the result as **`data/weekly/<YYYY-Www>.md`** (you can start from `data/weekly/weekly-plan-TEMPLATE.md` or rename/copy it).
 2. **Daily** — Use **`data/daily/daily-review-TEMPLATE.md`** as a base for **`data/daily/YYYY-MM-dd-daily-review.md`**, or ask your Assistant to break the current weekly plan into today’s checklist using **`templates/daily_review_template.md`**.
 
 ---
 
 ## More later
 
-Sanitized reports, benchmarks, briefs, publishing to `public`, and the full prompt list live in **[CURSOR.md](CURSOR.md)** (and its chunked framework under `docs/cursor/`) and the sections below.
+Sanitized reports, benchmarks, briefs, publishing to `public`, and the full prompt list live in **[CURSOR.md](CURSOR.md)** (and its chunked framework under `docs/framework/`) and the sections below.
 
 ### Where things live
 
@@ -73,9 +73,9 @@ Full tree: [docs/REPO_LAYOUT.md](docs/REPO_LAYOUT.md).
 
 | Goal | Open |
 |:-----|:-----|
-| Update stage, notes, or close | `.cursor/skills/opportunity-update/SKILL.md` |
-| Full tracking list | `.cursor/skills/opportunity-report-tracking/SKILL.md` |
-| Next steps (one role / rollup) | `.cursor/skills/opportunity-report-next-steps-one/SKILL.md`, `.cursor/skills/opportunity-report-next-steps-rollup/SKILL.md` |
+| Update stage, notes, or close | `docs/skills/opportunity-update/SKILL.md` |
+| Full tracking list | `docs/skills/opportunity-report-tracking/SKILL.md` |
+| Next steps (one role / rollup) | `docs/skills/opportunity-report-next-steps-one/SKILL.md`, `docs/skills/opportunity-report-next-steps-rollup/SKILL.md` |
 
 Stable links under `prompts/*.md` redirect to the same `SKILL.md` files.
 
@@ -94,6 +94,6 @@ Flow: **`personal` → sanitize → `public` (`master`)**. Only non-PII, sanitiz
 
 ### Read next
 
-- **[CURSOR.md](CURSOR.md)** — Operating framework index → `docs/cursor/{workflows,fit-weights,prompting,cadence}.md`.
+- **[CURSOR.md](CURSOR.md)** — Operating framework index → `docs/framework/{workflows,fit-weights,prompting,cadence}.md`.
 - **[reports/README.md](reports/README.md)** — `benchmarks/` vs `briefs/` vs `private/`.
 - **[config/context_manifest.yaml](config/context_manifest.yaml)** — Agent context index.

@@ -23,7 +23,7 @@
 - Responsibilities:
 
 ### 3) Fit Scoring (Weighted)
-Per `docs/cursor/fit-weights.md` (systems ownership + AI when the JD includes it). If the JD has no AI/ML, state that and redistribute the AI weight.
+Per `docs/framework/fit-weights.md` (systems ownership + AI when the JD includes it). If the JD has no AI/ML, state that and redistribute the AI weight.
 
 - Distributed systems & backend execution (32%):
 - System design & scalability / reliability (22%):

@@ -9,7 +9,7 @@ Do not commit personal data, mentor/manager contacts, or confidential company de
 
 ## Language
 
-Docs, templates, and Assistant skills (`SKILL.md` under `.cursor/skills/`) in this repo are **English-first**. You can still chat with your agent in Vietnamese (or another language); see `docs/cursor/prompting.md` (Language).
+Docs, templates, and Assistant skills (`SKILL.md` under `docs/skills/`) in this repo are **English-first**. You can still chat with your agent in Vietnamese (or another language); see `docs/framework/prompting.md` (Language).
 
 ## Repository layout
 
@@ -18,10 +18,10 @@ Full tree: **`docs/REPO_LAYOUT.md`**. Release notes: **`CHANGELOG.md`**. Main mo
 | Module | Role |
 |:-------|:-----|
 | **`docs/`** | Full map + governance (branching, classification, sanitization). |
-| **`CURSOR.md`** + **`docs/cursor/`** | Operating framework index; chunked into workflows, fit-weights, prompting, and cadence. |
+| **`CURSOR.md`** + **`docs/framework/`** | Operating framework index; chunked into workflows, fit-weights, prompting, and cadence. |
 | **`config/`** | Agent index (`context_manifest.yaml`, `jd_catalog.csv`). |
 | **`data/`** | Tracked state + local raw/private (gitignored paths in layout doc). |
-| **`.cursor/skills/`**, **`prompts/`**, **`templates/`** | Cursor Skills (canonical workflows); `prompts/` holds redirect stubs; Markdown + YAML templates (incl. JD analysis, weekly/daily, **opportunity tracker schema**). |
+| **`docs/skills/`**, **`prompts/`**, **`templates/`** | Cursor Skills (canonical workflows); `prompts/` holds redirect stubs; Markdown + YAML templates (incl. JD analysis, weekly/daily, **opportunity tracker schema**). |
 | **`reports/`** | Sanitized outputs (`benchmarks/`, `briefs/`); full-detail / PII-heavy outputs under `reports/private/` (gitignored). |
 | **`apps/`**, **`core/`**, **`adapters/`** | MVP runtime for token/cost tracking (`UI -> API wrapper -> provider`) and future extension points (`index`, `tasks`, `prompts`). |
 
@@ -72,7 +72,7 @@ This project is licensed under the MIT License. See `LICENSE`.
 ## Operating flow
 
 1. Keep **`data/private/master.yaml`** as the canonical profile (headline, direction, targets, skills, experience) for Assistant workflows; define or update public milestones in `data/career_path_master.csv`.
-2. **Optional — job search pipeline:** maintain **`data/private/opportunities.yaml`** (copy from `templates/opportunities_tracker_template.yaml`); raw JDs live in `data/raw/`. Workflows: `.cursor/skills/opportunity-*/SKILL.md` — see `docs/cursor/workflows.md` (Opportunity Tracking).
+2. **Optional — job search pipeline:** maintain **`data/private/opportunities.yaml`** (copy from `templates/opportunities_tracker_template.yaml`); raw JDs live in `data/raw/`. Workflows: `docs/skills/opportunity-*/SKILL.md` — see `docs/framework/workflows.md` (Opportunity Tracking).
 3. Create or update the week file in `data/weekly/`.
 4. Run capability analysis and planning with templates in `templates/`.
 5. Save sanitized outputs to `reports/benchmarks/` and `reports/briefs/` (see `reports/README.md`); opportunity detail reports may go to `reports/private/` until sanitized.

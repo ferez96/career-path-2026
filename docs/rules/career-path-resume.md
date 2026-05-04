@@ -1,0 +1,7 @@
+
+# Career Path 2026 — profile & fit/gap
+
+- **Canonical source:** `data/private/master.yaml` (`profile.headline`, `career.direction_summary`, `career.target_titles`, `experience`, `skills`).
+- **Scoring emphasis:** Prefer **distributed systems**, **end-to-end ownership**, **systems-level delivery**; treat **AI in production** and **AI-augmented engineering** as a plus when the JD/profile supports it—they do not replace backend/distributed depth.
+- **Fit score:** Follow weights in `docs/framework/fit-weights.md` (updated per above); when the JD has no AI, drop the AI weight and redistribute as documented there.
+- **Output** for `reports/` or public: capability descriptions with PII removed; do not copy email, phone, address, or sensitive company names when policy requires sanitization.
