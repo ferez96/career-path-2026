@@ -12,7 +12,11 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
+- **Use `scripts/opp.py` for opportunity interactions:** reduces token usage when creating or updating opportunities.
+
 ### Changed
+
+- **Repo layout and agent wiring:** refactored so multiple AI agent kinds (Cursor, Claude, etc.) are easier to support; clearer project structure for rules, skills, and adapters.
 
 ### Deprecated
 
