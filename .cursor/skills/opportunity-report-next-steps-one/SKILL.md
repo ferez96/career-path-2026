@@ -14,6 +14,11 @@ description: >-
 - `data/private/opportunities.yaml` (private)
 - Output skeleton: `templates/opportunity_report_next_steps_one.md`
 
+**Token-efficient Obsidian routing:**
+- Resolve the opportunity through `data/opportunities/Central Opportunities.md` and, if present, the matching `* Opportunity Index.md`.
+- For “what should I do next?” load only the YAML record plus the linked pipeline note or decision brief if needed; do not read all role reports.
+- Use `obsidian read vault=data "path=opportunities/{Company} Opportunity Index.md"` for the artifact map before reading leaves.
+
 **Task:**
 1. Select the record by **`id`**: `<OPPORTUNITY_ID>` (or company + role if user specifies — resolve ambiguity).
 2. Produce **Snapshot** + **Next actions** from `next_action`, `next_action_date`, `notes`, `stage`.
@@ -23,10 +28,10 @@ description: >-
 6. Add **Suggested 24–72h moves** aligned with the workflow style in `docs/cursor/workflows.md` (Workflow 2).
 7. **Assumptions** / **Risk**.
 
-**Output:** Markdown for `reports/private/opportunity-next-steps-<id>-<YYYY-MM-DD>.md` or paste-only.
+**Output:** Markdown for `data/reports/pipeline/opportunity-next-steps-<id>-<YYYY-MM-DD>.md` or paste-only.
 
 **Constraints:**
-- Full detail stays private; sanitize before any public `reports/briefs/` excerpt.
+- Full detail stays private; sanitize before any public `data/reports/briefs/` excerpt.
 - **Do not fabricate.** Every sentence in the report must be traceable to a field in the YAML record (`stage`, `next_action`, `notes`, `history`, `contacts`, `links`). Do not add general career advice, invented timelines, or assumed details not present in the data.
 - **Missing data → state it explicitly.** If a section has no supporting data, write "No data recorded." Do not fill the gap with plausible-sounding content.
 - **Assumptions section is mandatory.** Any interpretation beyond a direct field read (e.g. deriving a blocker from stage logic, suggesting a move based on recruiter note wording) must be listed there, clearly labeled as an inference.

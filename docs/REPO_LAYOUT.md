@@ -40,8 +40,8 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 | Weekly plan / review | `data/weekly/` |
 | Assistant workflows (Cursor Skills) | `.cursor/skills/*/SKILL.md` |
 | Stable links / redirects | `prompts/*.md` (point to skills) |
-| Sanitized reports (public-safe) | `reports/benchmarks/`, `reports/briefs/` |
-| Private opportunity reports (full detail) | `reports/private/` (gitignored) |
+| Sanitized reports (public-safe) | `data/reports/benchmarks/`, `data/reports/briefs/` |
+| Full-detail local reports | `data/reports/{pipeline,roles,companies,strategy,sessions}/` |
 | Opportunity tracker (schema template) | `templates/opportunities_tracker_template.yaml` → copy to `data/private/opportunities.yaml` |
 | Opportunity workflows | `.cursor/skills/opportunity-*/SKILL.md` (see `prompts/opportunity-*.md` redirects) |
 | Context index + job mapping | `config/context_manifest.yaml`, `config/jd_catalog.csv` |

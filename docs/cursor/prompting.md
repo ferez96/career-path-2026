@@ -13,6 +13,9 @@ Behavioral rules for the AI Assistant: what every report must contain, how to ha
 - Do not invent company/JD facts.
 - If data is missing, clarify before concluding.
 - Prefer structured tables/checklists.
+- Use Obsidian vault navigation to minimize context load: start from `data/Home.md`, `data/atlas/Navigation — JD and Opportunities.md`, `data/opportunities/Central Opportunities.md`, or a single `* Opportunity Index.md`; then read only the linked leaf notes needed for the answer.
+- Prefer targeted commands over broad reads when inspecting the vault: `obsidian read vault=data "path=<note path>"`, `obsidian links vault=data "path=<note path>"`, and `python scripts/vault_hub_wikilinks.py` for hub link health.
+- Do not load whole folders, raw JD binaries, or long message exports unless the current task explicitly requires source extraction; use normalized `data/jds/*.md` and linked reports first.
 - Always include:
   - Main insight
   - Recommended actions

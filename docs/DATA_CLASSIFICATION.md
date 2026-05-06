@@ -25,10 +25,10 @@ If uncertain, classify as `NEEDS_REVIEW` with a short reason.
 | `CURSOR.md` | `public-reusable` | Track | Allowed |
 | `data/weekly/*.md` | `derived-sanitized` | Track | Allowed after checklist |
 | `data/career_path_master.csv` | `derived-sanitized` | Track | Allowed after checklist |
-| `reports/README.md` | `public-reusable` | Track | Allowed |
-| `reports/benchmarks/**` | `derived-sanitized` | Track | Allowed after checklist |
-| `reports/briefs/**` | `derived-sanitized` | Track | Allowed after checklist |
-| `reports/private/**` | `private-sensitive` | Ignore | Blocked |
+| `data/reports/README.md` | `public-reusable` | Track | Allowed |
+| `data/reports/benchmarks/**` | `derived-sanitized` | Track | Allowed after checklist |
+| `data/reports/briefs/**` | `derived-sanitized` | Track | Allowed after checklist |
+| `data/reports/{pipeline,roles,companies,strategy,sessions}/**` | `private-sensitive` | Ignore | Blocked unless sanitized |
 | `config/README.md` | `public-reusable` | Track | Allowed |
 | `config/context_manifest.yaml` | `public-reusable` | Track | Allowed |
 | `config/jd_catalog.csv` | `derived-sanitized` | Track | Allowed after checklist |

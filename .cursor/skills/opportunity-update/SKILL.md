@@ -14,6 +14,11 @@ description: >-
 - Current tracker: `data/private/opportunities.yaml` (private)
 - Schema reference: `templates/opportunities_tracker_template.yaml`
 
+**Token-efficient Obsidian routing:**
+- Use `data/opportunities/Central Opportunities.md` or the matching `* Opportunity Index.md` only to resolve an ambiguous company/role to an opportunity id.
+- For the actual update, load only `opportunities.yaml` and the schema reference; avoid reading reports unless the user wants to update notes from a specific artifact.
+- If using Obsidian CLI, quote spaced paths: `obsidian read vault=data "path=opportunities/Stripe Opportunity Index.md"`.
+
 **Task:**
 1. Identify the record by **`id`**: `<OPPORTUNITY_ID>` (or company + role if user specifies).
 2. Apply updates:
