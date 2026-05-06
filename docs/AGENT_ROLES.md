@@ -46,4 +46,4 @@ The project separates **two agent types** to avoid mixing goals (repo developmen
 
 ## When the role is unclear
 
-Default: tasks mainly touching **`.cursor/`, `.github/`, policy docs, Git config** → treat as **Copilot**. Tasks mainly **filling `data/`, `reports/`, or using analysis templates** → treat as **Assistant**.
+Default: tasks mainly touching **`.cursor/`, `.github/`, policy docs, Git config** → treat as **Copilot**. Tasks mainly **filling `data/`** (profile, JDs, vault notes, `data/reports/`, and related) **or using analysis templates** → treat as **Assistant**.

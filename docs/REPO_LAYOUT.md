@@ -13,7 +13,7 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 │   ├── daily/              # Daily reviews and logs
 │   ├── weekly/             # Weekly tracking (anonymize before public)
 │   ├── raw/                # Raw JD/benchmark — contents gitignored
-│   ├── reports/            # Derived markdown inside the vault (pipeline, roles, briefs, …)
+│   ├── reports/            # Derived markdown inside the vault (pipeline, roles, benchmarks, …)
 │   └── private/            # Canonical profile (master.yaml), opportunities.yaml, CV — gitignored
 ├── scripts/                # bootstrap.ps1 / bootstrap.sh
 ├── apps/                   # Runtime entry points (web, cli)
@@ -41,7 +41,7 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 | Weekly plan / review | `data/weekly/` |
 | Assistant workflows (Cursor Skills) | `docs/skills/*/SKILL.md` |
 | Stable links / redirects | `prompts/*.md` (point to skills) |
-| Sanitized reports (public-safe) | `data/reports/benchmarks/`, `data/reports/briefs/` |
+| Sanitized / excerpt-safe narratives (JD analysis, redacted briefs) | `data/reports/benchmarks/` |
 | Full-detail local reports | `data/reports/{pipeline,roles,companies,strategy,sessions}/` |
 | Opportunity tracker (schema template) | `templates/opportunities_tracker_template.yaml` → copy to `data/private/opportunities.yaml` |
 | Opportunity workflows | `docs/skills/opportunity-*/SKILL.md` (see `prompts/opportunity-*.md` redirects) |

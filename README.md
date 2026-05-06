@@ -22,7 +22,7 @@ Full tree: **`docs/REPO_LAYOUT.md`**. Release notes: **`CHANGELOG.md`**. Main mo
 | **`config/`** | Agent index (`context_manifest.yaml`, `jd_catalog.csv`). |
 | **`data/`** | Tracked state + local raw/private (gitignored paths in layout doc). |
 | **`docs/skills/`**, **`prompts/`**, **`templates/`** | Cursor Skills (canonical workflows); `prompts/` holds redirect stubs; Markdown + YAML templates (incl. JD analysis, weekly/daily, **opportunity tracker schema**). |
-| **`data/reports/`** | Derived notes inside the Obsidian vault: `briefs/`, `benchmarks/`, `pipeline/`, `roles/`, `companies/`, etc. (see `data/VAULT_LAYOUT.md`, `data/reports/README.md`). |
+| **`data/reports/`** | Derived notes inside the Obsidian vault: `benchmarks/`, `pipeline/`, `roles/`, `companies/`, etc. (see `data/VAULT_LAYOUT.md`, `data/reports/README.md`). |
 | **`apps/`**, **`core/`**, **`adapters/`** | MVP runtime for token/cost tracking (`UI -> API wrapper -> provider`) and future extension points (`index`, `tasks`, `prompts`). |
 
 ## Two-Branch Architecture
@@ -75,7 +75,7 @@ This project is licensed under the MIT License. See `LICENSE`.
 2. **Optional — job search pipeline:** maintain **`data/private/opportunities.yaml`** (copy from `templates/opportunities_tracker_template.yaml`); raw JDs live in `data/raw/`. Workflows: `docs/skills/opportunity-*/SKILL.md` — see `docs/framework/workflows.md` (Opportunity Tracking).
 3. Create or update the week file in `data/weekly/`.
 4. Run capability analysis and planning with templates in `templates/`.
-5. Save sanitized outputs to `data/reports/benchmarks/` and `data/reports/briefs/` (see `data/reports/README.md`); full-detail opportunity notes go under `data/reports/pipeline/`, `data/reports/roles/`, and sibling folders until or unless you excerpt for public.
+5. Keep working notes under `data/reports/` as needed (see `data/reports/README.md`); the whole **`data/`** tree is private local use — run `docs/SANITIZATION_CHECKLIST.md` only when you **publish** material outside `data/` onto `master`.
 6. Commit meaningful changes.
 
 ## Token Monitor MVP

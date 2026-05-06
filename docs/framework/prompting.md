@@ -5,11 +5,11 @@ Behavioral rules for the AI Assistant: what every report must contain, how to ha
 ## Language
 
 - **Repository default:** English-first (docs, templates, Cursor skills under `docs/skills/`, `prompts/` redirect stubs, and structured outputs in this repo).
-- **Chat with your agent:** You may use Vietnamese (or another language) when talking to the assistant; the assistant should follow your language in conversation while keeping **repo artifacts** (files under `docs/`, `templates/`, `docs/skills/`, `prompts/`, `data/reports/` when shared publicly) aligned with English-first unless you ask otherwise.
+- **Chat with your agent:** You may use Vietnamese (or another language) when talking to the assistant; the assistant should follow your language in conversation while keeping **tracked public-bound artifacts** (`docs/`, `templates/`, `docs/skills/`, `prompts/`, root `README.md` / `CURSOR.md`, etc.) aligned with English-first unless you ask otherwise. **`data/**` is a private local vault** — English-first is still fine for notes, but there is **no** requirement to PII-sanitize content that stays only there.
 
 ## Prompting rules (for AI Assistant)
 
-- Follow `docs/SANITIZATION_CHECKLIST.md`.
+- Follow `docs/SANITIZATION_CHECKLIST.md` when preparing **public-bound** edits (anything that will be committed on `master` outside the private `data/` tree). Outputs that remain **only under `data/`** do not need that checklist.
 - Do not invent company/JD facts.
 - If data is missing, clarify before concluding.
 - Prefer structured tables/checklists.

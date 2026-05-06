@@ -22,7 +22,6 @@ $dirs = @(
   "data/raw",
   "data/weekly",
   "data/daily",
-  "data/reports/briefs",
   "data/reports/pipeline",
   "data/reports/roles",
   "data/reports/companies",

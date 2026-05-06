@@ -46,8 +46,8 @@ For writes to **existing** opportunities, use `python scripts/opp.py` instead of
 
 ## Rules
 
-- Follow `docs/SANITIZATION_CHECKLIST.md` before any output destined for `data/reports/` or the `master` branch.
-- Full-detail reports (real company names, PII context) → `data/reports/{pipeline,roles,companies,strategy,sessions}/` as appropriate. Public or excerpt-safe copies → `data/reports/briefs/` (or `data/reports/benchmarks/`) after sanitization.
+- Follow `docs/SANITIZATION_CHECKLIST.md` only for **public-bound** commits (`master` paths outside `data/`). The **`data/`** vault is private local use — no checklist for notes that stay there.
+- Full-detail reports → `data/reports/{pipeline,roles,companies,strategy,sessions}/` as appropriate; optional cross-cutting notes under `data/reports/benchmarks/`. **Publishing** excerpts still requires checklist + redaction before they land in tracked `docs/`, `templates/`, `README.md`, etc.
 - Every report must include **Assumptions** and **Risk** sections.
 - Missing data → `Unknown`; do not invent facts or JD details.
 - Fit scoring: use weights from `docs/framework/fit-weights.md`; redistribute AI % when JD has no AI/ML component.

@@ -21,16 +21,16 @@ Policy uses the same four mandatory classes as `docs/DATA_CLASSIFICATION.md`. Do
 | Class | Meaning | Allowed on `public` (`master`) |
 |---|---|---|
 | `public-reusable` | Framework docs, templates, prompts, operating guides | Yes |
-| `derived-sanitized` | Weekly tracking, career CSV, reports after redaction | Yes, only after `docs/SANITIZATION_CHECKLIST.md` |
+| `derived-sanitized` | Content you intentionally add under **tracked** paths (`docs/`, anonymized examples, `config/jd_catalog.csv` if committed, …) after redaction | Yes, only after `docs/SANITIZATION_CHECKLIST.md` |
 | `raw-ingest` | Raw JD/benchmark text or binaries before normalization | No — keep on `personal` or local ignore |
 | `private-sensitive` | Resume, contacts, private notes, identifiable data | No — keep on `personal` or local ignore |
 
 Examples by path (see matrix for full list):
 
 - `public-reusable`: `CURSOR.md`, `templates/*`, `docs/*`, `docs/skills/**`, `prompts/*` (redirect stubs), `README.md`, `config/context_manifest.yaml`
-- `derived-sanitized` (when sanitized): `data/weekly/*.md`, `data/career_path_master.csv`, `reports/**/*.md`, `config/jd_catalog.csv`
-- `raw-ingest`: `data/raw/*` (unsanitized inputs; single ingest location)
-- `private-sensitive`: `data/private/*`, `private-notes/*`, `interview-notes-private/*`
+- `derived-sanitized` (when sanitized, for **tracked** public paths only): e.g. redacted examples or tables you intentionally add under `docs/`, plus `config/jd_catalog.csv` rows if that file is committed — always after `docs/SANITIZATION_CHECKLIST.md`
+- `raw-ingest`: `data/raw/*` (unsanitized inputs; single ingest location; stays local / ignored)
+- `private-sensitive`: **entire `data/` vault** (profile, JDs, reports, weekly notes, etc. — personal use, not sanitized in place), `private-notes/*`, `interview-notes-private/*`
 
 **Internal-only (not for public branch):** Detailed compensation, identifiable company recruiting notes, or NDA interview details are **`private-sensitive`** or require redaction to become `derived-sanitized`. They may exist on `personal` for your workflow; they must not ship to `public` without `REQUIRE_SANITIZATION` and review.
 

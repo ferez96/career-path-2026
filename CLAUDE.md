@@ -22,13 +22,9 @@ When unclear: check `docs/AGENT_ROLES.md`.
 
 | Purpose | Path | Class |
 |:--|:--|:--|
-| Canonical profile | `data/private/master.yaml` | private-sensitive |
-| Opportunity tracker | `data/private/opportunities.yaml` | private-sensitive |
-| Normalized JDs | `data/jds/<slug>.md` | derived-sanitized |
-| JD catalog | `config/jd_catalog.csv` | public-reusable |
-| Derived reports (pipeline, roles, companies, …) | `data/reports/{pipeline,roles,companies,strategy,sessions}/` | private-sensitive (full detail) |
-| Excerpt-safe briefs / benchmarks | `data/reports/briefs/`, `data/reports/benchmarks/` | derived-sanitized after checklist |
-| Raw JDs / email | `data/raw/` | raw-ingest |
+| **Entire Obsidian vault** (profile, JDs, pipeline notes, weekly, reports, …) | `data/**` | **private-sensitive** — local personal use; **no PII sanitization required** for content that stays here (see `docs/DATA_CLASSIFICATION.md`) |
+| JD catalog (if committed) | `config/jd_catalog.csv` | `derived-sanitized` after checklist, or gitignored locally |
+| Raw JDs / email (ingest) | `data/raw/` | raw-ingest |
 
 ## Obsidian vault and token discipline
 

@@ -186,7 +186,7 @@ Next Steps:
 2. Confirm opportunity YAML (id, stage, priority, next_action)
 3. Insert YAML into data/private/opportunities.yaml
 4. Insert CSV row into config/jd_catalog.csv
-5. When ready to publish: run sanitization checklist → copy briefs to data/reports/briefs/
+5. When ready to publish **outside `data/`**: run `docs/SANITIZATION_CHECKLIST.md` and add the redacted copy under a **tracked public path** (e.g. `docs/`) — vault files alone do not need checklist
 ```
 
 ---
@@ -219,10 +219,10 @@ Next Steps:
 
 ## Constraints
 
-- **No PII in public outputs:** All private reports go to `data/reports/roles/` (gitignored). Sanitize before copying to `data/reports/briefs/`.
+- **Vault vs public:** Role reports go to `data/reports/roles/` (private). **`data/**` does not require PII sanitization** for personal use. Apply `docs/SANITIZATION_CHECKLIST.md` only when copying excerpts into **tracked public paths** outside `data/`.
 - **Data classification:**
   - `data/raw/{filename}` → `raw-ingest` (ignore, do not commit)
-  - `data/jds/{slug}.md` → `derived-sanitized` (track after sanitization)
+  - `data/jds/{slug}.md` → `private-sensitive` (local vault; typically gitignored with rest of `data/`)
   - `data/reports/roles/{slug}-*.md` → `private-sensitive` (ignore, do not commit)
 - **Do not fabricate.** This applies to every step: role extraction, company research, fit scoring, action plans, and next steps. Only use information explicitly present in the JD file, `master.yaml`, or stated by the user.
   - Missing JD fields (salary, team size, work mode, etc.) → `"Not disclosed"` or `"Unknown"`. Do not guess.
@@ -256,5 +256,5 @@ Skill: `docs/skills/opportunity-from-jd/SKILL.md`
 ✅ Opportunity YAML ready to import (no duplicates in opportunities.yaml)  
 ✅ Catalog CSV row ready to insert  
 ✅ Checklist provided to user  
-✅ All files classified correctly (raw-ingest / derived-sanitized / private-sensitive)  
+✅ All files classified correctly (raw-ingest vs `data/**` private vault vs public-bound `derived-sanitized` if any)  
 ✅ Next steps clear and actionable (24-72h horizon)

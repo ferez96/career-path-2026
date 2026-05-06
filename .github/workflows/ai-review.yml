@@ -36,14 +36,13 @@ jobs:
               }
             );
 
+            // Tracked framework + public docs only. `data/` is gitignored (local vault) — never PR-scan it.
             const isPublicBoundPath = (path) =>
-              /^(docs\/|templates\/|reports\/briefs\/|reports\/benchmarks\/|README\.md$|CHANGELOG\.md$|CURSOR\.md$|config\/context_manifest\.yaml$)/i.test(
+              /^(docs\/|templates\/|README\.md$|CHANGELOG\.md$|CURSOR\.md$|config\/context_manifest\.yaml$)/i.test(
                 path
               );
             const ignorePath = (path) =>
-              /(^reports\/private\/|^data\/private\/|^data\/raw\/|^data\/daily\/|^data\/weekly\/|^config\/jd_catalog\.csv$)/i.test(
-                path
-              );
+              /(^data\/|^reports\/private\/|^config\/jd_catalog\.csv$)/i.test(path);
 
             const targetFiles = files.filter(
               (file) => file.status !== "removed" && isPublicBoundPath(file.filename) && !ignorePath(file.filename)
@@ -128,10 +127,16 @@ jobs:
               }
 
               const safePrivatePathPatterns = [/^data\/private\/(?:master\.yaml|opportunities\.yaml|token_usage\.db)$/i];
+              const fullDetailReportPrefix =
+                /^(?:reports\/private\/|data\/reports\/(?:pipeline|roles|companies|strategy|sessions)\/)/i;
               const isTemplatedPrivateReportPath = (path) =>
-                /^reports\/private\//i.test(path) && /[<{*]/.test(path);
+                fullDetailReportPrefix.test(path) && /[<{*]/.test(path);
               const privatePathMatches = [
-                ...addedLines.join("\n").matchAll(/\b(?:reports\/private\/|data\/private\/)[^\s`)"']+\b/gi)
+                ...addedLines
+                  .join("\n")
+                  .matchAll(
+                    /\b(?:reports\/private\/|data\/reports\/(?:pipeline|roles|companies|strategy|sessions)\/|data\/private\/)[^\s`)"']+\b/gi
+                  )
               ].map((m) => m[0].replace(/[.,;:!?]+$/, ""));
               const suspiciousPrivatePath = privatePathMatches.find(
                 (path) =>

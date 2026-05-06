@@ -22,7 +22,7 @@ description: >-
 **Task:**
 1. Fill **Active pipeline** table: every item in `active` where `stage` is not `Closed` (or include Closed in a separate subsection if user asks).
 2. Fill **Future desired** table from `future_desired` (include `next_action` columns if present).
-3. Keep wording suitable for **`data/reports/pipeline/`** (full-detail tracking; may contain real company names). For **`data/reports/briefs/`**, use aliases only and run `docs/SANITIZATION_CHECKLIST.md`.
+3. Keep wording suitable for **`data/reports/pipeline/`** (full-detail tracking; may contain real company names). **`data/`** is private — no checklist for vault-only output. For a **tracked public** summary, use aliases and run `docs/SANITIZATION_CHECKLIST.md` before committing outside `data/`.
 4. Add **Assumptions** and **Risk**.
 
 **Output:** Markdown ready to save as `data/reports/pipeline/opportunity-tracking-<YYYY-MM-DD>.md` (path local / gitignored).

@@ -22,7 +22,6 @@ mkdir -p \
   "$ROOT/data/raw" \
   "$ROOT/data/weekly" \
   "$ROOT/data/daily" \
-  "$ROOT/data/reports/briefs" \
   "$ROOT/data/reports/pipeline" \
   "$ROOT/data/reports/roles" \
   "$ROOT/data/reports/companies" \

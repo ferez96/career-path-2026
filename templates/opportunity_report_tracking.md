@@ -18,5 +18,5 @@
 ## Notes
 
 - Closed opportunities: list under a separate subsection or omit from active table.
-- For public-safe summary, use aliases and sanitize per `docs/SANITIZATION_CHECKLIST.md`.
+- This file is **vault-private** by default. For a **tracked public** summary, use aliases and `docs/SANITIZATION_CHECKLIST.md` before committing outside `data/`.
 - **Assumptions** / **Risk**

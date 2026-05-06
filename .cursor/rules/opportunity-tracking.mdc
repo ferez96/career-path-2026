@@ -1,5 +1,5 @@
 ---
-description: Opportunity pipeline + reports — read private opportunities.yaml; sanitize before public
+description: Opportunity pipeline + reports — read private opportunities.yaml; vault is private (sanitize only when publishing outside data/)
 globs:
   - "templates/opportunities_tracker_template.yaml"
   - "templates/opportunity_report*.md"

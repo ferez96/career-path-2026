@@ -164,13 +164,15 @@ acme-senior-backend-2026-04,acme-senior-backend-2026-04,Senior Backend Engineer,
 
 ---
 
-## Step 9 — (Optional) Publish sanitized brief
+## Step 9 — (Optional) Publish an excerpt to the public repo
 
-If you want to publish the company brief to the public repo:
+The vault under `data/` stays private — **no checklist required** for files that remain there.
 
-1. Run `docs/SANITIZATION_CHECKLIST.md` on the report
+If you want a **tracked, public** artifact on `master`:
+
+1. Run `docs/SANITIZATION_CHECKLIST.md` on the text you will commit
 2. Remove or redact: company name, salary, specific contacts, identifying details
-3. Save sanitized version to `data/reports/briefs/{slug}-brief.md`
+3. Add the redacted version under a **public-bound path** (e.g. a new `docs/` example or anonymized appendix — not necessarily under `data/`)
 4. Commit to `master` branch
 
 ---
@@ -180,10 +182,8 @@ If you want to publish the company brief to the public repo:
 | Path | Class | Git |
 |---|---|---|
 | `data/raw/*` | `raw-ingest` | Ignored |
-| `data/jds/*.md` | `derived-sanitized` | Tracked (after sanitization) |
-| `data/reports/roles/*` | `private-sensitive` | Ignored |
-| `data/reports/briefs/*` | `derived-sanitized` | Tracked (after sanitization) |
-| `config/jd_catalog.csv` | Local instance | Ignored |
+| `data/**` (incl. `jds/`, `reports/**`, etc.) | `private-sensitive` | Ignored — local vault; no in-place sanitization required |
+| `config/jd_catalog.csv` | `derived-sanitized` if committed | Often ignored locally |
 
 ---
 

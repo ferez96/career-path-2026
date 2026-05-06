@@ -38,7 +38,7 @@ description: >-
 - **Assumptions** / **Risk**
 
 **Constraints:**
-- No PII in any content intended for public `data/reports/` or `data/reports/briefs/`.
+- **`data/` is private** — full detail is fine for YAML/chat drafts that stay local. **Only** scrub PII when emitting content destined for **tracked public paths** (see `docs/SANITIZATION_CHECKLIST.md`).
 - **Do not fabricate.** Only use values explicitly present in the JD file or stated by the user. Do not invent role details, company facts, contact info, or URLs.
 - If a field cannot be extracted from the JD or user input: use `Unknown` as a placeholder, note it in **Assumptions**, and ask one clarifying question before locking `id` or `company_display`.
 - Every inference (e.g. stage guessed from tone, priority guessed from urgency language) must be listed in **Assumptions** and confirmed by the user before final output.
