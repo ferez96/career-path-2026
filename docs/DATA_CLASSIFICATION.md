@@ -17,8 +17,8 @@ If uncertain, classify as `NEEDS_REVIEW` with a short reason.
 | `templates/*` | `public-reusable` | Track | Allowed |
 | `templates/opportunities_tracker_template.yaml` | `public-reusable` | Track | Allowed (schema only; no real opportunities) |
 | `templates/opportunity_report_*.md` | `public-reusable` | Track | Allowed (empty placeholders) |
-| `.cursor/skills/**` | `public-reusable` | Track | Allowed (canonical Assistant `SKILL.md` workflows) |
-| `prompts/*` | `public-reusable` | Track | Allowed (redirect stubs to `.cursor/skills/*/SKILL.md`) |
+| `docs/skills/**` | `public-reusable` | Track | Allowed (canonical Assistant `SKILL.md` workflows) |
+| `prompts/*` | `public-reusable` | Track | Allowed (redirect stubs to `docs/skills/*/SKILL.md`) |
 | `prompts/opportunity-*.md` | `public-reusable` | Track | Allowed |
 | `README.md` | `public-reusable` | Track | Allowed |
 | `docs/AGENT_ROLES.md` | `public-reusable` | Track | Allowed |
