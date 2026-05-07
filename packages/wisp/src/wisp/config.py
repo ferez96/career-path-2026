@@ -6,6 +6,16 @@ intentionally optional so the file can be written before the setup wizard
 
 Set ``WISP_DATA_DIR`` to override the user-data directory (useful for tests
 and ad-hoc dev runs).
+
+Failure modes are surfaced through :class:`WispConfigError` so callers can
+present a useful message to the user instead of a raw stack trace. Three
+classes of failure are distinguished:
+
+* the data directory cannot be created or written to;
+* the config file exists but is unreadable or not valid JSON;
+* the config file is valid JSON but doesn't match the schema.
+
+A missing config file is *not* an error — it just means first run.
 """
 
 from __future__ import annotations
@@ -16,7 +26,7 @@ import os
 from pathlib import Path
 
 from platformdirs import user_data_dir
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 
 APP_NAME = "wisp"
 CONFIG_FILENAME = "config.json"
@@ -29,16 +39,47 @@ LOG_FILENAME = "wisp.log"
 # to drive explicit migrations later.
 _TOLERANT = ConfigDict(extra="ignore")
 
+# data_dir() ensures the directory exists. We only need to do that once per
+# unique path per process — repeated mkdir calls are wasteful and the comment
+# from the PR review pointed it out. The set of paths already initialized is
+# small (usually one) and the lookup is cheap. Tests that monkeypatch
+# WISP_DATA_DIR get a fresh path so they pass through the mkdir branch.
+_initialized_data_dirs: set[Path] = set()
+
+
+class WispConfigError(RuntimeError):
+    """Raised when Wisp config can't be read, parsed, or written.
+
+    Distinct from missing-config (which is just first run) and from generic
+    ``OSError``/``ValueError`` so callers can present a clear, recoverable
+    message to the user.
+    """
+
 
 def data_dir() -> Path:
-    """Return the directory where Wisp stores config, DB, and logs."""
+    """Return the directory where Wisp stores config, DB, and logs.
+
+    Creates it on first use per process. Subsequent calls don't re-mkdir.
+    Raises :class:`WispConfigError` with an actionable message if the
+    directory cannot be created (permission denied, read-only filesystem,
+    parent doesn't exist, etc.).
+    """
     override = os.environ.get("WISP_DATA_DIR")
     if override:
         path = Path(override).expanduser()
     else:
         # appauthor=False prevents an extra "Wisp" intermediate dir on Windows
         path = Path(user_data_dir(APP_NAME, appauthor=False))
-    path.mkdir(parents=True, exist_ok=True)
+    if path not in _initialized_data_dirs:
+        try:
+            path.mkdir(parents=True, exist_ok=True)
+        except OSError as exc:
+            raise WispConfigError(
+                f"Cannot create Wisp data directory at {path}: "
+                f"{exc.strerror or exc}. Set WISP_DATA_DIR to a writable "
+                f"location, or fix the permissions on this one."
+            ) from exc
+        _initialized_data_dirs.add(path)
     return path
 
 
@@ -134,30 +175,69 @@ def _cleanup_stale_tmp(path: Path) -> None:
 
 
 def load() -> Config:
-    """Read the config file, returning a fresh ``Config`` if it doesn't exist."""
+    """Read the config file, returning a fresh ``Config`` if it doesn't exist.
+
+    Raises :class:`WispConfigError` if the file exists but is unreadable,
+    not valid JSON, or doesn't match the schema. Distinguishing these from
+    "no config yet" lets the caller treat a corrupt file as a recoverable
+    user-facing problem rather than silently re-running the setup wizard.
+    """
     path = config_path()
     _cleanup_stale_tmp(path)
     if not path.exists():
         return Config()
-    with path.open("r", encoding="utf-8") as f:
-        raw = json.load(f)
-    return Config.model_validate(raw)
+    try:
+        with path.open("r", encoding="utf-8") as f:
+            raw = json.load(f)
+    except OSError as exc:
+        raise WispConfigError(f"Cannot read {path}: {exc}") from exc
+    except json.JSONDecodeError as exc:
+        raise WispConfigError(
+            f"Config file {path} is not valid JSON: {exc.msg} (line {exc.lineno}). "
+            f"Edit or delete the file to recover."
+        ) from exc
+    try:
+        return Config.model_validate(raw)
+    except ValidationError as exc:
+        raise WispConfigError(
+            f"Config file {path} has an invalid structure ({exc.error_count()} "
+            f"error(s)). Fix it manually, or delete it to start over."
+        ) from exc
 
 
 def save(config: Config) -> None:
-    """Atomically persist ``config`` to disk."""
+    """Atomically persist ``config`` to disk.
+
+    Crash-safe across both process death and (on platforms that honor it)
+    power loss: data is fully written and ``fsync``-ed before the rename so
+    the directory entry never points at a file with no contents. The
+    rename itself is atomic on POSIX and on NTFS via ``os.replace``.
+    """
     path = config_path()
     tmp = path.with_suffix(".json.tmp")
-    with tmp.open("w", encoding="utf-8") as f:
-        json.dump(config.model_dump(), f, indent=2, sort_keys=True)
-    tmp.replace(path)
+    try:
+        with tmp.open("w", encoding="utf-8") as f:
+            json.dump(config.model_dump(), f, indent=2, sort_keys=True)
+            f.flush()
+            os.fsync(f.fileno())
+        tmp.replace(path)
+    except OSError as exc:
+        # Best-effort cleanup of the partial tmp file so the next load()
+        # doesn't have to.
+        with contextlib.suppress(OSError):
+            tmp.unlink()
+        raise WispConfigError(f"Cannot write {path}: {exc}") from exc
 
 
 def is_first_run() -> bool:
-    """True if the user hasn't completed the setup wizard yet.
+    """True if no config file exists yet, or it exists but has no profile.
 
-    Keying on ``profile is None`` lets us write partial config (e.g. AI keys
-    set during a migration) without flipping out of first-run mode.
+    A *corrupt* config file is **not** treated as a first run — it raises
+    :class:`WispConfigError` (via ``load()``) so the caller can show the
+    user something useful instead of silently re-running setup and
+    overwriting their broken-but-recoverable config.
     """
-    cfg = load()
+    if not config_path().exists():
+        return True
+    cfg = load()  # may raise WispConfigError; that's the point
     return cfg.profile is None
