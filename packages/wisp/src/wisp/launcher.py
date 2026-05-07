@@ -30,7 +30,9 @@ def pick_free_port(host: str = "127.0.0.1") -> int:
     """Ask the OS for a free TCP port on ``host``."""
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.bind((host, 0))
-        return sock.getsockname()[1]
+        # socket.getsockname() is typed as tuple[Any, ...] in typeshed;
+        # cast to int so strict mypy doesn't warn under py3.10/3.12.
+        return int(sock.getsockname()[1])
 
 
 def _schedule_browser_open(url: str, delay_seconds: float) -> threading.Timer:
