@@ -8,6 +8,37 @@ Migrations are plain ``.sql`` files named ``NNN_description.sql`` shipped
 inside the package at :mod:`wisp.migrations`. :func:`apply_migrations`
 runs them in order, tracks applied versions in a ``schema_migrations``
 table, and is idempotent — calling it twice does no extra work.
+
+Authoring migrations
+--------------------
+* Use ``CREATE TABLE IF NOT EXISTS`` (and ``CREATE INDEX IF NOT EXISTS``)
+  so a partial application is safely re-runnable. The runner records the
+  version row in a *separate* small transaction immediately after the
+  migration's SQL succeeds — if that SQL raises mid-way, no version is
+  recorded and the next run replays the whole file.
+* Default values, especially timestamps, should match the convention in
+  ``001_init.sql`` (ISO-8601 UTC via ``strftime('%Y-%m-%dT%H:%M:%fZ','now')``).
+* For empty / unknown text fields prefer ``NULL`` over ``''``.
+* For domain enums, only add a ``CHECK`` constraint when the value
+  actually drives logic (e.g. ``jobs.status`` drives the list filter,
+  ``evaluations.signal`` drives label generation). Informational fields
+  (sources, types, statuses-of-things) get no ``CHECK`` and the app
+  validates on the way in. This keeps schema evolution cheap.
+
+Widening a kept CHECK constraint
+--------------------------------
+SQLite has no ``ALTER TABLE … MODIFY CONSTRAINT``, so adding a new value
+to a retained ``CHECK`` requires the canonical four-step rebuild — write
+it as ``002_widen_xxx.sql`` (or similar):
+
+  1. ``CREATE TABLE jobs_new (… new CHECK …)``
+  2. ``INSERT INTO jobs_new SELECT * FROM jobs``
+  3. ``DROP TABLE jobs``
+  4. ``ALTER TABLE jobs_new RENAME TO jobs``
+  5. Recreate any indexes / triggers that referenced the old table name.
+
+Wrap the whole thing in ``BEGIN; … COMMIT;`` so a partial failure leaves
+the original table intact.
 """
 
 from __future__ import annotations
