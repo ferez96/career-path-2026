@@ -322,6 +322,15 @@ class SqliteVaultAdapter:
 
     # ---- Evaluations --------------------------------------------------------
 
+    # Human labels for the timeline event written alongside each
+    # evaluation insert. ``kind`` is constrained to these three values
+    # at the schema level.
+    _EVAL_KIND_LABELS: dict[str, str] = {
+        "heuristic": "Heuristic evaluation",
+        "ai": "AI evaluation",
+        "composite": "Composite evaluation",
+    }
+
     def add_evaluation(
         self, job_id: int, evaluation: EvaluationInput
     ) -> Evaluation:
@@ -354,6 +363,15 @@ class SqliteVaultAdapter:
         )
         eval_id = cur.lastrowid
         assert eval_id is not None
+        # Audit trail: every evaluation also lands as a timeline event so
+        # the cold-storage timeline reflects what actually happened.
+        # ``source`` mirrors ``kind`` ('heuristic' | 'ai' | 'composite').
+        label = self._EVAL_KIND_LABELS.get(evaluation.kind, "Evaluation")
+        self._conn.execute(
+            "INSERT INTO timeline_events (job_id, label, detail, source) "
+            "VALUES (?, ?, ?, ?)",
+            (job_id, label, evaluation.signal_label, evaluation.kind),
+        )
         self._conn.commit()
         row = self._conn.execute(
             "SELECT * FROM evaluations WHERE id = ?", (eval_id,)
@@ -484,6 +502,21 @@ class SqliteVaultAdapter:
         )
         enr_id = cur.lastrowid
         assert enr_id is not None
+        # Audit trail: an enrichment always shows up on the timeline so the
+        # user can see what was fetched, when, and from where. We omit it
+        # for ``status='pending'`` / ``'running'`` (those are intermediate
+        # states for async providers) — only finalized rows make the cut.
+        if enrichment.status in ("done", "failed"):
+            self._conn.execute(
+                "INSERT INTO timeline_events (job_id, label, detail, source) "
+                "VALUES (?, ?, ?, ?)",
+                (
+                    job_id,
+                    f"Enriched: {enrichment.provider_key}",
+                    enrichment.status if enrichment.status == "failed" else None,
+                    enrichment.source,
+                ),
+            )
         self._conn.commit()
         row = self._conn.execute(
             "SELECT * FROM enrichments WHERE id = ?", (enr_id,)

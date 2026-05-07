@@ -307,6 +307,91 @@ def test_mark_on_missing_job_raises(adapter: SqliteVaultAdapter) -> None:
 # ---- Evaluations -----------------------------------------------------------
 
 
+def test_add_evaluation_appends_audit_timeline_event(
+    adapter: SqliteVaultAdapter, job_id: int
+) -> None:
+    """Each evaluation lands a timeline event so the cold-storage
+    timeline matches what actually happened."""
+    adapter.add_evaluation(
+        job_id,
+        EvaluationInput(
+            kind="heuristic", fit_score=0.5, confidence=0.4,
+            signal="maybe", signal_label="Mixed signals",
+        ),
+    )
+    adapter.add_evaluation(
+        job_id,
+        EvaluationInput(
+            kind="ai", fit_score=0.7, confidence=0.8,
+            signal="yes", signal_label="Worth pursuing",
+        ),
+    )
+    adapter.add_evaluation(
+        job_id,
+        EvaluationInput(
+            kind="composite", fit_score=0.65, confidence=0.7,
+            signal="stretch", signal_label="Worth a closer look",
+        ),
+    )
+    timeline = adapter.list_timeline(job_id)
+    # Saved job (open) + 3 evaluations
+    assert [e.label for e in timeline] == [
+        "Saved job",
+        "Heuristic evaluation",
+        "AI evaluation",
+        "Composite evaluation",
+    ]
+    # Source mirrors evaluation kind so /overview can filter by source
+    assert [e.source for e in timeline[1:]] == ["heuristic", "ai", "composite"]
+    # Detail carries the natural label so the timeline reads naturally
+    assert [e.detail for e in timeline[1:]] == [
+        "Mixed signals",
+        "Worth pursuing",
+        "Worth a closer look",
+    ]
+
+
+def test_add_enrichment_appends_audit_timeline_event(
+    adapter: SqliteVaultAdapter, job_id: int
+) -> None:
+    """A completed enrichment (done) lands a timeline event tagged with
+    its source. Pending/running enrichments DO NOT — they're intermediate
+    states for async providers."""
+    adapter.add_enrichment(
+        job_id,
+        EnrichmentInput(
+            provider_key="manual_company_notes", source="user",
+            result={"notes": "Founders are ex-Stripe."},
+        ),
+    )
+    adapter.add_enrichment(
+        job_id,
+        EnrichmentInput(
+            provider_key="glassdoor", source="api", status="pending",
+        ),
+    )
+    adapter.add_enrichment(
+        job_id,
+        EnrichmentInput(
+            provider_key="glassdoor", source="api", status="failed",
+        ),
+    )
+
+    labels = [e.label for e in adapter.list_timeline(job_id)]
+    # Saved job + manual_company_notes (done) + glassdoor (failed); the
+    # pending row does NOT appear.
+    assert labels == [
+        "Saved job",
+        "Enriched: manual_company_notes",
+        "Enriched: glassdoor",
+    ]
+
+    # Failed status surfaces in detail so the user can spot it
+    failed_event = adapter.list_timeline(job_id)[-1]
+    assert failed_event.detail == "failed"
+    assert failed_event.source == "api"
+
+
 def test_add_evaluation_round_trips_json_columns(
     adapter: SqliteVaultAdapter, job_id: int
 ) -> None:
