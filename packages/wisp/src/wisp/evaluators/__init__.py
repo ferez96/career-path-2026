@@ -12,6 +12,16 @@ remains auditable.
 """
 
 from .base import Evaluator
+from .composite import CompositeResult, evaluate, merge
 from .heuristics import HeuristicEvaluator
+from .verdict import validate_advisory, verdict_for
 
-__all__ = ["Evaluator", "HeuristicEvaluator"]
+__all__ = [
+    "CompositeResult",
+    "Evaluator",
+    "HeuristicEvaluator",
+    "evaluate",
+    "merge",
+    "validate_advisory",
+    "verdict_for",
+]
