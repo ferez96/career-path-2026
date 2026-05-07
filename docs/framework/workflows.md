@@ -89,12 +89,22 @@ Functional scope, record schemas, and standard operating workflows. Loaded by As
 
 ## Standard operating workflows
 
+### Token-efficient Obsidian navigation
+
+Use Obsidian as the first routing layer before loading larger source files.
+
+1. Start at `data/Home.md` or `data/atlas/Navigation — JD and Opportunities.md`.
+2. For JD work, follow **G1** to `raw/JDs/` only for extraction and prefer `data/jds/{slug}.md` once normalized.
+3. For opportunity questions, follow **G3**: `data/opportunities/Central Opportunities.md` → `{Company} Opportunity Index` → the linked JD, role reports, and pipeline note.
+4. Use CLI reads when possible: `obsidian read vault=data "path=opportunities/Stripe Opportunity Index.md"` and `obsidian links vault=data "path=opportunities/Stripe Opportunity Index.md"`.
+5. Avoid broad folder reads and raw exports unless needed for evidence. If a hub link is broken, run `python scripts/vault_hub_wikilinks.py`.
+
 ### Workflow 1: Benchmark Processing
 1. Receive benchmark (JD/role profile/text/markdown/pdf/image OCR).
 2. Normalize content.
 3. Extract key information.
 4. Produce short benchmark summary + skills table.
-5. **Read candidate profile:** canonical source is `data/private/master.yaml` (headline, `career.direction_summary`, experience, skills, goals). If a separate CV/PDF exists, the user provides the path; `profile.resume` is optional. Extract only what is needed to compare to the JD; public reports are non-PII summaries only—do not copy email/phone/address into `reports/`.
+5. **Read candidate profile:** canonical source is `data/private/master.yaml` (headline, `career.direction_summary`, experience, skills, goals). If a separate CV/PDF exists, the user provides the path; `profile.resume` is optional. Extract only what is needed to compare to the JD; public reports are non-PII summaries only—do not copy email/phone/address into `data/reports/`.
 6. Score gap/fit vs personal profile (resume + target metadata in `docs/framework/fit-weights.md`).
 7. Assign priority + suggest learning actions.
 8. Write to tracking report.
@@ -135,4 +145,4 @@ Functional scope, record schemas, and standard operating workflows. Loaded by As
 | 4 | Next steps for **one** opportunity | `docs/skills/opportunity-report-next-steps-one/SKILL.md`, `templates/opportunity_report_next_steps_one.md` |
 | 5 | **Rollup** next steps (sort by date → priority) | `docs/skills/opportunity-report-next-steps-rollup/SKILL.md`, `templates/opportunity_report_next_steps_rollup.md` |
 
-**Reports with company names / sensitive detail:** default to `reports/private/` (gitignored). Public-safe excerpts → `reports/briefs/` after `docs/SANITIZATION_CHECKLIST.md`. Optional links: `milestone_id` with `data/career_path_master.csv`, `jd_source` with raw JD / catalog.
+**Reports with company names / sensitive detail:** default to `data/reports/pipeline/`, `data/reports/roles/`, and related grouped folders under `data/reports/` (see `data/VAULT_LAYOUT.md`). You may also park cross-role redacted notes under `data/reports/benchmarks/` for your own use — still **`private-sensitive`** while in `data/`. Run `docs/SANITIZATION_CHECKLIST.md` only when **copying** material into tracked public paths. Optional links: `milestone_id` with `data/career_path_master.csv`, `jd_source` with raw JD / catalog.

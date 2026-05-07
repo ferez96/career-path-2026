@@ -15,6 +15,11 @@ description: >-
 - Schema reference: `templates/opportunities_tracker_template.yaml`
 - CLI reference: `docs/opp-cli.md`
 
+**Token-efficient Obsidian routing:**
+- Use `data/opportunities/Central Opportunities.md` or the matching `* Opportunity Index.md` only to resolve an ambiguous company/role to an opportunity id.
+- For the actual update, load only `opportunities.yaml` and the schema reference; avoid reading reports unless the user wants to update notes from a specific artifact.
+- If using Obsidian CLI, quote spaced paths: `obsidian read vault=data "path=opportunities/Stripe Opportunity Index.md"`.
+
 **Task:**
 1. Identify the record by **`id`** (or company + role — resolve to id first).
 2. Apply updates using `python scripts/opp.py` for all scalar field changes. See `docs/opp-cli.md` for the full command reference.

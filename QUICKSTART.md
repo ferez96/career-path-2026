@@ -16,7 +16,7 @@ pwsh -File scripts/bootstrap.ps1
 bash scripts/bootstrap.sh
 ```
 
-This will generate the initial directory structure (`data/*`, `reports/*`, etc.) and copy the template files listed below **only if the target does not already exist** (no overwrite):
+This will generate the initial directory structure (`data/*`, including `data/reports/*`, etc.) and copy the template files listed below **only if the target does not already exist** (no overwrite):
 
 | Template                                   | Installed path                          |
 |:--------------------------------------------|:----------------------------------------|
@@ -63,9 +63,8 @@ Sanitized reports, benchmarks, briefs, publishing to `public`, and the full prom
 | Application pipeline | `data/private/opportunities.yaml` |
 | Raw JD paste / files | `data/raw/` |
 | Optional JD index | `config/jd_catalog.csv` |
-| Sanitized JD analysis | `reports/benchmarks/` |
-| Sanitized briefs | `reports/briefs/` |
-| Sensitive / full detail | `reports/private/` |
+| Cross-role or “cleaner” working notes (still private) | `data/reports/benchmarks/` |
+| Full-detail pipeline / roles / companies / strategy / sessions | `data/reports/{pipeline,roles,companies,strategy,sessions}/` |
 
 Full tree: [docs/REPO_LAYOUT.md](docs/REPO_LAYOUT.md).
 
@@ -81,7 +80,7 @@ Stable links under `prompts/*.md` redirect to the same `SKILL.md` files.
 
 ### Before you publish to `public`
 
-Flow: **`personal` → sanitize → `public` (`master`)**. Only non-PII, sanitized content on public.
+Flow: **`personal` → sanitize → `public` (`master`)**. Everything under **`data/`** stays private — checklist applies only to **tracked** files you put on `public` (`master`) outside `data/`.
 
 - [docs/BRANCH_WORKFLOW.md](docs/BRANCH_WORKFLOW.md)
 - [docs/PUBLIC_REPO_POLICY.md](docs/PUBLIC_REPO_POLICY.md)
@@ -95,5 +94,5 @@ Flow: **`personal` → sanitize → `public` (`master`)**. Only non-PII, sanitiz
 ### Read next
 
 - **[CURSOR.md](CURSOR.md)** — Operating framework index → `docs/framework/{workflows,fit-weights,prompting,cadence}.md`.
-- **[reports/README.md](reports/README.md)** — `benchmarks/` vs `briefs/` vs `private/`.
+- **`data/reports/README.md`** (local vault) — grouped folders under `data/reports/`; excerpt-safe outputs go to `benchmarks/`.
 - **[config/context_manifest.yaml](config/context_manifest.yaml)** — Agent context index.

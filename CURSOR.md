@@ -21,6 +21,10 @@ The operating framework is split into focused files under `docs/framework/` so r
 | [`docs/framework/prompting.md`](docs/framework/prompting.md) | Language convention and the Assistant's prompting rules (Assumptions/Risk, no fabrication, structured output) | Any Assistant report or task generating output |
 | [`docs/framework/cadence.md`](docs/framework/cadence.md) | Suggested KPIs (career, learning, execution) and weekly cadence | Planning and review tasks |
 
+## Obsidian vault and token discipline
+
+The **`data/`** tree is an Obsidian vault. For Assistant tasks that touch JDs or the opportunity pipeline, use **hub-first navigation** (start from `data/atlas/Navigation — JD and Opportunities.md`, and see the “Token-efficient Obsidian navigation” section in [`docs/framework/workflows.md`](docs/framework/workflows.md)). Prefer normalized `data/jds/<slug>.md` and per-opportunity index notes over bulk reads; use the Obsidian CLI with **quoted** `path=` when note names contain spaces.
+
 ## Supported file formats
 
 **Input:**

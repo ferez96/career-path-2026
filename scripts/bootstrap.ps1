@@ -22,9 +22,12 @@ $dirs = @(
   "data/raw",
   "data/weekly",
   "data/daily",
-  "reports/private",
-  "reports/benchmarks",
-  "reports/briefs"
+  "data/reports/pipeline",
+  "data/reports/roles",
+  "data/reports/companies",
+  "data/reports/strategy",
+  "data/reports/sessions",
+  "data/reports/benchmarks"
 )
 foreach ($d in $dirs) {
   $p = Join-Path $Root $d

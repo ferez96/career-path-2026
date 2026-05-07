@@ -14,6 +14,11 @@ description: >-
 - `data/private/opportunities.yaml` (private)
 - Output skeleton: `templates/opportunity_report_next_steps_rollup.md`
 
+**Token-efficient Obsidian routing:**
+- This rollup should usually load only `opportunities.yaml` plus the output template.
+- Use `data/opportunities/Central Opportunities.md` only for link labels or to verify known opportunity indexes.
+- Do not read per-opportunity reports unless the user explicitly asks for evidence behind a row.
+
 **Task:**
 1. Collect **next_action** for every item in `active` with `stage` not `Closed` (unless user wants closed included).
 2. Optionally include **`future_desired`** entries that have **`next_action`** set.
@@ -21,7 +26,7 @@ description: >-
 4. Build **Combined backlog** table; each row must include **`opportunity_id`** for traceability.
 5. **Assumptions** / **Risk**.
 
-**Output:** Markdown for `reports/private/opportunity-next-steps-rollup-<YYYY-MM-DD>.md` or paste-only.
+**Output:** Markdown for `data/reports/pipeline/opportunity-next-steps-rollup-<YYYY-MM-DD>.md` or paste-only.
 
 **Constraints:**
 - Private report may use real names; public summary requires sanitization.

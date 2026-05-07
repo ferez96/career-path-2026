@@ -22,9 +22,12 @@ mkdir -p \
   "$ROOT/data/raw" \
   "$ROOT/data/weekly" \
   "$ROOT/data/daily" \
-  "$ROOT/reports/private" \
-  "$ROOT/reports/benchmarks" \
-  "$ROOT/reports/briefs"
+  "$ROOT/data/reports/pipeline" \
+  "$ROOT/data/reports/roles" \
+  "$ROOT/data/reports/companies" \
+  "$ROOT/data/reports/strategy" \
+  "$ROOT/data/reports/sessions" \
+  "$ROOT/data/reports/benchmarks"
 
 copy_if_missing "$ROOT/templates/opportunities_tracker_template.yaml" "$ROOT/data/private/opportunities.yaml"
 copy_if_missing "$ROOT/templates/master_template.yaml" "$ROOT/data/private/master.yaml"

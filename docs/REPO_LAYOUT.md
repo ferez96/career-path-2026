@@ -9,9 +9,11 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 ├── config/                 # Agent index + catalog (no PII)
 ├── data/
 │   ├── career_path_master.csv
+│   ├── atlas/              # Obsidian navigation + domain hubs (golden paths for JDs / opportunities)
 │   ├── daily/              # Daily reviews and logs
 │   ├── weekly/             # Weekly tracking (anonymize before public)
 │   ├── raw/                # Raw JD/benchmark — contents gitignored
+│   ├── reports/            # Derived markdown inside the vault (pipeline, roles, benchmarks, …)
 │   └── private/            # Canonical profile (master.yaml), opportunities.yaml, CV — gitignored
 ├── scripts/                # bootstrap.ps1 / bootstrap.sh
 ├── apps/                   # Runtime entry points (web, cli)
@@ -23,10 +25,6 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 │   ├── skills/             # Canonical skill definitions (tool-agnostic SKILL.md files)
 │   ├── rules/              # Canonical rule content (tool-agnostic plain markdown)
 │   └── *.md                # Policy, classification, layout docs
-├── reports/
-│   ├── benchmarks/         # Benchmark / JD analysis (derived-sanitized)
-│   ├── briefs/             # Company / org brief (derived-sanitized)
-│   └── private/            # Private reports — gitignored
 ├── templates/              # Markdown + YAML templates (e.g. opportunity tracker schema)
 ├── .cursor/rules/          # Cursor adapters — frontmatter only; canonical content in docs/rules/
 ├── CURSOR.md
@@ -43,8 +41,8 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 | Weekly plan / review | `data/weekly/` |
 | Assistant workflows (Cursor Skills) | `docs/skills/*/SKILL.md` |
 | Stable links / redirects | `prompts/*.md` (point to skills) |
-| Sanitized reports (public-safe) | `reports/benchmarks/`, `reports/briefs/` |
-| Private opportunity reports (full detail) | `reports/private/` (gitignored) |
+| Sanitized / excerpt-safe narratives (JD analysis, redacted briefs) | `data/reports/benchmarks/` |
+| Full-detail local reports | `data/reports/{pipeline,roles,companies,strategy,sessions}/` |
 | Opportunity tracker (schema template) | `templates/opportunities_tracker_template.yaml` → copy to `data/private/opportunities.yaml` |
 | Opportunity workflows | `docs/skills/opportunity-*/SKILL.md` (see `prompts/opportunity-*.md` redirects) |
 | Context index + job mapping | `config/context_manifest.yaml`, `config/jd_catalog.csv` |

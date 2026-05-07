@@ -13,9 +13,9 @@ data/raw/{jd.txt}
   ↓  normalize
 data/jds/{slug}.md
   ↓  research + score
-reports/private/{slug}-analysis.md
-reports/private/{slug}-company-brief.md
-reports/private/{slug}-decision.md
+data/reports/roles/{slug}-analysis.md
+data/reports/roles/{slug}-company-brief.md
+data/reports/roles/{slug}-decision.md
   ↓  import
 opportunities.yaml  ← YAML snippet (confirm + insert)
 config/jd_catalog.csv  ← CSV row (confirm + insert)
@@ -62,7 +62,28 @@ Start a conversation with the Assistant agent and invoke:
 
 ---
 
-## Step 3 — Confirm the slug
+## Step 3 — Use Obsidian to keep context small
+
+Before reading large files, route through the vault hubs:
+
+1. Open `data/atlas/Navigation — JD and Opportunities.md`.
+2. For a new JD, follow **G1**: Ingest → raw source → normalized `data/jds/{slug}.md`.
+3. For an existing opportunity, follow **G3**: `data/opportunities/Central Opportunities.md` → `{Company} Opportunity Index` → linked JD/reports.
+
+Useful CLI commands:
+
+```powershell
+obsidian read vault=data "path=atlas/Navigation — JD and Opportunities.md"
+obsidian read vault=data "path=opportunities/Stripe Opportunity Index.md"
+obsidian links vault=data "path=opportunities/Stripe Opportunity Index.md"
+python scripts/vault_hub_wikilinks.py
+```
+
+Prefer normalized JDs and linked role reports before raw PDFs, `.mhtml` files, or broad folder reads.
+
+---
+
+## Step 4 — Confirm the slug
 
 The skill proposes a unique ID (slug) before proceeding:
 ```
@@ -77,7 +98,7 @@ Confirm or provide a different slug. The slug becomes:
 
 ---
 
-## Step 4 — Review the pipeline output
+## Step 5 — Review the pipeline output
 
 The skill runs all sub-workflows automatically:
 
@@ -86,28 +107,28 @@ The skill runs all sub-workflows automatically:
 | **Normalize** | Extracts role, company, level, skills, responsibilities → `data/jds/{slug}.md` |
 | **Research** | Runs `company-brief` skill → company tier, size, product, culture, risks |
 | **Score** | Applies `fit-weights.md` rubric against `master.yaml` profile |
-| **Reports** | Generates 3 markdown files in `reports/private/` |
+| **Reports** | Generates 3 markdown files in `data/reports/roles/` |
 | **Import** | Proposes YAML snippet + catalog CSV row |
 
 This takes a few minutes for the research step (web search involved).
 
 ---
 
-## Step 5 — Review reports
+## Step 6 — Review reports
 
 Check the three private reports:
 
 | File | Contents |
 |---|---|
-| `reports/private/{slug}-analysis.md` | Fit scoring table, gaps, 48h action plan |
-| `reports/private/{slug}-company-brief.md` | Company research (tier, culture, DX, risks) |
-| `reports/private/{slug}-decision.md` | 1-page executive summary + recommendation |
+| `data/reports/roles/{slug}-analysis.md` | Fit scoring table, gaps, 48h action plan |
+| `data/reports/roles/{slug}-company-brief.md` | Company research (tier, culture, DX, risks) |
+| `data/reports/roles/{slug}-decision.md` | 1-page executive summary + recommendation |
 
 > Reports are `private-sensitive` — gitignored, local only. Do not commit raw.
 
 ---
 
-## Step 6 — Confirm and insert YAML
+## Step 7 — Confirm and insert YAML
 
 The skill outputs a YAML snippet. Review and insert it into `data/private/opportunities.yaml` under `active:`:
 
@@ -131,7 +152,7 @@ Adjust `stage`, `priority`, `next_action`, and `next_action_date` to reflect you
 
 ---
 
-## Step 7 — Confirm and insert catalog row
+## Step 8 — Confirm and insert catalog row
 
 The skill outputs a CSV row. Insert it into `config/jd_catalog.csv`:
 
@@ -143,13 +164,15 @@ acme-senior-backend-2026-04,acme-senior-backend-2026-04,Senior Backend Engineer,
 
 ---
 
-## Step 8 — (Optional) Publish sanitized brief
+## Step 9 — (Optional) Publish an excerpt to the public repo
 
-If you want to publish the company brief to the public repo:
+The vault under `data/` stays private — **no checklist required** for files that remain there.
 
-1. Run `docs/SANITIZATION_CHECKLIST.md` on the report
+If you want a **tracked, public** artifact on `master`:
+
+1. Run `docs/SANITIZATION_CHECKLIST.md` on the text you will commit
 2. Remove or redact: company name, salary, specific contacts, identifying details
-3. Save sanitized version to `reports/briefs/{slug}-brief.md`
+3. Add the redacted version under a **public-bound path** (e.g. a new `docs/` example or anonymized appendix — not necessarily under `data/`)
 4. Commit to `master` branch
 
 ---
@@ -159,10 +182,8 @@ If you want to publish the company brief to the public repo:
 | Path | Class | Git |
 |---|---|---|
 | `data/raw/*` | `raw-ingest` | Ignored |
-| `data/jds/*.md` | `derived-sanitized` | Tracked (after sanitization) |
-| `reports/private/*` | `private-sensitive` | Ignored |
-| `reports/briefs/*` | `derived-sanitized` | Tracked (after sanitization) |
-| `config/jd_catalog.csv` | Local instance | Ignored |
+| `data/**` (incl. `jds/`, `reports/**`, etc.) | `private-sensitive` | Ignored — local vault; no in-place sanitization required |
+| `config/jd_catalog.csv` | `derived-sanitized` if committed | Often ignored locally |
 
 ---
 

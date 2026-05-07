@@ -39,19 +39,6 @@ scratch/
 secrets/
 credentials*.json
 
-# Career-tracking sensitive raw inputs (keep local only)
-# JD catalog: copy from templates/jd_catalog_template.csv — local rows stay untracked
-config/jd_catalog.csv
-
-# Daily / weekly planning notes — local only on personal branch (not on public master)
-data/daily/
-data/weekly/
-
-# Raw JD/benchmark drops: only under data/raw/ (single ingest location)
-data/raw/*
-data/private/*
-reports/private/*
-
 # Large or generated binaries
 *.zip
 *.7z
@@ -69,3 +56,6 @@ venv/
 .claude/settings.json
 .claude/settings.local.json
 .claude/worktrees/
+
+# local data
+data/

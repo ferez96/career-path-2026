@@ -3,7 +3,7 @@ name: jd-process
 description: >-
   End-to-end JD processing workflow: normalize raw JD, research company, score fit/gap,
   generate analysis reports, and import to opportunity tracker. One-shot skill that orchestrates
-  the full pipeline from data/raw → data/jds → reports → opportunities.yaml.
+  the full pipeline from data/raw → data/jds → data/reports/roles → opportunities.yaml.
 ---
 
 # JD Full Workflow
@@ -21,6 +21,11 @@ description: >-
 - JD catalog: `config/jd_catalog.csv` (for existing IDs)
 - Company-brief skill: `docs/skills/company-brief/SKILL.md` (for research sub-workflow)
 - Opportunity-from-jd skill: `docs/skills/opportunity-from-jd/SKILL.md` (for import sub-workflow)
+
+**Token-efficient Obsidian routing:**
+- Start from `data/atlas/Navigation — JD and Opportunities.md` (G1 for ingest, G3 for opportunity details) to identify the smallest useful note set.
+- If the JD already has a normalized note or opportunity index, read that first through Obsidian CLI, e.g. `obsidian read vault=data "path=opportunities/Stripe Opportunity Index.md"` and then only the linked `jds/` or `reports/roles/` leaves needed.
+- Read the raw JD only for extraction/verification. Do not load unrelated `data/reports/**`, raw profile PDFs, or long message exports for a single JD unless the user explicitly asks.
 
 ---
 
@@ -101,7 +106,7 @@ Write normalized markdown to: `data/jds/{slug}.md`
 - Reference: user's profile from `master.yaml` for fit comparison
 
 **Output from sub-workflow:**
-- Full company brief (saved to `reports/private/{slug}-company-brief.md`)
+- Full company brief (saved to `data/reports/roles/{slug}-company-brief.md`)
 - Tier classification
 - Key risks / red flags
 - Fit against master profile
@@ -130,7 +135,7 @@ Read the normalized JD + master profile, apply weights from `fit-weights.md`:
 
 ### 7. Generate Analysis Reports
 
-**7a. JD Analysis Report:** `reports/private/{slug}-analysis.md`
+**7a. JD Analysis Report:** `data/reports/roles/{slug}-analysis.md`
 - Job snapshot (company, role, level, location)
 - Skills extraction (required, nice-to-have)
 - Fit/gap scoring table
@@ -138,10 +143,10 @@ Read the normalized JD + master profile, apply weights from `fit-weights.md`:
 - Decision recommendation
 - 48-hour action plan (if pursuing)
 
-**7b. Company Brief:** `reports/private/{slug}-company-brief.md`
+**7b. Company Brief:** `data/reports/roles/{slug}-company-brief.md`
 (From sub-workflow above)
 
-**7c. Combined Decision Brief:** `reports/private/{slug}-decision.md`
+**7c. Combined Decision Brief:** `data/reports/roles/{slug}-decision.md`
 - 1-page executive summary
 - Company fit + opportunity fit
 - Recommendation (Pursue / Prepare / Defer / Pass)
@@ -170,18 +175,18 @@ job_id,alias,role,company,raw_path,normalized_path,status,date_processed
 Provide user with complete checklist:
 ```
 ✅ JD normalized: data/jds/{slug}.md
-✅ Company brief: reports/private/{slug}-company-brief.md
-✅ Fit analysis: reports/private/{slug}-analysis.md
-✅ Decision brief: reports/private/{slug}-decision.md
+✅ Company brief: data/reports/roles/{slug}-company-brief.md
+✅ Fit analysis: data/reports/roles/{slug}-analysis.md
+✅ Decision brief: data/reports/roles/{slug}-decision.md
 ✅ Opportunity YAML snippet (ready to insert)
 ✅ Catalog CSV row (ready to insert)
 
 Next Steps:
-1. Review analysis reports (private/)
+1. Review analysis reports under `data/reports/roles/`
 2. Confirm opportunity YAML (id, stage, priority, next_action)
 3. Insert YAML into data/private/opportunities.yaml
 4. Insert CSV row into config/jd_catalog.csv
-5. When ready to publish: run sanitization checklist → copy briefs to reports/briefs/
+5. When ready to publish **outside `data/`**: run `docs/SANITIZATION_CHECKLIST.md` and add the redacted copy under a **tracked public path** (e.g. `docs/`) — vault files alone do not need checklist
 ```
 
 ---
@@ -214,11 +219,11 @@ Next Steps:
 
 ## Constraints
 
-- **No PII in public outputs:** All private reports go to `reports/private/` (gitignored). Sanitize before copying to `reports/briefs/`.
+- **Vault vs public:** Role reports go to `data/reports/roles/` (private). **`data/**` does not require PII sanitization** for personal use. Apply `docs/SANITIZATION_CHECKLIST.md` only when copying excerpts into **tracked public paths** outside `data/`.
 - **Data classification:**
   - `data/raw/{filename}` → `raw-ingest` (ignore, do not commit)
-  - `data/jds/{slug}.md` → `derived-sanitized` (track after sanitization)
-  - `reports/private/{slug}-*.md` → `private-sensitive` (ignore, do not commit)
+  - `data/jds/{slug}.md` → `private-sensitive` (local vault; typically gitignored with rest of `data/`)
+  - `data/reports/roles/{slug}-*.md` → `private-sensitive` (ignore, do not commit)
 - **Do not fabricate.** This applies to every step: role extraction, company research, fit scoring, action plans, and next steps. Only use information explicitly present in the JD file, `master.yaml`, or stated by the user.
   - Missing JD fields (salary, team size, work mode, etc.) → `"Not disclosed"` or `"Unknown"`. Do not guess.
   - Fit scoring rationale must cite specific JD text or profile data. Do not invent supporting evidence.
@@ -235,7 +240,7 @@ Next Steps:
 Skill: `docs/skills/company-brief/SKILL.md`
 - Input: company name, optional profile context
 - Output: full brief markdown with tier, culture, fit analysis
-- Saves to: `reports/private/{slug}-company-brief.md`
+- Saves to: `data/reports/roles/{slug}-company-brief.md`
 
 ### opportunity-from-jd sub-workflow
 Skill: `docs/skills/opportunity-from-jd/SKILL.md`
@@ -247,9 +252,9 @@ Skill: `docs/skills/opportunity-from-jd/SKILL.md`
 
 ## Success Criteria
 
-✅ All 4 reports generated in `reports/private/`  
+✅ All 4 reports generated in `data/reports/roles/`  
 ✅ Opportunity YAML ready to import (no duplicates in opportunities.yaml)  
 ✅ Catalog CSV row ready to insert  
 ✅ Checklist provided to user  
-✅ All files classified correctly (raw-ingest / derived-sanitized / private-sensitive)  
+✅ All files classified correctly (raw-ingest vs `data/**` private vault vs public-bound `derived-sanitized` if any)  
 ✅ Next steps clear and actionable (24-72h horizon)

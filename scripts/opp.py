@@ -38,7 +38,7 @@ except ImportError:
 # ── Paths ──────────────────────────────────────────────────────────────────────
 
 REPO_ROOT = Path(__file__).parent.parent
-DATA_FILE = REPO_ROOT / "data" / "private" / "opportunities.yaml"
+DATA_FILE = REPO_ROOT / "data" / "opportunities.yaml"
 
 # ── Constants ──────────────────────────────────────────────────────────────────
 

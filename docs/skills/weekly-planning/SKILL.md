@@ -15,6 +15,11 @@ description: >-
 - `config/context_manifest.yaml`
 - Previous week file: `data/weekly/<PREV_ISO_WEEK>.md` (e.g. `2026-W16.md`)
 
+**Token-efficient Obsidian routing:**
+- Start with `data/weekly/Weekly Index.md` and the previous/current weekly note; do not read all weekly files.
+- Use `data/opportunities/Central Opportunities.md` plus `data/reports/pipeline/opportunity-next-steps-rollup-*.md` only when planning active pipeline work.
+- Prefer the latest linked rollup or tracker note over scanning every opportunity report.
+
 **Task:**
 1. Propose a **weekly plan** for **ISO week `<YYYY-Www>`**, covering **`<Mon>`–`<Sun>`** (or only **remaining days** if mid-week).
 2. Align with: active job search, `target_employment_horizon`, `career.direction_summary` and `target_titles`, remote-first / HCMC, salary expectations, deal-breakers, domain priorities from `master.yaml`.
@@ -30,5 +35,5 @@ description: >-
 - Priority shift vs last week: `<same | more volume | more prep | ...>`
 
 **Constraints:**
-- No PII in content intended for public `reports/`.
+- No PII in content intended for public `data/reports/`.
 - Prefer product / in-house roles; respect outsource deal-breaker from `master.yaml`.

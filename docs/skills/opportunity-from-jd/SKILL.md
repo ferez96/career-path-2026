@@ -11,10 +11,15 @@ description: >-
 **Role:** Assistant — career / opportunity tracking (see `docs/AGENT_ROLES.md`).
 
 **Context to load:**
-- Raw JD file: `data/raw/<FILENAME>` (local; `raw-ingest`, do not paste full JD into public `reports/`)
+- Raw JD file: `data/raw/<FILENAME>` (local; `raw-ingest`, do not paste full JD into public `data/reports/`)
 - Schema: `templates/opportunities_tracker_template.yaml`
 - Optional: `data/private/master.yaml` for a one-line fit note (private)
 - Optional: `config/jd_catalog.csv` to register `job_id`
+
+**Token-efficient Obsidian routing:**
+- Start with `data/atlas/Navigation — JD and Opportunities.md` (G1) and read `data/opportunities/Central Opportunities.md` only to check whether a matching opportunity index already exists.
+- If a normalized JD exists, prefer `data/jds/{slug}.md` over the raw JD for YAML fields; read the raw JD only to resolve missing source fields.
+- Avoid reading unrelated opportunity reports; this skill only needs the JD, schema, and optional existing tracker/catalog rows.
 
 **Task:**
 1. Read the JD. Extract **role_title** and **company_display** (use exact text from JD). If company name is not stated in the JD: do not guess — use the user-provided label (e.g. `"Unknown (SF-based startup)"`). If no label was provided either, ask before proceeding.
@@ -33,7 +38,7 @@ description: >-
 - **Assumptions** / **Risk**
 
 **Constraints:**
-- No PII in any content intended for public `reports/` or `reports/briefs/`.
+- **`data/` is private** — full detail is fine for YAML/chat drafts that stay local. **Only** scrub PII when emitting content destined for **tracked public paths** (see `docs/SANITIZATION_CHECKLIST.md`).
 - **Do not fabricate.** Only use values explicitly present in the JD file or stated by the user. Do not invent role details, company facts, contact info, or URLs.
 - If a field cannot be extracted from the JD or user input: use `Unknown` as a placeholder, note it in **Assumptions**, and ask one clarifying question before locking `id` or `company_display`.
 - Every inference (e.g. stage guessed from tone, priority guessed from urgency language) must be listed in **Assumptions** and confirmed by the user before final output.

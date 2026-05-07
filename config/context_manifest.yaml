@@ -50,25 +50,27 @@ groups:
 
   company-brief:
     description: Company research and SWE-focused brief with personal fit
-    token_budget: 7800
+    token_budget: 8700
     contexts:
       - framework-fit-weights    # scoring rubric            300t
       - private-master-profile # profile for fit section 3500t
       - skill-company-brief   # brief SKILL.md           4000t
+      - vault-navigation-atlas # golden paths G1–G5       900t
 
   opportunity-core:
     description: Add or update opportunities in the pipeline
-    token_budget: 7300
+    token_budget: 8200
     contexts:
       - framework-workflows           # opportunity tracking section 1300t
       - private-master-profile     # profile for fit notes       3500t
       - opportunities-tracker-template # schema                   900t
       - skill-opportunity-from-jd  # add skill                    900t
       - skill-opportunity-update   # update skill                 700t
+      - vault-navigation-atlas     # hub-first routing            900t
 
   opportunity-reports:
     description: Generate opportunity tracking and next-steps reports
-    token_budget: 8200
+    token_budget: 9100
     contexts:
       - framework-workflows                        # pipeline context           1300t
       - private-master-profile                  # profile for fit notes      3500t
@@ -78,10 +80,11 @@ groups:
       - skill-opportunity-report-tracking       # tracking skill              600t
       - skill-opportunity-report-next-steps-one # next-steps (one) skill      600t
       - skill-opportunity-report-next-steps-rollup # rollup skill             600t
+      - vault-navigation-atlas                  # hub-first routing           900t
 
   jd-process:
     description: Full JD workflow — normalize, research, score, report, import
-    token_budget: 13000
+    token_budget: 13900
     contexts:
       - skill-jd-process          # master orchestration skill  2000t
       - framework-fit-weights        # scoring weights            300t
@@ -91,6 +94,7 @@ groups:
       - opportunities-tracker-template # opportunity schema   900t
       - skill-company-brief       # company research sub-skill 4000t
       - skill-opportunity-from-jd # opportunity import sub-skill 900t
+      - vault-navigation-atlas    # golden paths + CLI hints    900t
 
   governance:
     description: Copilot — repo framework, governance, public-merge prep
@@ -116,31 +120,31 @@ triggers:
 
   company-brief:
     groups: [always-required, company-brief]
-    total_budget: 9600   # 1800 + 7800
+    total_budget: 11100   # 2400 + 8700
 
   opportunity-from-jd:
     groups: [always-required, opportunity-core]
-    total_budget: 9100   # 1800 + 7300
+    total_budget: 10600   # 2400 + 8200
 
   opportunity-update:
     groups: [always-required, opportunity-core]
-    total_budget: 9100   # 1800 + 7300
+    total_budget: 10600
 
   opportunity-report-tracking:
     groups: [always-required, opportunity-reports]
-    total_budget: 10000  # 1800 + 8200
+    total_budget: 11500
 
   opportunity-report-next-steps-one:
     groups: [always-required, opportunity-reports]
-    total_budget: 10000  # 1800 + 8200
+    total_budget: 11500
 
   opportunity-report-next-steps-rollup:
     groups: [always-required, opportunity-reports]
-    total_budget: 10000  # 1800 + 8200
+    total_budget: 11500
 
   jd-process:
     groups: [always-required, jd-process]
-    total_budget: 12800  # 1800 + 11000
+    total_budget: 16300
 
   governance:
     groups: [governance]
@@ -321,3 +325,11 @@ contexts:
     token_budget: 2000
     sanitized: true
     last_updated: 2026-04-28
+  - id: vault-navigation-atlas
+    path: data/atlas/Navigation — JD and Opportunities.md
+    visibility: public
+    priority: medium
+    token_budget: 900
+    sanitized: true
+    last_updated: 2026-05-06
+    notes: Golden paths G1–G5, Obsidian CLI path quoting, token-efficient agent usage table; load for JD/opportunity tasks

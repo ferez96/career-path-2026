@@ -22,13 +22,13 @@ When unclear: check `docs/AGENT_ROLES.md`.
 
 | Purpose | Path | Class |
 |:--|:--|:--|
-| Canonical profile | `data/private/master.yaml` | private-sensitive |
-| Opportunity tracker | `data/private/opportunities.yaml` | private-sensitive |
-| Normalized JDs | `data/jds/<slug>.md` | derived-sanitized |
-| JD catalog | `config/jd_catalog.csv` | public-reusable |
-| Private reports | `reports/private/` | private-sensitive |
-| Public briefs | `reports/briefs/` | derived-sanitized |
-| Raw JDs / email | `data/raw/` | raw-ingest |
+| **Entire Obsidian vault** (profile, JDs, pipeline notes, weekly, reports, …) | `data/**` | **private-sensitive** — local personal use; **no PII sanitization required** for content that stays here (see `docs/DATA_CLASSIFICATION.md`) |
+| JD catalog (if committed) | `config/jd_catalog.csv` | `derived-sanitized` after checklist, or gitignored locally |
+| Raw JDs / email (ingest) | `data/raw/` | raw-ingest |
+
+## Obsidian vault and token discipline
+
+The working **Obsidian vault** is rooted at **`data/`**. Before loading large raw exports or scanning whole folders, route through hub notes and the golden paths in **`data/atlas/Navigation — JD and Opportunities.md`** (G1–G5). Normative rules also live in **`docs/framework/prompting.md`** and **`docs/framework/workflows.md`** (token-efficient Obsidian navigation). Prefer `obsidian read` / `obsidian links` with **quoted** `path=` when filenames contain spaces, and run **`python scripts/vault_hub_wikilinks.py`** when fixing hub links.
 
 ## Scripts
 
@@ -71,4 +71,5 @@ For each task, load in this order:
 1. **Profile** — `data/private/master.yaml` (fit/gap or planning tasks)
 2. **Framework doc** — the relevant `docs/framework/*.md` file for the task type
 3. **SKILL.md** — the matching skill file from the table above
-4. **Data** — task-specific files per the skill (e.g. `data/private/opportunities.yaml`, `data/raw/`, `data/jds/<slug>.md`, `config/jd_catalog.csv`).
+4. **Vault routing (when touching JDs or opportunities)** — `data/atlas/Navigation — JD and Opportunities.md` to pick the smallest note set before opening leaves
+5. **Data** — task-specific files per the skill (e.g. `data/private/opportunities.yaml`, `data/raw/`, `data/jds/<slug>.md`, `config/jd_catalog.csv`).

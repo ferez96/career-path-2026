@@ -1,6 +1,6 @@
 # Sanitization Checklist
 
-Use this checklist before committing files.
+Use this checklist before **committing public-bound files** (anything tracked on `master` outside your private `data/` vault — see `docs/DATA_CLASSIFICATION.md`). **Do not** require this checklist for notes that remain only under `data/**`.
 
 ## Branch Target
 

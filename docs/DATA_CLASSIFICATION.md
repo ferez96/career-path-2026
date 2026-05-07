@@ -23,19 +23,13 @@ If uncertain, classify as `NEEDS_REVIEW` with a short reason.
 | `README.md` | `public-reusable` | Track | Allowed |
 | `docs/AGENT_ROLES.md` | `public-reusable` | Track | Allowed |
 | `CURSOR.md` | `public-reusable` | Track | Allowed |
-| `data/weekly/*.md` | `derived-sanitized` | Track | Allowed after checklist |
-| `data/career_path_master.csv` | `derived-sanitized` | Track | Allowed after checklist |
-| `reports/README.md` | `public-reusable` | Track | Allowed |
-| `reports/benchmarks/**` | `derived-sanitized` | Track | Allowed after checklist |
-| `reports/briefs/**` | `derived-sanitized` | Track | Allowed after checklist |
-| `reports/private/**` | `private-sensitive` | Ignore | Blocked |
 | `config/README.md` | `public-reusable` | Track | Allowed |
 | `config/context_manifest.yaml` | `public-reusable` | Track | Allowed |
-| `config/jd_catalog.csv` | `derived-sanitized` | Track | Allowed after checklist |
-| `data/private/*` | `private-sensitive` | Ignore | Blocked (includes `opportunities.yaml` — schema: `templates/opportunities_tracker_template.yaml`) |
+| `config/jd_catalog.csv` | `derived-sanitized` | Track | Allowed after checklist (if committed; often gitignored locally) |
+| `data/raw/**` | `raw-ingest` | Ignore | Blocked from `master` — unprocessed inputs |
+| `data/**` (all other: `private/`, `jds/`, `reports/`, `weekly/`, `atlas/`, `opportunities/`, `*.csv` at vault root, etc.) | `private-sensitive` | Ignore | **Local vault only** (typically gitignored). Not published to `master`; **no in-vault PII sanitization required** for personal use. Run `docs/SANITIZATION_CHECKLIST.md` only when **copying excerpts** into tracked public paths (`docs/`, `templates/`, `README.md`, …). |
 | `private-notes/*` | `private-sensitive` | Ignore | Blocked |
 | `interview-notes-private/*` | `private-sensitive` | Ignore | Blocked |
-| `data/raw/*` | `raw-ingest` | Ignore | Blocked |
 
 ## Classification Rules for New Files
 
