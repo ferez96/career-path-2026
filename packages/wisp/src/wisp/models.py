@@ -53,6 +53,19 @@ _TOLERANT = ConfigDict(extra="ignore")
 # Constrained scores: validated at model boundaries to match the DB CHECK.
 Score = Annotated[float, Field(ge=0.0, le=1.0)]
 
+# Hot-brief length cap. The plan pinned the default detail view to one
+# viewport (≤1280×800); the verdict line and its 1-2 reasons are the only
+# generated content rendered above the fold. Exceeding either is a UX
+# regression, not just a style nit, so enforce at the model boundary.
+BRIEF_RECOMMENDATION_MAX_LENGTH = 140
+BRIEF_REASONS_MAX_ITEMS = 2
+
+BriefRecommendation = Annotated[str, Field(max_length=BRIEF_RECOMMENDATION_MAX_LENGTH)]
+BriefReasons = Annotated[
+    list[str],
+    Field(max_length=BRIEF_REASONS_MAX_ITEMS),
+]
+
 
 def _check_salary_monotonic(
     salary_min: int | None,
@@ -113,8 +126,8 @@ class EvaluationInput(BaseModel):
     confidence: Score
     signal: Signal
     signal_label: str
-    brief_recommendation: str | None = None
-    brief_reasons: list[str] = Field(default_factory=list)
+    brief_recommendation: BriefRecommendation | None = None
+    brief_reasons: BriefReasons = Field(default_factory=list)
     summary: str | None = None
     strengths: list[str] = Field(default_factory=list)
     gaps: list[str] = Field(default_factory=list)
@@ -206,8 +219,8 @@ class Evaluation(BaseModel):
     confidence: Score
     signal: Signal
     signal_label: str
-    brief_recommendation: str | None = None
-    brief_reasons: list[str] = Field(default_factory=list)
+    brief_recommendation: BriefRecommendation | None = None
+    brief_reasons: BriefReasons = Field(default_factory=list)
     summary: str | None = None
     strengths: list[str] = Field(default_factory=list)
     gaps: list[str] = Field(default_factory=list)
