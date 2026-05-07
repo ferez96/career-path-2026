@@ -111,6 +111,33 @@ class JobInput(BaseModel):
         return self
 
 
+class JobUpdate(BaseModel):
+    """Patch payload for ``VaultAdapter.update_job``.
+
+    Every field is optional — fields that are unset (per Pydantic's
+    ``model_fields_set``) are left untouched in the DB. Setting a field
+    explicitly to ``None`` clears it (e.g. removing a parsed salary).
+    The adapter validates the *merged* result against :class:`Job`'s
+    constraints (salary monotonicity, score ranges) so a partial patch
+    cannot push the row into an invalid state.
+    """
+
+    model_config = _TOLERANT
+
+    company: str | None = None
+    role: str | None = None
+    location: str | None = None
+    work_type: str | None = None
+    employment_type: str | None = None
+    salary_range: str | None = None
+    salary_min: int | None = None
+    salary_max: int | None = None
+    salary_currency: str | None = None
+    source: str | None = None
+    source_url: str | None = None
+    raw_content: str | None = None
+
+
 class EvaluationInput(BaseModel):
     """What an evaluator (heuristic, AI, or composite merger) emits.
 

@@ -35,6 +35,7 @@ from ..models import (
     Job,
     JobInput,
     JobListFilter,
+    JobUpdate,
     Signal,
     SignalSnapshot,
     TimelineEvent,
@@ -65,6 +66,22 @@ class VaultAdapter(Protocol):
 
         Also writes an opening ``Saved job`` timeline event in the same
         transaction.
+        """
+
+    def update_job(self, job_id: int, update: JobUpdate) -> Job:
+        """Patch a job. Only fields the caller explicitly set on
+        ``update`` are written; everything else is preserved.
+
+        Setting a field to ``None`` *clears* it (e.g. wipe a parsed
+        salary the user knows is wrong). The merged row is validated
+        against :class:`Job`'s constraints so a partial patch cannot
+        push the row into an invalid state.
+
+        Appends an ``Updated job details`` timeline event listing the
+        changed fields. A patch with no changes is a no-op (no timeline
+        row, no UPDATE).
+
+        Raises :class:`KeyError` if the job doesn't exist.
         """
 
     def mark_applied(

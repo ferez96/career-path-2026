@@ -22,6 +22,7 @@ from ..models import (
     Job,
     JobInput,
     JobListFilter,
+    JobUpdate,
     Signal,
     SignalSnapshot,
     TimelineEvent,
@@ -169,6 +170,58 @@ class SqliteVaultAdapter:
         result = self.get_job(job_id)
         assert result is not None  # we just inserted it
         return result
+
+    # Whitelist of columns ``update_job`` is allowed to write. Built from
+    # JobUpdate's fields rather than user input, so the dynamic SET clause
+    # below is safe from SQL injection by construction.
+    _UPDATABLE_JOB_COLUMNS: frozenset[str] = frozenset(JobUpdate.model_fields.keys())
+
+    def update_job(self, job_id: int, update: JobUpdate) -> Job:
+        existing = self.get_job(job_id)
+        if existing is None:
+            raise KeyError(f"Job {job_id!r} does not exist")
+
+        # Only fields the caller explicitly set on the patch
+        patch = update.model_dump(exclude_unset=True)
+        if not patch:
+            return existing
+
+        # Defensive: filter to known column names so a stray field on a
+        # tolerant model can't ever leak into SQL.
+        patch = {k: v for k, v in patch.items() if k in self._UPDATABLE_JOB_COLUMNS}
+        if not patch:
+            return existing
+
+        # Validate the merged result against Job's constraints (salary
+        # monotonicity, status enum, score ranges via field types) before
+        # writing. Rejects e.g. setting only salary_min higher than the
+        # untouched salary_max.
+        merged = existing.model_dump()
+        merged.update(patch)
+        Job.model_validate(merged)
+
+        set_cols = ", ".join(f"{col} = ?" for col in patch)
+        values: list[object] = list(patch.values())
+        self._conn.execute(
+            f"UPDATE jobs SET {set_cols}, "
+            f"updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = ?",
+            (*values, job_id),
+        )
+        self._conn.execute(
+            "INSERT INTO timeline_events (job_id, label, detail, source) "
+            "VALUES (?, ?, ?, ?)",
+            (
+                job_id,
+                "Updated job details",
+                ", ".join(sorted(patch.keys())),
+                "user",
+            ),
+        )
+        self._conn.commit()
+
+        updated = self.get_job(job_id)
+        assert updated is not None
+        return updated
 
     def _set_status(
         self,

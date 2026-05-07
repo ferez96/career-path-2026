@@ -11,6 +11,7 @@ from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
+from pydantic import ValidationError
 
 from wisp import db
 from wisp.adapters import SqliteVaultAdapter, VaultAdapter
@@ -18,6 +19,7 @@ from wisp.models import (
     EnrichmentInput,
     EvaluationInput,
     JobInput,
+    JobUpdate,
     SignalSnapshot,
     TimelineEventInput,
 )
@@ -85,6 +87,86 @@ def test_add_job_writes_opening_timeline_event(
     assert len(timeline) == 1
     assert timeline[0].label == "Saved job"
     assert timeline[0].source == "user"
+
+
+def test_update_job_patches_only_provided_fields(
+    adapter: SqliteVaultAdapter, job_id: int
+) -> None:
+    """Fields not in the patch payload stay untouched."""
+    before = adapter.get_job(job_id)
+    assert before is not None and before.role == "Senior Product Designer"
+
+    after = adapter.update_job(
+        job_id,
+        JobUpdate(role="Staff Product Designer", salary_min=160_000, salary_max=200_000),
+    )
+    # Patched fields changed:
+    assert after.role == "Staff Product Designer"
+    assert after.salary_min == 160_000
+    assert after.salary_max == 200_000
+    # Untouched fields preserved:
+    assert after.company == before.company
+    assert after.location == before.location
+
+
+def test_update_job_explicit_none_clears_field(
+    adapter: SqliteVaultAdapter, job_id: int
+) -> None:
+    """Setting a field to None clears it (different from not passing it)."""
+    adapter.update_job(job_id, JobUpdate(salary_min=140_000, salary_max=170_000))
+    cleared = adapter.update_job(job_id, JobUpdate(salary_min=None))
+    assert cleared.salary_min is None
+    assert cleared.salary_max == 170_000  # untouched
+
+
+def test_update_job_appends_timeline_event(
+    adapter: SqliteVaultAdapter, job_id: int
+) -> None:
+    adapter.update_job(job_id, JobUpdate(role="Staff Product Designer"))
+    last = adapter.list_timeline(job_id)[-1]
+    assert last.label == "Updated job details"
+    assert last.detail == "role"
+    assert last.source == "user"
+
+
+def test_update_job_lists_all_changed_fields_alphabetically(
+    adapter: SqliteVaultAdapter, job_id: int
+) -> None:
+    adapter.update_job(
+        job_id,
+        JobUpdate(role="Staff", company="Vercel", location="Remote"),
+    )
+    last = adapter.list_timeline(job_id)[-1]
+    assert last.detail == "company, location, role"
+
+
+def test_update_job_empty_patch_is_a_noop(
+    adapter: SqliteVaultAdapter, job_id: int
+) -> None:
+    """No fields set → no UPDATE, no timeline event."""
+    timeline_before = adapter.list_timeline(job_id)
+    job_before = adapter.get_job(job_id)
+    assert job_before is not None
+
+    after = adapter.update_job(job_id, JobUpdate())
+
+    assert after.updated_at == job_before.updated_at  # untouched
+    assert adapter.list_timeline(job_id) == timeline_before
+
+
+def test_update_job_rejects_partial_patch_violating_salary_monotonicity(
+    adapter: SqliteVaultAdapter, job_id: int
+) -> None:
+    """Setting salary_min higher than the existing salary_max must be
+    rejected — we validate the MERGED row, not just the patch."""
+    adapter.update_job(job_id, JobUpdate(salary_min=100_000, salary_max=120_000))
+    with pytest.raises(ValidationError, match="salary_min .* cannot exceed salary_max"):
+        adapter.update_job(job_id, JobUpdate(salary_min=200_000))
+
+
+def test_update_job_on_missing_raises(adapter: SqliteVaultAdapter) -> None:
+    with pytest.raises(KeyError, match="999"):
+        adapter.update_job(999, JobUpdate(role="x"))
 
 
 def test_list_jobs_all_and_status_filters(adapter: SqliteVaultAdapter) -> None:
