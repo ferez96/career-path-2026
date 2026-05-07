@@ -178,6 +178,24 @@ def test_evaluations_indexes(fresh_conn: sqlite3.Connection) -> None:
     assert "idx_evaluations_job_id" in indexes
     # Hot-list query: latest <kind> for each job
     assert "idx_evaluations_job_kind_time" in indexes
+    # Pending-filter MAX(id) subquery (added by 002_pending_filter_index.sql)
+    assert "idx_evaluations_job_kind_id" in indexes
+
+
+def test_pending_filter_subquery_uses_new_index(
+    fresh_conn: sqlite3.Connection,
+) -> None:
+    """EXPLAIN QUERY PLAN should mention idx_evaluations_job_kind_id for
+    the MAX(id) subquery — proves the index actually wins over the others."""
+    plan = fresh_conn.execute(
+        """
+        EXPLAIN QUERY PLAN
+        SELECT MAX(e2.id) FROM evaluations e2
+        WHERE e2.job_id = 1 AND e2.kind = 'composite'
+        """
+    ).fetchall()
+    plan_text = " | ".join(row["detail"] for row in plan)
+    assert "idx_evaluations_job_kind_id" in plan_text, plan_text
 
 
 # ---- decision_checklist ----------------------------------------------------
@@ -374,12 +392,17 @@ def test_migration_recorded_in_schema_migrations(
 def test_re_running_init_db_is_a_noop(tmp_path: Path) -> None:
     path = tmp_path / "x.db"
     conn1 = db.init_db(path)
+    before = conn1.execute(
+        "SELECT COUNT(*) FROM schema_migrations"
+    ).fetchone()[0]
     conn1.close()
 
     conn2 = db.connect(path)
     try:
-        assert db.apply_migrations(conn2) == []
-        n = conn2.execute("SELECT COUNT(*) FROM schema_migrations").fetchone()[0]
-        assert n == 1
+        assert db.apply_migrations(conn2) == []  # no new migrations applied
+        after = conn2.execute(
+            "SELECT COUNT(*) FROM schema_migrations"
+        ).fetchone()[0]
+        assert after == before  # row count unchanged
     finally:
         conn2.close()
