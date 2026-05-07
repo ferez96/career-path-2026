@@ -105,6 +105,11 @@ class SqliteVaultAdapter:
             # Latest composite per job; surface those whose signal is 'pending'
             # regardless of jobs.status. Uses correlated subquery so we don't
             # need window functions (works on older SQLite).
+            #
+            # Tie-break by ``id`` (monotonic per AUTOINCREMENT) rather than
+            # ``evaluated_at`` (which can collide at sub-ms resolution when
+            # the heuristic + AI + composite all land in quick succession).
+            # MAX(id) gives a single, deterministic row per job.
             cur.execute(
                 """
                 SELECT j.* FROM jobs j
@@ -113,8 +118,8 @@ class SqliteVaultAdapter:
                   WHERE e.job_id = j.id
                     AND e.kind = 'composite'
                     AND e.signal = 'pending'
-                    AND e.evaluated_at = (
-                      SELECT MAX(e2.evaluated_at) FROM evaluations e2
+                    AND e.id = (
+                      SELECT MAX(e2.id) FROM evaluations e2
                       WHERE e2.job_id = j.id AND e2.kind = 'composite'
                     )
                 )

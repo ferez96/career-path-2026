@@ -185,6 +185,38 @@ def test_list_jobs_all_and_status_filters(adapter: SqliteVaultAdapter) -> None:
     assert {j.id for j in adapter.list_jobs("skipped")} == {c.id}
 
 
+def test_list_jobs_pending_breaks_ties_by_id(
+    adapter: SqliteVaultAdapter,
+) -> None:
+    """Two composites for the same job with identical ``evaluated_at``
+    (sub-ms collision when heuristic + AI + composite land in quick
+    succession) must resolve deterministically: the higher ``id`` wins.
+
+    Insert order: pending FIRST (id=1), yes SECOND (id=2), same timestamp.
+    The 'latest' is yes → the job must NOT be in the pending bucket.
+    Without the id tie-break, the old MAX(evaluated_at) check matched
+    both rows and the job appeared in the pending list."""
+    a = adapter.add_job(JobInput(company="A", role="x"))
+    same_ts = "2026-01-01T00:00:00.000Z"
+    conn = adapter.connection
+    conn.execute(
+        "INSERT INTO evaluations (job_id, kind, fit_score, confidence, "
+        "signal, signal_label, evaluated_at) "
+        "VALUES (?, 'composite', 0.5, 0.2, 'pending', 'Need more info', ?)",
+        (a.id, same_ts),
+    )
+    conn.execute(
+        "INSERT INTO evaluations (job_id, kind, fit_score, confidence, "
+        "signal, signal_label, evaluated_at) "
+        "VALUES (?, 'composite', 0.8, 0.7, 'yes', 'Worth pursuing', ?)",
+        (a.id, same_ts),
+    )
+    conn.commit()
+
+    pending = adapter.list_jobs("pending")
+    assert pending == []  # latest-by-id is "yes", not "pending"
+
+
 def test_list_jobs_pending_uses_latest_composite(
     adapter: SqliteVaultAdapter,
 ) -> None:
