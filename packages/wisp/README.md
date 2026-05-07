@@ -35,6 +35,14 @@ wisp
 
 Opens a browser tab on a free localhost port. First run takes you through a setup wizard.
 
-## Architecture
+## Architecture (high-level)
 
-See [the implementation plan](../../.claude/plans/c-users-admin-downloads-specs-md-c-user-sequential-russell.md) (in this repo, not yet public) for the full design — milestones M1–M14, AI provider Protocol, evaluator chain, hot-brief vs cold-storage UX.
+The full design is captured in a planning document held outside this package; key shape:
+
+- **Storage:** single SQLite file under the user-data directory (no YAML, no cloud).
+- **Evaluator chain:** an always-on heuristic (no AI required) plus an optional pluggable AI provider layer (Anthropic SDK, `claude` CLI today; OpenAI / Gemini / Ollama drop in via the same Protocol).
+- **AI discipline:** every verdict carries a confidence score, advisory tone is enforced, and `pending — need more info` is a first-class signal.
+- **UX:** Flask + Jinja2 + Bootstrap 5. Default detail view is a hot brief (one viewport, ≤140-char advisory verdict); the long analysis lives in cold storage that expands on click.
+- **Decision support, not tracking:** Apply / Skip / Mark pending only. No Kanban, no ATS scoring, no auto-apply.
+
+A README in the source tree will replace this with proper docs once M14 lands.

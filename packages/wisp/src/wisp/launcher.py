@@ -33,9 +33,17 @@ def pick_free_port(host: str = "127.0.0.1") -> int:
         return sock.getsockname()[1]
 
 
-def _schedule_browser_open(url: str, delay_seconds: float) -> None:
-    """Open the browser after a short delay so the server is ready."""
-    threading.Timer(delay_seconds, lambda: webbrowser.open(url)).start()
+def _schedule_browser_open(url: str, delay_seconds: float) -> threading.Timer:
+    """Open the browser after a short delay so the server is ready.
+
+    The Timer thread is daemonized so an early ``Ctrl-C`` (before the delay
+    elapses) lets the process exit cleanly instead of blocking on the pending
+    ``webbrowser.open`` call. Returns the timer for tests / cleanup.
+    """
+    timer = threading.Timer(delay_seconds, lambda: webbrowser.open(url))
+    timer.daemon = True
+    timer.start()
+    return timer
 
 
 def serve(options: LaunchOptions | None = None) -> None:

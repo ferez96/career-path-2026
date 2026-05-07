@@ -36,6 +36,8 @@ dependencies = [
 [project.optional-dependencies]
 anthropic = ["anthropic>=0.40"]
 openai = ["openai>=1.50"]
+# google-genai is the unified SDK (2024+); not the older google-generativeai.
+# When the M4 Gemini provider lands, its `import` must match this package.
 gemini = ["google-genai>=0.3"]
 dev = [
     "pytest>=8.0",
