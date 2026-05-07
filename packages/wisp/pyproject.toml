@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "wisp"
+version = "0.1.0.dev0"
+description = "AI job-search decision-support assistant. Helps you decide which jobs are worth pursuing."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "Wisp contributors" }]
+keywords = ["job-search", "career", "decision-support", "ai", "claude"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Framework :: Flask",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business",
+]
+
+dependencies = [
+    "flask>=3.0",
+    "pydantic>=2.5",
+    "platformdirs>=4.0",
+    "markdown>=3.5",
+]
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.40"]
+openai = ["openai>=1.50"]
+# google-genai is the unified SDK (2024+); not the older google-generativeai.
+# When the M4 Gemini provider lands, its `import` must match this package.
+gemini = ["google-genai>=0.3"]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "mypy>=1.10",
+    "ruff>=0.6",
+    "build>=1.2",
+]
+
+[project.scripts]
+wisp = "wisp.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ferez96/career-path-2026"
+Issues = "https://github.com/ferez96/career-path-2026/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wisp"]
+# Non-Python assets (templates, static, prompts, migrations) live inside src/wisp/
+# and are picked up automatically. No force-include needed.
+
+[tool.hatch.build.targets.sdist]
+include = ["src/wisp", "README.md", "pyproject.toml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unused_ignores = true
