@@ -16,7 +16,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 # ---- Literal types ---------------------------------------------------------
 
@@ -54,6 +54,18 @@ _TOLERANT = ConfigDict(extra="ignore")
 Score = Annotated[float, Field(ge=0.0, le=1.0)]
 
 
+def _check_salary_monotonic(
+    salary_min: int | None,
+    salary_max: int | None,
+) -> None:
+    """Reject `min > max` when both are set. Either side may be ``None``
+    (the JD parser couldn't extract that bound) and that's fine."""
+    if salary_min is not None and salary_max is not None and salary_min > salary_max:
+        raise ValueError(
+            f"salary_min ({salary_min}) cannot exceed salary_max ({salary_max})"
+        )
+
+
 # ---- Inputs (forms / evaluator emissions) ---------------------------------
 
 
@@ -79,6 +91,11 @@ class JobInput(BaseModel):
     source: str | None = None
     source_url: str | None = None
     raw_content: str | None = None
+
+    @model_validator(mode="after")
+    def _validate_salary_range(self) -> JobInput:
+        _check_salary_monotonic(self.salary_min, self.salary_max)
+        return self
 
 
 class EvaluationInput(BaseModel):
@@ -170,6 +187,11 @@ class Job(BaseModel):
     status: JobStatus = "decide"
     created_at: datetime
     updated_at: datetime
+
+    @model_validator(mode="after")
+    def _validate_salary_range(self) -> Job:
+        _check_salary_monotonic(self.salary_min, self.salary_max)
+        return self
 
 
 class Evaluation(BaseModel):
