@@ -30,6 +30,7 @@ from __future__ import annotations
 from ..config import Profile
 from ..models import EvaluationInput, Job
 from ..signals import SIGNAL_LABELS, signal_label_for
+from .verdict import verdict_for
 
 # Confidence ceiling for the smooth-scoring path. Heuristics are noisy by
 # definition — we shouldn't claim more certainty than we can back up. AI
@@ -205,7 +206,9 @@ class HeuristicEvaluator:
             )
 
         signal, label = signal_label_for(fit_score, confidence)
-        brief, reasons = self._brief_for(signal, strengths, concerns, gaps)
+        brief, reasons = verdict_for(
+            signal, strengths=strengths, concerns=concerns, gaps=gaps,
+        )
 
         return EvaluationInput(
             kind="heuristic",
@@ -238,43 +241,3 @@ class HeuristicEvaluator:
             concerns=[f"Deal-breaker matched: {h}" for h in deal_hits],
         )
 
-    @staticmethod
-    def _brief_for(
-        signal: str,
-        strengths: list[str],
-        concerns: list[str],
-        gaps: list[str],
-    ) -> tuple[str, list[str]]:
-        """Build (brief_recommendation, brief_reasons[≤2]) from collected
-        positive / negative reasons. Tone is advisory: 'I'd lean…',
-        not 'You should…'. Verdict text length stays under 140 chars."""
-        # Pick the strongest two reasons across polarities to surface in
-        # the hot brief. Concerns weigh heavier than gaps; strengths are
-        # the positive counterweight.
-        reasons: list[str] = []
-        if concerns:
-            reasons.append(concerns[0])
-        if strengths and len(reasons) < 2:
-            reasons.append(strengths[0])
-        if not reasons and gaps:
-            reasons.append(gaps[0])
-        # Trim to model cap regardless.
-        reasons = reasons[:2]
-
-        # Advisory framing per signal — NEVER imperative.
-        verb_by_signal = {
-            "yes": "I'd lean apply",
-            "stretch": "I'd take a closer look",
-            "maybe": "I'm on the fence",
-            "no": "I'd lean skip",
-            "pending": "I don't have enough evidence yet",
-        }
-        verb = verb_by_signal.get(signal, "My read is")
-        if reasons:
-            brief = f"{verb} — {reasons[0]}."
-        else:
-            brief = f"{verb}, though I don't have much to go on yet."
-        # Cap at 140 chars (matches BRIEF_RECOMMENDATION_MAX_LENGTH).
-        if len(brief) > 140:
-            brief = brief[:137] + "..."
-        return brief, reasons
