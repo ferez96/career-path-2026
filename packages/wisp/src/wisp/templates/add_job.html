@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Add a job · Wisp{% endblock %}
+{% block content %}
+<header class="mb-4">
+  <h1 class="wisp-section-title">Add a job.</h1>
+  <p class="wisp-section-subtitle">Paste the JD, fill in what's obvious, let the heuristic do its read.</p>
+</header>
+
+<div class="wisp-card">
+  <div class="wisp-placeholder">
+    <span class="wisp-placeholder-icon" aria-hidden="true">📋</span>
+    <p class="wisp-placeholder-meta">M8 — coming soon</p>
+    <h2 class="wisp-placeholder-title">Paste-JD form placeholder.</h2>
+    <p class="wisp-placeholder-body">
+      In M8, this page hosts a minimal form: company, role, location,
+      and a textarea for the JD body. The heuristic runs on submit and
+      the composite verdict shows on the detail page. URL / PDF / screenshot
+      capture is deferred to v1.1 — the paste form is the v1 stopgap.
+    </p>
+  </div>
+</div>
+{% endblock %}

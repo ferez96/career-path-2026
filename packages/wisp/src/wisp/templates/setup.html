@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Welcome · Wisp{% endblock %}
+{% block content %}
+<header class="mb-4">
+  <h1 class="wisp-section-title">Welcome to Wisp.</h1>
+  <p class="wisp-section-subtitle">
+    A quick setup so the heuristic knows what you're looking for.
+  </p>
+</header>
+
+<div class="wisp-card">
+  <div class="wisp-placeholder">
+    <span class="wisp-placeholder-icon" aria-hidden="true">📝</span>
+    <p class="wisp-placeholder-meta">M7 — coming soon</p>
+    <h2 class="wisp-placeholder-title">Setup wizard placeholder.</h2>
+    <p class="wisp-placeholder-body">
+      The real wizard collects your current role, target role, location
+      preference, salary floor, and deal-breakers, then auto-detects
+      whether an AI provider (Claude Code CLI or an Anthropic API key)
+      is available. Wisp works without one — the heuristic plus your
+      decision checklist do the job.
+    </p>
+  </div>
+</div>
+{% endblock %}

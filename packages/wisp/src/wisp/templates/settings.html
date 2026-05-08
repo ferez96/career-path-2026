@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Settings · Wisp{% endblock %}
+{% block content %}
+<header class="mb-4">
+  <h1 class="wisp-section-title">Settings.</h1>
+  <p class="wisp-section-subtitle">Profile, deal-breakers, AI provider keys.</p>
+</header>
+
+<div class="wisp-card">
+  <div class="wisp-placeholder">
+    <span class="wisp-placeholder-icon" aria-hidden="true">⚙️</span>
+    <p class="wisp-placeholder-meta">M13 — coming soon</p>
+    <h2 class="wisp-placeholder-title">Settings placeholder.</h2>
+    <p class="wisp-placeholder-body">
+      In M13: edit your profile and deal-breakers, paste or clear an
+      Anthropic API key, re-detect AI providers, and trigger
+      "Re-evaluate all jobs" from a confirmation modal. Editing the
+      profile alone does <em>not</em> re-evaluate existing jobs —
+      that's an explicit user action.
+    </p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Job · Wisp{% endblock %}
+{% block content %}
+<header class="mb-4">
+  <p class="wisp-placeholder-meta">Job #{{ job_id }}</p>
+  <h1 class="wisp-section-title">Job detail.</h1>
+  <p class="wisp-section-subtitle">
+    The hot brief, your decision checklist, and the cold-storage analysis.
+  </p>
+</header>
+
+<div class="wisp-card">
+  <div class="wisp-placeholder">
+    <span class="wisp-placeholder-icon" aria-hidden="true">🌫</span>
+    <p class="wisp-placeholder-meta">M9 — coming soon</p>
+    <h2 class="wisp-placeholder-title">Detail page placeholder.</h2>
+    <p class="wisp-placeholder-body">
+      The default view fits one viewport: signal, confidence, a ≤140-char
+      advisory verdict, 1–2 reason bullets, and Apply / Skip / Mark
+      pending actions. Strengths, gaps, concerns, the heuristic trace,
+      AI raw output, and the timeline live in cold storage that expands
+      on click. The decision checklist auto-expands when the signal is
+      <em>pending</em>; otherwise it sits under "Help me decide".
+    </p>
+  </div>
+</div>
+{% endblock %}

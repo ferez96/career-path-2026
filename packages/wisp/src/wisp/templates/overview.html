@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Overview · Wisp{% endblock %}
+{% block content %}
+<header class="mb-4">
+  <h1 class="wisp-section-title">Overview.</h1>
+  <p class="wisp-section-subtitle">
+    Numbers and one-liners. No paragraphs of advice — those live on the job pages.
+  </p>
+</header>
+
+<div class="wisp-card">
+  <div class="wisp-placeholder">
+    <span class="wisp-placeholder-icon" aria-hidden="true">📊</span>
+    <p class="wisp-placeholder-meta">M12 — coming soon</p>
+    <h2 class="wisp-placeholder-title">KPIs + calibration table placeholder.</h2>
+    <p class="wisp-placeholder-body">
+      The real overview shows: jobs evaluated, applications sent, jobs
+      skipped on advice, the current pending count, and the
+      decision-vs-signal calibration table ("of jobs I called Strong
+      fit, what fraction did you actually apply to?"). Everything stays
+      tile-shaped — no charts that pretend to be more precise than the
+      data.
+    </p>
+  </div>
+</div>
+{% endblock %}

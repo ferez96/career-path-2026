@@ -1,8 +1,17 @@
 """Flask application factory.
 
-This is the M1.3 placeholder. The real routes/templates land in M6+.
-For now, ``/`` returns a small "Hello Wisp" page so the launcher and the
-end-to-end install can be exercised before storage and UI exist.
+Constructs the Wisp web app. Templates live at ``packages/wisp/src/wisp/templates``
+and static assets at ``packages/wisp/src/wisp/static``; both are bundled into
+the wheel via Hatchling's package include.
+
+Two blueprints are registered:
+
+  * ``main`` — the primary app surface (``/``, ``/jobs/*``, ``/overview``,
+    ``/settings``, ``/healthz``)
+  * ``setup`` — the first-run wizard at ``/setup``
+
+The first-run-gate middleware (in :mod:`wisp.middleware`) redirects every
+non-exempt request to ``/setup`` until the user has completed the wizard.
 """
 
 from __future__ import annotations
@@ -10,31 +19,20 @@ from __future__ import annotations
 from flask import Flask
 
 from . import __version__
+from .middleware import register_middleware
+from .routes.main import bp as main_bp
+from .routes.setup import bp as setup_bp
 
 
 def create_app() -> Flask:
     app = Flask(__name__)
 
-    @app.get("/")
-    def index() -> str:
-        return (
-            "<!doctype html>"
-            "<html lang='en'><head><meta charset='utf-8'>"
-            "<title>Wisp</title>"
-            "<style>body{font-family:system-ui,sans-serif;max-width:560px;"
-            "margin:8rem auto;padding:0 1rem;color:#1c1917;background:#f8f7f4}"
-            "h1{font-weight:400;letter-spacing:-0.01em}"
-            "code{background:#f1efe9;padding:2px 6px;border-radius:4px}</style>"
-            "</head><body>"
-            "<h1>Wisp</h1>"
-            f"<p>Version <code>{__version__}</code> &mdash; foundation skeleton (M1).</p>"
-            "<p>Setup wizard, jobs, evaluations, and the rest of the UI "
-            "land in milestones M6 onward.</p>"
-            "</body></html>"
-        )
+    # Make the package version available to every template (footer copy).
+    @app.context_processor
+    def _inject_globals() -> dict[str, object]:
+        return {"wisp_version": __version__}
 
-    @app.get("/healthz")
-    def healthz() -> dict[str, str]:
-        return {"status": "ok", "version": __version__}
-
+    register_middleware(app)
+    app.register_blueprint(main_bp)
+    app.register_blueprint(setup_bp)
     return app
