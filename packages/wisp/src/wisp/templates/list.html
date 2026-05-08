@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Jobs · Wisp{% endblock %}
+{% block content %}
+<header class="mb-4">
+  <h1 class="wisp-section-title">Your jobs</h1>
+  <p class="wisp-section-subtitle">A quiet place for the roles you're considering.</p>
+</header>
+
+<div class="wisp-card">
+  <div class="wisp-placeholder">
+    <span class="wisp-placeholder-icon" aria-hidden="true">🌫</span>
+    <p class="wisp-placeholder-meta">M9 — coming soon</p>
+    <h2 class="wisp-placeholder-title">No jobs yet.</h2>
+    <p class="wisp-placeholder-body">
+      Once you've added a job, it'll show up here with an honest read on
+      whether it's worth pursuing — or whether you should hold off.
+      The list view itself lands in the next milestone (M9). For now,
+      the "Add a job" form will be reachable from
+      <a href="{{ url_for('main.jobs_new') }}">/jobs/new</a> in M8.
+    </p>
+  </div>
+</div>
+{% endblock %}

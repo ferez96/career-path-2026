@@ -1,0 +1,261 @@
+/* Wisp design tokens + base shell layout.
+ *
+ * Tokens come straight from the prototype HTML (the original `jobassist.html`
+ * the user shared during planning) — same warm-neutral palette, same signal
+ * colors, same Instrument Serif + DM Sans pairing. Bootstrap 5 ships its
+ * own utilities; we override colors/typography here and let Bootstrap
+ * handle layout primitives.
+ *
+ * Per the pinned core values:
+ *   - Calm, assistant-like, supportive UX (not recruiter dashboard)
+ *   - Serif on thoughts (headings, AI verdicts); sans on chrome
+ *   - Lots of whitespace; no Kanban / pipeline view shapes
+ */
+
+:root {
+  --bg: #f8f7f4;
+  --bg2: #f1efe9;
+  --surface: #ffffff;
+  --border: #e8e4da;
+  --ink: #1c1917;
+  --ink2: #44403c;
+  --muted: #a8a29e;
+  --faint: #d6d3cd;
+
+  /* Signal palette — paired (color, soft bg, border) per signal so the
+   * UI can render Strong fit / Stretch / Mixed / Probably not / Pending
+   * with consistent shades. */
+  --signal-yes: #16a34a;
+  --signal-yes-bg: #f0fdf4;
+  --signal-yes-border: #bbf7d0;
+
+  --signal-stretch: #9333ea;
+  --signal-stretch-bg: #faf5ff;
+  --signal-stretch-border: #e9d5ff;
+
+  --signal-no: #dc2626;
+  --signal-no-bg: #fef2f2;
+  --signal-no-border: #fecaca;
+
+  --signal-maybe: #d97706;
+  --signal-maybe-bg: #fffbeb;
+  --signal-maybe-border: #fde68a;
+
+  /* "Pending — Need more info" reuses muted ink + warm bg. Not red,
+   * because pending is not a problem; it's an honest state. */
+  --signal-pending: #44403c;
+  --signal-pending-bg: #f1efe9;
+  --signal-pending-border: #d6d3cd;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow:    0 1px 4px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+  --rail-width: 64px;
+  --content-max: 880px;
+}
+
+/* ---- Typography ---------------------------------------------------- */
+
+.wisp-body,
+body {
+  font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  margin: 0;
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Serif on thoughts: page titles, AI verdicts, the long-form summary.
+ * Bootstrap's heading sizes are fine; we override family + tightness. */
+h1, h2, h3,
+.wisp-serif {
+  font-family: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.wisp-muted {
+  color: var(--muted);
+}
+
+a {
+  color: var(--ink);
+  text-decoration-color: var(--faint);
+  text-underline-offset: 3px;
+}
+a:hover {
+  text-decoration-color: var(--ink);
+}
+
+/* ---- Shell --------------------------------------------------------- */
+
+.wisp-shell {
+  display: grid;
+  grid-template-columns: var(--rail-width) 1fr;
+  min-height: 100vh;
+}
+
+.wisp-main {
+  padding: 2.5rem clamp(1.5rem, 4vw, 3rem);
+  max-width: calc(var(--content-max) + 6rem);
+  width: 100%;
+}
+
+/* ---- Left rail ----------------------------------------------------- */
+
+.wisp-rail {
+  background: var(--ink);
+  color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem 0 1rem;
+  gap: 0.5rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.wisp-rail-logo {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  font-size: 18px;
+  text-decoration: none;
+  margin-bottom: 0.75rem;
+}
+
+.wisp-rail-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  width: 100%;
+  align-items: center;
+}
+
+.wisp-rail-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background 0.15s, color 0.15s;
+}
+.wisp-rail-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+}
+.wisp-rail-btn.active {
+  background: rgba(255, 255, 255, 0.10);
+  color: white;
+}
+.wisp-rail-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+.wisp-rail-label {
+  font-weight: 500;
+}
+
+.wisp-rail-version {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.04em;
+}
+
+/* ---- Cards & surfaces --------------------------------------------- */
+
+.wisp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.wisp-section-title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem;
+}
+
+.wisp-section-subtitle {
+  color: var(--muted);
+  margin: 0 0 1.5rem;
+  font-size: 0.9375rem;
+}
+
+/* ---- Empty / placeholder states ----------------------------------- */
+
+.wisp-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 2.5rem 0;
+}
+.wisp-placeholder-icon {
+  font-size: 2rem;
+  opacity: 0.5;
+}
+.wisp-placeholder-title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.5rem;
+  margin: 0;
+}
+.wisp-placeholder-body {
+  color: var(--muted);
+  max-width: 36rem;
+  margin: 0;
+}
+.wisp-placeholder-meta {
+  font-size: 0.75rem;
+  color: var(--faint);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ---- Signal pills (used everywhere) ------------------------------- */
+
+.wisp-signal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid;
+}
+.wisp-signal--yes      { background: var(--signal-yes-bg);     color: var(--signal-yes);     border-color: var(--signal-yes-border); }
+.wisp-signal--stretch  { background: var(--signal-stretch-bg); color: var(--signal-stretch); border-color: var(--signal-stretch-border); }
+.wisp-signal--maybe    { background: var(--signal-maybe-bg);   color: var(--signal-maybe);   border-color: var(--signal-maybe-border); }
+.wisp-signal--no       { background: var(--signal-no-bg);      color: var(--signal-no);      border-color: var(--signal-no-border); }
+.wisp-signal--pending  { background: var(--signal-pending-bg); color: var(--signal-pending); border-color: var(--signal-pending-border); }
+
+/* ---- Responsive collapse for narrow viewports --------------------- */
+
+@media (max-width: 600px) {
+  .wisp-rail-label { display: none; }
+  .wisp-shell { grid-template-columns: var(--rail-width) 1fr; }
+}
