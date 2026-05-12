@@ -4,7 +4,7 @@ All notable changes to **Career Path 2026** are recorded here for releases and p
 
 **Format:** inspired by [Keep a Changelog](https://keepachangelog.com/). Versioning follows **Semantic Versioning** where it fits this repo (framework + content, not a runtime API): **MAJOR** = breaking governance/layout; **MINOR** = new workflows, templates, or prompts; **PATCH** = fixes and small doc clarifications.
 
-When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - YYYY-MM-DD` section, then tag `vx.y.z` on the merge commit to `public` / `master` as per `docs/BRANCH_WORKFLOW.md`.
+When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - YYYY-MM-DD` section, then tag `vx.y.z` on the merge commit following your branch policy (see `README.md`).
 
 ---
 
@@ -12,13 +12,27 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Added
 
+- **`AGENTS.md`:** single entry point for agent personas, framework chunk map, Obsidian hub routing, skills index, and context loading order.
+
 ### Changed
+
+- **`README.md`**, **`QUICKSTART.md`**, **`docs/REPO_LAYOUT.md`**, **`docs/AGENT_ROLES.md`:** aligned with framework-first layout and `AGENTS.md`.
+- **`config/context_manifest.yaml`:** groups and triggers trimmed to match committed paths only.
+- **`docs/framework/prompting.md`**, **`docs/framework/workflows.md`:** small clarifications.
+- **`docs/rules/*.md`**, **`docs/skills/*.md`:** cross-links and wording toward `docs/skills/` as the canonical skill location.
+- **`templates/*.yaml`**, **`templates/opportunity_report_*.md`:** schema and report shell updates.
 
 ### Deprecated
 
 ### Removed
 
-- **`docs/guides/jd-process.md`:** redundant with [`docs/skills/jd-process/SKILL.md`](docs/skills/jd-process/SKILL.md) and vault navigation in [`AGENTS.md`](AGENTS.md).
+- **Runtime / telemetry stack:** `apps/` (Flask UI, CLI), `adapters/` (OpenAI wrapper, SQLite usage storage, telemetry helpers), plus `config/token_pricing.yaml` and `config/token_budgets.yaml`.
+- **CI:** `.github/workflows/ai-review.yml`.
+- **Duplicate agent surfaces:** `.cursor/rules/*.mdc`, `.cursor/skills/*/SKILL.md` stubs, `.claude/agents/*.md`, root `CLAUDE.md`, root `CURSOR.md`.
+- **Prompt redirect stubs:** `prompts/*.md`.
+- **Governance and mirror docs no longer in tree:** `docs/BRANCH_WORKFLOW.md`, `docs/DATA_CLASSIFICATION.md`, `docs/PUBLIC_REPO_POLICY.md`, `docs/SANITIZATION_CHECKLIST.md`, `docs/cursor/`, `config/README.md`.
+- **`docs/guides/jd-process.md`:** redundant with [`docs/skills/jd-process/SKILL.md`](docs/skills/jd-process/SKILL.md) and [`AGENTS.md`](AGENTS.md).
+- **`docs/skills/weekly-planning/SKILL.md`**, **`templates/weekly_plan_template.md`**, **`templates/daily_review_template.md`:** dropped from the committed framework (replace locally if still needed).
 
 ### Fixed
 
