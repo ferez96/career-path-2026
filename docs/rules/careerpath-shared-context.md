@@ -10,18 +10,17 @@ If unsure, follow **When the role is unclear** in `docs/AGENT_ROLES.md`.
 
 ## Career direction (reference)
 
-- Prefer summaries in `data/private/master.yaml`: `profile.headline`, `career.direction_summary` — **systems-level delivery**, **ownership**, **AI in production / AI-augmented tooling** when analyzing JDs or roadmaps.
+- Prefer summaries in `data/master.yaml`: `profile.headline`, `career.direction_summary` — **systems-level delivery**, **ownership**, **AI in production / AI-augmented tooling** when analyzing JDs or roadmaps.
 
 ## Every session
 
-- Branch: `personal` → sanitize → `public` (`master`). Do not merge `private-sensitive` or `raw-ingest` into `public`.
-- Four classes: `public-reusable`, `derived-sanitized`, `raw-ingest`, `private-sensitive` — `docs/DATA_CLASSIFICATION.md`. If unsure → `NEEDS_REVIEW`.
-- No PII in public outputs; missing data → `Unknown`, do not invent.
-- Classify changes for publish: `ALLOW_PUBLIC` | `REQUIRE_SANITIZATION` | `PRIVATE_ONLY` — with a short reason.
+- Single branch (`main`). Code and framework commit normally; data stays local (`data/` is gitignored).
+- No PII in committed code; missing data → `Unknown`, do not invent.
+- Standard git workflow: feature branch → PR → merge to main.
 
 ## Quick reference
 
-- `README.md`, `docs/REPO_LAYOUT.md`, `CURSOR.md`, `docs/BRANCH_WORKFLOW.md`, `docs/PUBLIC_REPO_POLICY.md`, `docs/SANITIZATION_CHECKLIST.md`.
+- `README.md`, `docs/REPO_LAYOUT.md`, `AGENTS.md`, `docs/BRANCH_WORKFLOW.md`.
 - Agent index: `config/context_manifest.yaml`; JD row map: `templates/jd_catalog_template.csv` → local `config/jd_catalog.csv` (gitignored).
 
 ## Language

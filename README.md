@@ -2,10 +2,9 @@
 
 Personal system for career path design, skill progression, and weekly execution tracking.
 
-## Public Data Disclaimer
+## Data Safety
 
-This public repository stores only sanitized and anonymized content.
-Do not commit personal data, mentor/manager contacts, or confidential company details.
+Commit code and framework docs normally. Keep personal data (profiles, opportunities, notes) in `data/` — it's gitignored automatically. No PII in committed code.
 
 ## Language
 
@@ -17,25 +16,23 @@ Full tree: **`docs/REPO_LAYOUT.md`**. Release notes: **`CHANGELOG.md`**. Main mo
 
 | Module | Role |
 |:-------|:-----|
-| **`docs/`** | Full map + governance (branching, classification, sanitization). |
-| **`CURSOR.md`** + **`docs/framework/`** | Operating framework index; chunked into workflows, fit-weights, prompting, and cadence. |
+| **`docs/`** | Full map + framework governance (rules, workflows, cadence). |
+| **`AGENTS.md`** + **`docs/framework/`** | Operating framework index; chunked into workflows, fit-weights, prompting, and cadence. |
 | **`config/`** | Agent index (`context_manifest.yaml`, `jd_catalog.csv`). |
-| **`data/`** | Tracked state + local raw/private (gitignored paths in layout doc). |
+| **`data/`** | Career state, working notes, profiles, opportunities (all gitignored). |
 | **`docs/skills/`**, **`prompts/`**, **`templates/`** | Cursor Skills (canonical workflows); `prompts/` holds redirect stubs; Markdown + YAML templates (incl. JD analysis, weekly/daily, **opportunity tracker schema**). |
 | **`data/reports/`** | Derived notes inside the Obsidian vault: `benchmarks/`, `pipeline/`, `roles/`, `companies/`, etc. (see `data/VAULT_LAYOUT.md`, `data/reports/README.md`). |
 | **`apps/`**, **`core/`**, **`adapters/`** | MVP runtime for token/cost tracking (`UI -> API wrapper -> provider`) and future extension points (`index`, `tasks`, `prompts`). |
 
-## Two-Branch Architecture
+## Git Workflow
 
-- `public` (`master`) is the public branch.
-- `personal` is the private operating branch.
-- Data flow is one-way: `personal` -> sanitize -> `public`.
-- Never merge `private-sensitive` or `raw-ingest` into `public`.
+Single-branch workflow on `main`. Data stays local via `.gitignore`.
 
-Branch and merge rules:
+- Code and framework commit normally.
+- Personal work stays in `data/` (gitignored).
+- No PII in committed code.
 
-- `docs/BRANCH_WORKFLOW.md`
-- `docs/DATA_CLASSIFICATION.md`
+See `docs/BRANCH_WORKFLOW.md` for details.
 
 ## Agent roles (Copilot vs Assistant)
 
@@ -51,32 +48,19 @@ Suggested commit pattern:
 - `data: add weekly progress file`
 - `templates: refine capability analysis template`
 
-## Pull request sanitization gate
-
-- Workflow: `.github/workflows/ai-review.yml` runs on PR updates and posts one gate report comment.
-- The gate scans **public-bound changed files only** and blocks on risky patterns (PII/secrets/private-only references).
-- Designed for free tier and large PRs: deterministic checks only, no model-token usage.
-- To enforce merge blocking, set this workflow check as a required status check in branch protection.
-
-## Public Safety Rules
-
-- Follow `docs/PUBLIC_REPO_POLICY.md` before publishing.
-- Run `docs/SANITIZATION_CHECKLIST.md` before each public commit.
-- Keep raw personal notes and private files in ignored local directories only.
-- Public merge gate accepts only `public-reusable` and validated `derived-sanitized`.
-
 ## License
 
 This project is licensed under the MIT License. See `LICENSE`.
 
-## Operating flow
+## Operating Flow
 
-1. Keep **`data/private/master.yaml`** as the canonical profile (headline, direction, targets, skills, experience) for Assistant workflows; define or update public milestones in `data/career_path_master.csv`.
-2. **Optional — job search pipeline:** maintain **`data/private/opportunities.yaml`** (copy from `templates/opportunities_tracker_template.yaml`); raw JDs live in `data/raw/`. Workflows: `docs/skills/opportunity-*/SKILL.md` — see `docs/framework/workflows.md` (Opportunity Tracking).
-3. Create or update the week file in `data/weekly/`.
+1. Keep **`data/master.yaml`** as the canonical profile (headline, direction, targets, skills, experience) for Assistant workflows.
+2. **Optional — job search pipeline:** maintain **`data/opportunities.yaml`** (copy from `templates/opportunities_tracker_template.yaml`). Workflows: `docs/skills/opportunity-*/SKILL.md` — see `docs/framework/workflows.md` (Opportunity Tracking).
+3. Create or update weekly files in `data/weekly/`.
 4. Run capability analysis and planning with templates in `templates/`.
-5. Keep working notes under `data/reports/` as needed (see `data/reports/README.md`); the whole **`data/`** tree is private local use — run `docs/SANITIZATION_CHECKLIST.md` only when you **publish** material outside `data/` onto `master`.
-6. Commit meaningful changes.
+5. Keep working notes under `data/reports/` as needed (see `data/reports/README.md`).
+6. Commit framework changes, docs, and tools. Data stays local.
+7. See `AGENTS.md` for complete context and workflow details.
 
 ## Token Monitor MVP
 
@@ -85,7 +69,7 @@ This repository now includes a local-first token/cost monitoring path for tracke
 - Internal flow: `UI -> POST /api/llm/chat -> OpenAI API -> SQLite telemetry`.
 - Pricing source: `config/token_pricing.yaml` (local config, manually maintained).
 - Budget source: `config/token_budgets.yaml` (monthly limits + warning ratio).
-- Local database: `data/private/token_usage.db` (gitignored).
+- Local database: `data/token_usage.db` (gitignored).
 
 ### Setup
 
@@ -127,7 +111,7 @@ Example:
   ],
   "attached_paths": [
     "data/weekly/2026-W17.md",
-    "docs/CURSOR.md"
+    "docs/AGENTS.md"
   ]
 }
 ```

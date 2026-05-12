@@ -11,14 +11,12 @@ description: >-
 **Role:** Assistant — career / opportunity tracking (see `docs/AGENT_ROLES.md`).
 
 **Context to load:**
-- Current tracker: `data/private/opportunities.yaml` (private) — read for full context, but prefer `opp.py` for writes
+- Current tracker: `data/opportunities.yaml` — read for context; use `opp.py` script for writes
 - Schema reference: `templates/opportunities_tracker_template.yaml`
-- CLI reference: `docs/opp-cli.md`
 
-**Token-efficient Obsidian routing:**
-- Use `data/opportunities/Central Opportunities.md` or the matching `* Opportunity Index.md` only to resolve an ambiguous company/role to an opportunity id.
-- For the actual update, load only `opportunities.yaml` and the schema reference; avoid reading reports unless the user wants to update notes from a specific artifact.
-- If using Obsidian CLI, quote spaced paths: `obsidian read vault=data "path=opportunities/Stripe Opportunity Index.md"`.
+**Scope:**
+- Load only `opportunities.yaml` and the schema reference.
+- Avoid reading broader vault context unless the user asks to update notes from a specific artifact.
 
 **Task:**
 1. Identify the record by **`id`** (or company + role — resolve to id first).
@@ -41,7 +39,7 @@ description: >-
 - Every inference (e.g. resolving id from company name, assuming stage_entered_at = today) must be listed in **Assumptions** and confirmed before applying the patch.
 
 **My inputs (collect, confirm, or ask):**
-- If **opportunity id** or **intended changes** are **not** clear from memory, chat, or `data/private/opportunities.yaml`: **ask** before proposing the patch.
+- If **opportunity id** or **intended changes** are **not** clear from memory, chat, or `data/opportunities.yaml`: **ask** before proposing the patch.
 - If you resolve **id** from company + role or infer updates from context: state your resolution and **ask the user to confirm or correct** before final output.
 - Opportunity id: `<...>`
 - Changes: `<...>`

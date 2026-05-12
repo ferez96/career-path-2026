@@ -15,7 +15,7 @@
 #
 # Data notes:
 #   - data/private/* — visibility: private, local only; never copy PII into public reports.
-#   - Prefer docs/, CURSOR.md, and tracked sanitized data for public/sharable context.
+#   - Prefer docs/, AGENTS.md, and tracked data for public/sharable context.
 
 # ──────────────────────────────────────────────────────────────────────────────
 # GROUPS
@@ -23,13 +23,11 @@
 groups:
 
   always-required:
-    description: Every Assistant session — framework index, output rules, sanitization checklist
-    token_budget: 2400
+    description: Every Assistant session — framework index, output rules
+    token_budget: 1200
     contexts:
-      - claude-framework      # CLAUDE.md skills index + context map  600t
-      - cursor-framework      # CURSOR.md index                       500t
-      - framework-prompting      # language + output rules               300t
-      - docs-sanitization     # sanitization checklist               1000t
+      - agents-framework      # AGENTS.md skills index + context map  700t
+      - framework-prompting   # language + output rules               500t
 
   weekly-planning:
     description: Weekly/daily planning and review cadence
@@ -112,39 +110,39 @@ triggers:
 
   weekly-planning:
     groups: [always-required, weekly-planning]
-    total_budget: 5150   # 1800 + 3350
+    total_budget: 4550   # 1200 + 3350
 
   fit-scoring:
     groups: [always-required, fit-scoring]
-    total_budget: 6400   # 1800 + 4600
+    total_budget: 5800   # 1200 + 4600
 
   company-brief:
     groups: [always-required, company-brief]
-    total_budget: 11100   # 2400 + 8700
+    total_budget: 9900   # 1200 + 8700
 
   opportunity-from-jd:
     groups: [always-required, opportunity-core]
-    total_budget: 10600   # 2400 + 8200
+    total_budget: 9400   # 1200 + 8200
 
   opportunity-update:
     groups: [always-required, opportunity-core]
-    total_budget: 10600
+    total_budget: 9400
 
   opportunity-report-tracking:
     groups: [always-required, opportunity-reports]
-    total_budget: 11500
+    total_budget: 10300
 
   opportunity-report-next-steps-one:
     groups: [always-required, opportunity-reports]
-    total_budget: 11500
+    total_budget: 10300
 
   opportunity-report-next-steps-rollup:
     groups: [always-required, opportunity-reports]
-    total_budget: 11500
+    total_budget: 10300
 
   jd-process:
     groups: [always-required, jd-process]
-    total_budget: 16300
+    total_budget: 15100
 
   governance:
     groups: [governance]
@@ -163,35 +161,14 @@ contexts:
     sanitized: true
     last_updated: 2026-05-04
     notes: Single source of truth for scripts/opp.py commands — referenced by all agent files
-  - id: claude-framework
-    path: CLAUDE.md
+  - id: agents-framework
+    path: AGENTS.md
     visibility: public
     priority: high
-    token_budget: 600
+    token_budget: 700
     sanitized: true
-    last_updated: 2026-05-04
-    notes: Claude/Cowork entry point — skills index, context loading pattern, key paths
-  - id: docs-policy
-    path: docs/PUBLIC_REPO_POLICY.md
-    visibility: public
-    priority: high
-    token_budget: 1200
-    sanitized: true
-    last_updated: 2026-04-16
-  - id: docs-sanitization
-    path: docs/SANITIZATION_CHECKLIST.md
-    visibility: public
-    priority: high
-    token_budget: 1000
-    sanitized: true
-    last_updated: 2026-04-16
-  - id: cursor-framework
-    path: CURSOR.md
-    visibility: public
-    priority: high
-    token_budget: 500
-    sanitized: true
-    last_updated: 2026-04-27
+    last_updated: 2026-05-12
+    notes: Unified framework entry point — personas, project goals, skills index, context loading pattern, key paths
   - id: framework-workflows
     path: docs/framework/workflows.md
     visibility: public

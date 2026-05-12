@@ -18,6 +18,8 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Removed
 
+- **`docs/guides/jd-process.md`:** redundant with [`docs/skills/jd-process/SKILL.md`](docs/skills/jd-process/SKILL.md) and vault navigation in [`AGENTS.md`](AGENTS.md).
+
 ### Fixed
 
 ### Security

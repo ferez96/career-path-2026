@@ -1,42 +1,35 @@
-# Next steps — single opportunity (private)
+# Next steps — `<id>`
 
-**Opportunity id:** `<id>`  
-**Generated:** `<YYYY-MM-DD>`  
-**Source:** `data/private/opportunities.yaml`
+**Date:** `<YYYY-MM-DD>`
 
 ## Snapshot
 
 - Role: 
-- Company / alias: 
+- Company: 
 - Stage: 
 - Priority: 
 
 ## Contacts
 
-| Name | Role | Channels | Notes |
-|------|------|----------|-------|
-| | | | |
+| Name | Role | Channel |
+|------|------|---------|
+| | | |
 
-## Check here (manual)
+## Links
 
-| Purpose | URL |
-|---------|-----|
-| Application portal | |
-| Job posting | |
+| Type | URL |
+|------|-----|
+| | |
 
-## Next actions (ordered)
+## Next actions
 
 1. 
 2. 
 
-## Blockers / risks
+## Blockers
 
 - 
 
-## Suggested 24–72h moves
-
-- 
-
-## Assumptions / Risk
+## Assumptions
 
 - 
