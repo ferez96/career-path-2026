@@ -31,12 +31,10 @@ groups:
 
   weekly-planning:
     description: Weekly/daily planning and review cadence
-    token_budget: 3350
     contexts:
       - framework-workflows      # workflows 1–4           1300t
       - framework-cadence        # KPIs + cadence           350t
       - career-master         # milestone CSV            800t
-      - skill-weekly-planning # SKILL.md                 900t
 
   fit-scoring:
     description: JD/benchmark analysis and fit/gap scoring
@@ -57,7 +55,7 @@ groups:
 
   opportunity-core:
     description: Add or update opportunities in the pipeline
-    token_budget: 8200
+    token_budget: 8400
     contexts:
       - framework-workflows           # opportunity tracking section 1300t
       - private-master-profile     # profile for fit notes       3500t
@@ -65,6 +63,7 @@ groups:
       - skill-opportunity-from-jd  # add skill                    900t
       - skill-opportunity-update   # update skill                 700t
       - vault-navigation-atlas     # hub-first routing            900t
+      - opp-cli-reference          # opp.py CLI + docs/opp-cli.md 200t
 
   opportunity-reports:
     description: Generate opportunity tracking and next-steps reports
@@ -110,7 +109,7 @@ triggers:
 
   weekly-planning:
     groups: [always-required, weekly-planning]
-    total_budget: 4550   # 1200 + 3350
+    total_budget: 3650   # 1200 + 2450
 
   fit-scoring:
     groups: [always-required, fit-scoring]
@@ -122,11 +121,11 @@ triggers:
 
   opportunity-from-jd:
     groups: [always-required, opportunity-core]
-    total_budget: 9400   # 1200 + 8200
+    total_budget: 9600   # 1200 + 8400
 
   opportunity-update:
     groups: [always-required, opportunity-core]
-    total_budget: 9400
+    total_budget: 9600
 
   opportunity-report-tracking:
     groups: [always-required, opportunity-reports]
@@ -197,6 +196,14 @@ contexts:
     token_budget: 350
     sanitized: true
     last_updated: 2026-04-27
+  - id: docs-policy
+    path: docs/rules/agent-copilot.md
+    visibility: public
+    priority: medium
+    token_budget: 1200
+    sanitized: true
+    last_updated: 2026-05-12
+    notes: Copilot rules — framework edits, public-merge gate, LFS, commit/PR hygiene (see docs/AGENT_ROLES.md)
   - id: jd-analysis-template
     path: templates/jd_analysis_template.md
     visibility: public
@@ -246,13 +253,6 @@ contexts:
     token_budget: 500
     sanitized: true
     last_updated: 2026-04-18
-  - id: skill-weekly-planning
-    path: docs/skills/weekly-planning/SKILL.md
-    visibility: public
-    priority: medium
-    token_budget: 900
-    sanitized: true
-    last_updated: 2026-04-23
   - id: skill-company-brief
     path: docs/skills/company-brief/SKILL.md
     visibility: public

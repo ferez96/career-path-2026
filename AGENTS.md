@@ -52,8 +52,8 @@ The working **Obsidian vault** is rooted at **`data/`**. Before loading large ex
 
 ## Skills Index
 
-| Skill | Trigger phrase | SKILL.md path |
-|:------|:--------------|:--------------|
+| Skill | Trigger phrase | Canonical path |
+|:------|:--------------|:---------------|
 | `jd-process` | "jd-process for X", "process this JD", "full JD workflow" | `docs/skills/jd-process/SKILL.md` |
 | `company-brief` | "company brief for X", "research X", "employer due diligence" | `docs/skills/company-brief/SKILL.md` |
 | `opportunity-from-jd` | "add opportunity from JD", "import JD to tracker" | `docs/skills/opportunity-from-jd/SKILL.md` |
@@ -61,14 +61,14 @@ The working **Obsidian vault** is rooted at **`data/`**. Before loading large ex
 | `opportunity-report-tracking` | "pipeline report", "tracking list", "pipeline snapshot" | `docs/skills/opportunity-report-tracking/SKILL.md` |
 | `opportunity-report-next-steps-one` | "next steps for [company]", "what should I do for X" | `docs/skills/opportunity-report-next-steps-one/SKILL.md` |
 | `opportunity-report-next-steps-rollup` | "next steps rollup", "combined backlog", "what's due across all" | `docs/skills/opportunity-report-next-steps-rollup/SKILL.md` |
-| `weekly-planning` | "weekly plan", "plan this week", "ISO week plan" | `docs/skills/weekly-planning/SKILL.md` |
+| `weekly-planning` | "weekly plan", "plan this week", "ISO week plan" | [`docs/framework/workflows.md`](docs/framework/workflows.md) (planning / reviews), [`docs/framework/cadence.md`](docs/framework/cadence.md); context group `weekly-planning` in [`config/context_manifest.yaml`](config/context_manifest.yaml) (no committed `docs/skills/` file) |
 
 ## Context Loading Pattern
 
 For each task:
 1. **Profile** — `data/master.yaml` (fit/gap or planning)
 2. **Framework doc** — the relevant `docs/framework/*.md` for the task
-3. **SKILL.md** — the matching skill file from the table above
+3. **Skill or framework chunk** — matching `docs/skills/*/SKILL.md` when the skills table lists one; otherwise the framework paths named for that row (for example `weekly-planning`)
 4. **Vault routing** — `data/atlas/Navigation — JD and Opportunities.md` to pick the smallest note set before opening leaves
 5. **Data** — task-specific files (e.g. `data/opportunities.yaml`, `data/jds/<slug>.md`)
 

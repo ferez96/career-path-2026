@@ -13,15 +13,16 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 ### Added
 
 - **`AGENTS.md`:** single entry point for agent personas, framework chunk map, Obsidian hub routing, skills index, and context loading order.
+- **`config/context_manifest.yaml`:** `docs-policy` context (`docs/rules/agent-copilot.md`) for the `governance` group; `opp-cli-reference` on `opportunity-core`.
 
 ### Changed
 
+- **`config/context_manifest.yaml`:** removed `weekly-planning` and `skill-weekly-planning` contexts; `opportunity-core` now loads `opp-cli-reference`.
 - **`scripts/opp.py`:** `--help` epilog is the canonical command list plus **For agents** guidance (no `add`, `contacts[]`/`links[]` vs scalars, prefer subcommands for routine updates); ASCII-only text for Windows `cp1252` consoles.
 - **`docs/opp-cli.md`:** defers commands and agent exceptions to `python scripts/opp.py --help`; keeps rationale and test command only.
 - **`AGENTS.md`:** agents run `python scripts/opp.py --help` (and subcommand `--help` as needed) before pipeline CLI use; `docs/opp-cli.md` for narrative and tests.
 - **`config/context_manifest.yaml`**, **`docs/rules/opportunity-tracking.md`**, **`docs/skills/opportunity-update/SKILL.md`:** opp documentation points to `--help` first.
-- **`README.md`**, **`QUICKSTART.md`**, **`docs/REPO_LAYOUT.md`**, **`docs/AGENT_ROLES.md`:** aligned with framework-first layout and `AGENTS.md`.
-- **`config/context_manifest.yaml`:** groups and triggers trimmed to match committed paths only.
+- **`README.md`**, **`QUICKSTART.md`**, **`docs/REPO_LAYOUT.md`**, **`docs/AGENT_ROLES.md`:** aligned with framework-first layout and `AGENTS.md`.  
 - **`docs/framework/prompting.md`**, **`docs/framework/workflows.md`:** small clarifications.
 - **`docs/rules/*.md`**, **`docs/skills/*.md`:** cross-links and wording toward `docs/skills/` as the canonical skill location.
 - **`templates/*.yaml`**, **`templates/opportunity_report_*.md`:** schema and report shell updates.
@@ -35,10 +36,13 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 - **Duplicate agent surfaces:** `.cursor/rules/*.mdc`, `.cursor/skills/*/SKILL.md` stubs, `.claude/agents/*.md`, root `CLAUDE.md`, root `CURSOR.md`.
 - **Prompt redirect stubs:** `prompts/*.md`.
 - **Governance and mirror docs no longer in tree:** `docs/BRANCH_WORKFLOW.md`, `docs/DATA_CLASSIFICATION.md`, `docs/PUBLIC_REPO_POLICY.md`, `docs/SANITIZATION_CHECKLIST.md`, `docs/cursor/`, `config/README.md`.
+- **Tooling:** `.github/copilot-instructions.md`, `scripts/bootstrap.ps1`, `scripts/bootstrap.sh`, `scripts/token-monitor.ps1`.
 - **`docs/guides/jd-process.md`:** redundant with [`docs/skills/jd-process/SKILL.md`](docs/skills/jd-process/SKILL.md) and [`AGENTS.md`](AGENTS.md).
 - **`docs/skills/weekly-planning/SKILL.md`**, **`templates/weekly_plan_template.md`**, **`templates/daily_review_template.md`:** dropped from the committed framework (replace locally if still needed).
 
 ### Fixed
+
+- **`config/context_manifest.yaml`:** `governance` referenced missing `docs-policy` context; `weekly-planning` still listed removed `skill-weekly-planning`.
 
 ### Security
 

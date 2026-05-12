@@ -111,7 +111,9 @@ Example:
   ],
   "attached_paths": [
     "data/weekly/2026-W17.md",
-    "docs/AGENTS.md"
+    "docs/framework/workflows.md",
+    "docs/framework/cadence.md",
+    "AGENTS.md"
   ]
 }
 ```
