@@ -1,25 +1,46 @@
 #!/usr/bin/env python3
-"""
-opp.py — single-opportunity accessor/editor for data/private/opportunities.yaml
+"""Opportunity pipeline CLI; full usage is in argparse output (--help)."""
 
-NOTE: YAML has no random-access format; the full file is always loaded and
-rewritten on save. This script keeps the *interface* record-scoped so you
-never have to touch the raw YAML manually for common operations.
+# Printed after subcommand summary (ASCII only: Windows consoles often use cp1252).
+_OPP_EPILOG = """
+Data file (repo root): data/opportunities.yaml
 
-Usage:
-    python scripts/opp.py list [--closed]
-    python scripts/opp.py get <id>
-    python scripts/opp.py stage <id> <stage>
-    python scripts/opp.py next <id> <YYYY-MM-DD> "<action text>"
-    python scripts/opp.py close <id> <outcome>
-    python scripts/opp.py note <id> "<history line>"
-    python scripts/opp.py set <id> <field> <value>
-    python scripts/opp.py fields
+YAML is rewritten on each save; this CLI keeps edits record-scoped so you
+avoid hand-editing the file for common scalar and stage changes.
 
-Stages:   Interested → Applied → RecruiterScreen → HiringManager →
-          Technical → OnsiteOrFinal → Offer → Closed
-Outcomes: accepted | declined | rejected | withdrawn
-"""
+Commands (use --help on a subcommand for flags and arguments):
+  list       Active opportunities as a table [--closed]
+  get        Print one opportunity by id
+  stage      Move to a stage [--outcome when stage is Closed]
+  next       Set next_action_date and next_action text
+  close      Set closing outcome [--note for history]
+  note       Append one line to history (date prepended)
+  set        Set one scalar field (see: fields)
+  fields     List scalar fields supported by set
+
+Stage order:
+  Interested -> Applied -> RecruiterScreen -> HiringManager ->
+  Technical -> OnsiteOrFinal -> Offer -> Closed
+
+Outcomes (close): accepted | declined | rejected | withdrawn
+
+Id matching: exact id or unambiguous prefix (example: shopback matches
+shopback-staff-senior-backend-2026 if unique).
+
+For agents (what this CLI does NOT do):
+  New rows: there is no add subcommand. Creating an opportunity belongs to the
+    opportunity-from-jd skill (docs/skills/opportunity-from-jd/SKILL.md), not
+    opp.py.
+
+  contacts[] and links[]: nested structures. opp.py set only changes scalars
+    listed by the fields subcommand. For contacts/links merges or other nested
+    edits, follow docs/skills/opportunity-update/SKILL.md or edit
+    data/opportunities.yaml with care (validate if you have a schema check).
+
+  Default for existing rows: use list/get to read; use stage, next, close,
+    note, set for routine updates so updated_at, stage_entered_at, and history
+    cap stay consistent.
+""".strip()
 
 import argparse
 import os
@@ -367,9 +388,9 @@ def _append_history(entry: dict, line: str) -> None:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="opp",
-        description="Single-opportunity accessor/editor for opportunities.yaml",
+        description="Single-opportunity accessor/editor for data/opportunities.yaml.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=__doc__,
+        epilog=_OPP_EPILOG,
     )
     sub = p.add_subparsers(dest="command", metavar="command")
     sub.required = True

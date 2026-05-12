@@ -11,13 +11,12 @@ description: >-
 **Role:** Assistant — career / opportunity tracking (see `docs/AGENT_ROLES.md`).
 
 **Context to load:**
-- `data/private/opportunities.yaml` (private)
+- `data/opportunities.yaml`
 - Output skeleton: `templates/opportunity_report_next_steps_rollup.md`
 
-**Token-efficient Obsidian routing:**
-- This rollup should usually load only `opportunities.yaml` plus the output template.
-- Use `data/opportunities/Central Opportunities.md` only for link labels or to verify known opportunity indexes.
-- Do not read per-opportunity reports unless the user explicitly asks for evidence behind a row.
+**Scope:**
+- Load only the opportunities YAML and output template.
+- Avoid reading per-opportunity reports unless the user asks for evidence behind a row.
 
 **Task:**
 1. Collect **next_action** for every item in `active` with `stage` not `Closed` (unless user wants closed included).
@@ -29,7 +28,7 @@ description: >-
 **Output:** Markdown for `data/reports/pipeline/opportunity-next-steps-rollup-<YYYY-MM-DD>.md` or paste-only.
 
 **Constraints:**
-- Private report may use real names; public summary requires sanitization.
+- All reports stay in `data/` (gitignored), so real company/person names are fine.
 - **Do not fabricate.** Populate rows only from `next_action` and `next_action_date` fields as recorded. Do not invent or extrapolate actions not present in the data.
 - **Missing data → state it explicitly.** If `next_action_date` is absent, sort the row last and mark the date cell as "Not set". Do not guess a date.
 

@@ -15,7 +15,7 @@
 #
 # Data notes:
 #   - data/private/* — visibility: private, local only; never copy PII into public reports.
-#   - Prefer docs/, CURSOR.md, and tracked sanitized data for public/sharable context.
+#   - Prefer docs/, AGENTS.md, and tracked data for public/sharable context.
 
 # ──────────────────────────────────────────────────────────────────────────────
 # GROUPS
@@ -23,22 +23,18 @@
 groups:
 
   always-required:
-    description: Every Assistant session — framework index, output rules, sanitization checklist
-    token_budget: 2400
+    description: Every Assistant session — framework index, output rules
+    token_budget: 1200
     contexts:
-      - claude-framework      # CLAUDE.md skills index + context map  600t
-      - cursor-framework      # CURSOR.md index                       500t
-      - framework-prompting      # language + output rules               300t
-      - docs-sanitization     # sanitization checklist               1000t
+      - agents-framework      # AGENTS.md skills index + context map  700t
+      - framework-prompting   # language + output rules               500t
 
   weekly-planning:
     description: Weekly/daily planning and review cadence
-    token_budget: 3350
     contexts:
       - framework-workflows      # workflows 1–4           1300t
       - framework-cadence        # KPIs + cadence           350t
       - career-master         # milestone CSV            800t
-      - skill-weekly-planning # SKILL.md                 900t
 
   fit-scoring:
     description: JD/benchmark analysis and fit/gap scoring
@@ -59,7 +55,7 @@ groups:
 
   opportunity-core:
     description: Add or update opportunities in the pipeline
-    token_budget: 8200
+    token_budget: 8400
     contexts:
       - framework-workflows           # opportunity tracking section 1300t
       - private-master-profile     # profile for fit notes       3500t
@@ -67,6 +63,7 @@ groups:
       - skill-opportunity-from-jd  # add skill                    900t
       - skill-opportunity-update   # update skill                 700t
       - vault-navigation-atlas     # hub-first routing            900t
+      - opp-cli-reference          # opp.py CLI + docs/opp-cli.md 200t
 
   opportunity-reports:
     description: Generate opportunity tracking and next-steps reports
@@ -112,39 +109,39 @@ triggers:
 
   weekly-planning:
     groups: [always-required, weekly-planning]
-    total_budget: 5150   # 1800 + 3350
+    total_budget: 3650   # 1200 + 2450
 
   fit-scoring:
     groups: [always-required, fit-scoring]
-    total_budget: 6400   # 1800 + 4600
+    total_budget: 5800   # 1200 + 4600
 
   company-brief:
     groups: [always-required, company-brief]
-    total_budget: 11100   # 2400 + 8700
+    total_budget: 9900   # 1200 + 8700
 
   opportunity-from-jd:
     groups: [always-required, opportunity-core]
-    total_budget: 10600   # 2400 + 8200
+    total_budget: 9600   # 1200 + 8400
 
   opportunity-update:
     groups: [always-required, opportunity-core]
-    total_budget: 10600
+    total_budget: 9600
 
   opportunity-report-tracking:
     groups: [always-required, opportunity-reports]
-    total_budget: 11500
+    total_budget: 10300
 
   opportunity-report-next-steps-one:
     groups: [always-required, opportunity-reports]
-    total_budget: 11500
+    total_budget: 10300
 
   opportunity-report-next-steps-rollup:
     groups: [always-required, opportunity-reports]
-    total_budget: 11500
+    total_budget: 10300
 
   jd-process:
     groups: [always-required, jd-process]
-    total_budget: 16300
+    total_budget: 15100
 
   governance:
     groups: [governance]
@@ -162,36 +159,15 @@ contexts:
     token_budget: 200
     sanitized: true
     last_updated: 2026-05-04
-    notes: Single source of truth for scripts/opp.py commands — referenced by all agent files
-  - id: claude-framework
-    path: CLAUDE.md
+    notes: opp.py — run `python scripts/opp.py --help` for commands; docs/opp-cli.md for exceptions and tests only
+  - id: agents-framework
+    path: AGENTS.md
     visibility: public
     priority: high
-    token_budget: 600
+    token_budget: 700
     sanitized: true
-    last_updated: 2026-05-04
-    notes: Claude/Cowork entry point — skills index, context loading pattern, key paths
-  - id: docs-policy
-    path: docs/PUBLIC_REPO_POLICY.md
-    visibility: public
-    priority: high
-    token_budget: 1200
-    sanitized: true
-    last_updated: 2026-04-16
-  - id: docs-sanitization
-    path: docs/SANITIZATION_CHECKLIST.md
-    visibility: public
-    priority: high
-    token_budget: 1000
-    sanitized: true
-    last_updated: 2026-04-16
-  - id: cursor-framework
-    path: CURSOR.md
-    visibility: public
-    priority: high
-    token_budget: 500
-    sanitized: true
-    last_updated: 2026-04-27
+    last_updated: 2026-05-12
+    notes: Unified framework entry point — personas, project goals, skills index, context loading pattern, key paths
   - id: framework-workflows
     path: docs/framework/workflows.md
     visibility: public
@@ -220,6 +196,14 @@ contexts:
     token_budget: 350
     sanitized: true
     last_updated: 2026-04-27
+  - id: docs-policy
+    path: docs/rules/agent-copilot.md
+    visibility: public
+    priority: medium
+    token_budget: 1200
+    sanitized: true
+    last_updated: 2026-05-12
+    notes: Copilot rules — framework edits, public-merge gate, LFS, commit/PR hygiene (see docs/AGENT_ROLES.md)
   - id: jd-analysis-template
     path: templates/jd_analysis_template.md
     visibility: public
@@ -269,13 +253,6 @@ contexts:
     token_budget: 500
     sanitized: true
     last_updated: 2026-04-18
-  - id: skill-weekly-planning
-    path: docs/skills/weekly-planning/SKILL.md
-    visibility: public
-    priority: medium
-    token_budget: 900
-    sanitized: true
-    last_updated: 2026-04-23
   - id: skill-company-brief
     path: docs/skills/company-brief/SKILL.md
     visibility: public

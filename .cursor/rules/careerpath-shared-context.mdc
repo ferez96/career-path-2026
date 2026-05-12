@@ -1,8 +1,0 @@
----
-description: Shared context for all agents — Copilot vs Assistant roles, branches, data classes, public safety
-alwaysApply: true
----
-
-> **Cursor adapter.** Canonical rule content lives in [`docs/rules/careerpath-shared-context.md`](../../docs/rules/careerpath-shared-context.md).
->
-> Load that file for the complete rule instructions. This wrapper exists only to carry Cursor-specific frontmatter (globs, alwaysApply).

@@ -3,8 +3,7 @@ name: company-brief
 description: >-
   Researches a company and writes a structured SWE-focused brief with source
   discipline, personal fit vs master.yaml, and Proceed/Pass-style conclusion.
-  Use when the user asks for company research, employer due diligence, or a
-  full-detail brief in the vault or excerpt for public docs when the user publishes outside `data/`.
+  Use when the user asks for company research or employer due diligence.
 ---
 
 # Company brief
@@ -12,12 +11,11 @@ description: >-
 **Role:** Assistant — career / company research (see `docs/AGENT_ROLES.md`).
 
 **Context to load (if available):**
-- `data/private/master.yaml` — use for **personal fit** (`profile.headline`, `career.direction_summary`, `career.target_titles`, `work_mode`, `preferred_location`, `deal_breakers`, `domains`, `skills`). The **`data/` vault is private** — write full detail there as needed. **Only** when copying content into **tracked public paths** (`docs/`, `templates/`, `README.md`, …) follow `docs/SANITIZATION_CHECKLIST.md` and strip PII.
+- `data/master.yaml` — use for **personal fit** (`profile.headline`, `career.direction_summary`, `career.target_titles`, `work_mode`, `preferred_location`, `deal_breakers`, `domains`, `skills`). All output stays in `data/` (gitignored).
 
-**Token-efficient Obsidian routing:**
-- If this brief belongs to an existing opportunity, first read the matching `data/opportunities/* Opportunity Index.md` through Obsidian to find the normalized JD and existing role reports.
-- Use the linked `data/jds/{slug}.md` for role context instead of loading raw JD files.
-- Only read broader `data/reports/companies/` or prior briefs when comparing companies or refreshing an existing brief.
+**Scope:**
+- Load only the master profile and any prior brief for the same company.
+- Avoid reading unrelated opportunity or role reports unless the user explicitly asks.
 
 **Target (collect, confirm, or ask):**
 - If **company name** (and any disambiguation: legal entity, region, product line, or role/team) is **not** clear from memory or chat: **ask** before deep research.

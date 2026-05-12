@@ -1,6 +1,6 @@
 # Canonical profile — copy to data/private/master.yaml via scripts/bootstrap.* (private; gitignored).
 # Fill by hand, or paste resume / plaintext and ask your AI agent to map into this shape.
-# Public outputs must not copy PII — see docs/SANITIZATION_CHECKLIST.md
+# Public outputs must not copy PII
 
 profile:
   headline: "Your role | stack | what you optimize for (systems, ownership, reliability, …)"

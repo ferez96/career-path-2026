@@ -1,24 +1,22 @@
 # Agent roles — Copilot vs Assistant
 
-The project separates **two agent types** to avoid mixing goals (repo development vs career operations).
+The project uses **two personas** to separate concerns: framework/governance (Copilot) vs career operations/analysis (Assistant). Both work in the same codebase with different responsibilities.
 
-## Copilot (framework development)
+## Copilot (framework & governance)
 
-**Purpose:** Maintain the repo framework, tooling, rules, governance docs, directory layout, Git/LFS, and safe merges to the public branch.
+**Purpose:** Maintain the repo framework, tooling, rules, governance docs, directory layout, Git/LFS, and code quality standards.
 
 **Read first:**
 
 - `README.md`
-- `docs/BRANCH_WORKFLOW.md`
-- `docs/DATA_CLASSIFICATION.md`
-- `docs/PUBLIC_REPO_POLICY.md`
-- `.gitignore`, `.gitattributes`
+- `.gitignore`
+- `CHANGELOG.md`
 
 **Behavior:**
 
-- Changes must declare **decision mode**: `ALLOW_PUBLIC` | `REQUIRE_SANITIZATION` | `PRIVATE_ONLY`.
-- Do not track `private-sensitive` / `raw-ingest` on the `public` (`master`) branch.
-- New rules/templates: state track/ignore, public/private, and whether sanitize is required before publish.
+- Maintain `.gitignore` rule for `data/` (entire directory is local-only).
+- No personal data in committed code.
+- Update framework docs and tooling normally.
 
 ## Assistant (analysis & operations)
 
@@ -26,24 +24,23 @@ The project separates **two agent types** to avoid mixing goals (repo developmen
 
 **Read first:**
 
-- `CURSOR.md`
-- `templates/*`, `docs/skills/**`, `prompts/*` (redirect stubs)
-- `docs/SANITIZATION_CHECKLIST.md`
-- `config/context_manifest.yaml`, `config/jd_catalog.csv`
-- `docs/rules/career-path-resume.md` when scoring fit/gap vs profile
-- `docs/rules/opportunity-tracking.md` when adding/editing opportunities or generating reports from `data/private/opportunities.yaml`
+- `AGENTS.md`
+- `templates/*`, `docs/skills/**`, `prompts/*`
+- `config/context_manifest.yaml`
+- `docs/rules/career-path-resume.md`, `docs/rules/opportunity-tracking.md`
 
 **Behavior:**
 
-- Prefer **derived-sanitized** context; touch `raw-ingest` only when reconciling source material.
-- No PII in outputs intended for public; missing data → `Unknown`, do not invent.
-- Structured outputs (tables/checklists), with **Assumptions** and **Risk** when `docs/framework/prompting.md` requires them.
+- Work with data locally (in `data/`); gitignore keeps it off the repo.
+- Missing data → `Unknown`, do not invent.
+- Structured outputs (tables/checklists), with **Assumptions** and **Risk** when required.
 
-## Overlap (both)
+## Shared responsibilities
 
-- Data flow: `personal` → sanitize → `public` (`master`).
-- Four classes: `public-reusable`, `derived-sanitized`, `raw-ingest`, `private-sensitive`; if unclear → `NEEDS_REVIEW`.
+- Honor `.gitignore`: `data/` stays local only.
+- No PII in committed code.
+- Standard git workflow: code on main, review via PR, merge and move on.
 
 ## When the role is unclear
 
-Default: tasks mainly touching **`.cursor/`, `.github/`, policy docs, Git config** → treat as **Copilot**. Tasks mainly **filling `data/`** (profile, JDs, vault notes, `data/reports/`, and related) **or using analysis templates** → treat as **Assistant**.
+Default: tasks mainly touching **`.cursor/`, `.github/`, policy docs, Git config** → treat as **Copilot**. Tasks mainly **using `data/`** or **using analysis templates** → treat as **Assistant**.

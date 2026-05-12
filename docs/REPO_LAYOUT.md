@@ -1,6 +1,6 @@
 # Repository layout (canonical)
 
-Goals: **fewer top-level folders**, **one place for raw input**, **one place for sanitized output**, **config separated from content**.
+Goals: **fewer top-level folders**, **code and framework on main**, **personal data local via .gitignore**, **config separated from content**.
 
 ## Directory tree (summary)
 
@@ -11,10 +11,10 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 │   ├── career_path_master.csv
 │   ├── atlas/              # Obsidian navigation + domain hubs (golden paths for JDs / opportunities)
 │   ├── daily/              # Daily reviews and logs
-│   ├── weekly/             # Weekly tracking (anonymize before public)
-│   ├── raw/                # Raw JD/benchmark — contents gitignored
-│   ├── reports/            # Derived markdown inside the vault (pipeline, roles, benchmarks, …)
-│   └── private/            # Canonical profile (master.yaml), opportunities.yaml, CV — gitignored
+│   ├── weekly/             # Weekly tracking
+│   ├── reports/            # Working notes inside the vault (pipeline, roles, benchmarks, …)
+│   ├── master.yaml         # Career profile (gitignored)
+│   └── opportunities.yaml  # Job search pipeline (gitignored)
 ├── scripts/                # bootstrap.ps1 / bootstrap.sh
 ├── apps/                   # Runtime entry points (web, cli)
 ├── core/                   # Business logic (cost, index/tasks/prompts interfaces)
@@ -27,7 +27,7 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 │   └── *.md                # Policy, classification, layout docs
 ├── templates/              # Markdown + YAML templates (e.g. opportunity tracker schema)
 ├── .cursor/rules/          # Cursor adapters — frontmatter only; canonical content in docs/rules/
-├── CURSOR.md
+├── AGENTS.md               # Operating framework for Assistant and Copilot personas
 └── README.md
 ```
 
@@ -41,16 +41,15 @@ Goals: **fewer top-level folders**, **one place for raw input**, **one place for
 | Weekly plan / review | `data/weekly/` |
 | Assistant workflows (Cursor Skills) | `docs/skills/*/SKILL.md` |
 | Stable links / redirects | `prompts/*.md` (point to skills) |
-| Sanitized / excerpt-safe narratives (JD analysis, redacted briefs) | `data/reports/benchmarks/` |
-| Full-detail local reports | `data/reports/{pipeline,roles,companies,strategy,sessions}/` |
-| Opportunity tracker (schema template) | `templates/opportunities_tracker_template.yaml` → copy to `data/private/opportunities.yaml` |
+| Local working notes (JD analysis, benchmarks, strategy) | `data/reports/{pipeline,roles,companies,strategy,sessions}/` |
+| Opportunity tracker (schema template) | `templates/opportunities_tracker_template.yaml` → copy to `data/opportunities.yaml` |
 | Opportunity workflows | `docs/skills/opportunity-*/SKILL.md` (see `prompts/opportunity-*.md` redirects) |
 | Context index + job mapping | `config/context_manifest.yaml`, `config/jd_catalog.csv` |
 | Token pricing / budget configs | `config/token_pricing.yaml`, `config/token_budgets.yaml` |
 | Token monitor runtime | `apps/web/`, `apps/cli/`, `core/cost/`, `adapters/{llm,telemetry,storage/sqlite}` |
-| Token usage local DB | `data/private/token_usage.db` (local, gitignored) |
+| Token usage local DB | `data/token_usage.db` (local, gitignored) |
 
 
 ## When unsure
 
-Mark **`NEEDS_REVIEW`** in the PR/commit and follow `docs/DATA_CLASSIFICATION.md`.
+Mark **`NEEDS_REVIEW`** in the PR/commit.

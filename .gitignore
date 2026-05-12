@@ -10,6 +10,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .mypy_cache/
+.ruff_cache/
 
 # Node and tool caches
 node_modules/
@@ -52,10 +53,10 @@ credentials*.json
 venv/
 .venv/
 
-# Claude Code local files
-.claude/settings.json
-.claude/settings.local.json
-.claude/worktrees/
+# Agents/IDE specific files
+.claude/
+.cursor/
+.vscode/
 
 # local data
 data/

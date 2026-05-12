@@ -1,2 +1,0 @@
-"""Telemetry event adapters."""
-
