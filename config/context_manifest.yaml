@@ -211,15 +211,8 @@ contexts:
     token_budget: 1200
     sanitized: true
     last_updated: 2026-04-27
-  - id: career-master
-    path: data/career_path_master.csv
-    visibility: public
-    priority: high
-    token_budget: 800
-    sanitized: true
-    last_updated: 2026-04-16
   - id: private-master-profile
-    path: data/private/master.yaml
+    path: data/master.yaml
     visibility: private
     priority: high
     token_budget: 3500
@@ -309,4 +302,4 @@ contexts:
     token_budget: 900
     sanitized: true
     last_updated: 2026-05-06
-    notes: Golden paths G1–G5, Obsidian CLI path quoting, token-efficient agent usage table; load for JD/opportunity tasks
+    notes: Golden paths G1-G5, Obsidian CLI path quoting, token-efficient agent usage table; load for JD/opportunity tasks
