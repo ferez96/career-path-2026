@@ -1,30 +1,30 @@
 # Career Path 2026
 
-Personal system for career path design, skill progression, and weekly execution tracking.
+Personal system for **JD analysis and fit scoring**, **opportunity pipeline tracking**, and (locally) **weekly planning and reviews**. The committed tree is framework, templates, config, and small Python helpers; your career state lives under `data/` (gitignored).
 
-## Data Safety
+## Data safety
 
-Commit code and framework docs normally. Keep personal data (profiles, opportunities, notes) in `data/` — it's gitignored automatically. No PII in committed code.
+Commit code and framework docs normally. Keep personal data (profiles, opportunities, notes) in `data/`; it is gitignored automatically. Do not put PII in committed code.
 
 ## Language
 
-Docs, templates, and Assistant skills (`SKILL.md` under `docs/skills/`) in this repo are **English-first**. You can still chat with your agent in Vietnamese (or another language); see `docs/framework/prompting.md` (Language).
+Docs, templates, and Assistant skills (`SKILL.md` under `docs/skills/`) in this repo are **English-first**. You can still chat with your agent in another language; see `docs/framework/prompting.md` (Language).
 
 ## Repository layout
 
-Full tree: **`docs/REPO_LAYOUT.md`**. Release notes: **`CHANGELOG.md`**. Main modules:
+Full tree: **`docs/REPO_LAYOUT.md`**. Release notes: **`CHANGELOG.md`**. Main areas:
 
-| Module | Role |
-|:-------|:-----|
-| **`docs/`** | Full map + framework governance (rules, workflows, cadence). |
-| **`AGENTS.md`** + **`docs/framework/`** | Operating framework index; chunked into workflows, fit-weights, prompting, and cadence. |
-| **`config/`** | Agent index (`context_manifest.yaml`, `jd_catalog.csv`). |
-| **`data/`** | Career state, working notes, profiles, opportunities (all gitignored). |
-| **`docs/skills/`**, **`prompts/`**, **`templates/`** | Cursor Skills (canonical workflows); `prompts/` holds redirect stubs; Markdown + YAML templates (incl. JD analysis, weekly/daily, **opportunity tracker schema**). |
-| **`data/reports/`** | Derived notes inside the Obsidian vault: `benchmarks/`, `pipeline/`, `roles/`, `companies/`, etc. (see `data/VAULT_LAYOUT.md`, `data/reports/README.md`). |
-| **`apps/`**, **`core/`**, **`adapters/`** | MVP runtime for token/cost tracking (`UI -> API wrapper -> provider`) and future extension points (`index`, `tasks`, `prompts`). |
+| Area | Role |
+|:-----|:-----|
+| **`AGENTS.md`** + **`docs/framework/`** | Operating framework: personas, workflows, fit weights, prompting, cadence. |
+| **`docs/skills/`** | Canonical Cursor-style skills (JD process, opportunities, company brief, …). |
+| **`config/`** | Agent context index (`context_manifest.yaml`) |
+| **`data/`** | Data vault root: profile, opportunities, JD notes, weekly files (gitignored). Start from **`data/atlas/Navigation — JD and Opportunities.md`**. |
+| **`templates/`** | YAML and Markdown shells (e.g. `master_template.yaml`, opportunity tracker schema, report templates). |
+| **`scripts/`** | Vault helpers and **`scripts/opp.py`** for writes to `data/opportunities.yaml` (prefer the CLI over hand-editing YAML). |
+| **`packages/wisp/`** | Optional **pre-alpha** local web experiment (job decision support); see **`packages/wisp/README.md`**. Not required for the career framework. |
 
-## Git Workflow
+## Git workflow
 
 Single-branch workflow on `main`. Data stays local via `.gitignore`.
 
@@ -32,11 +32,11 @@ Single-branch workflow on `main`. Data stays local via `.gitignore`.
 - Personal work stays in `data/` (gitignored).
 - No PII in committed code.
 
-See `docs/BRANCH_WORKFLOW.md` for details.
+Versioning and release notes: **`CHANGELOG.md`**.
 
-## Agent roles (Copilot vs Assistant)
+## Agent personas (Copilot vs Assistant)
 
-This repo distinguishes **Copilot** (developing the framework: rules, Git, docs) from **Assistant** (using the system for career analysis, planning, and reviews). See `docs/AGENT_ROLES.md`.
+**Copilot** maintains framework, tooling, and Git hygiene. **Assistant** runs JD analysis, fit scoring, planning, and opportunity workflows. See **`docs/AGENT_ROLES.md`** and **`AGENTS.md`**.
 
 ## Git usage
 
@@ -45,84 +45,21 @@ Track source documents and planning data in Git while excluding generated artifa
 Suggested commit pattern:
 
 - `docs: update career growth framework`
-- `data: add weekly progress file`
+- `data: add weekly progress file` (only if you intentionally commit a non-secret sample; default is local-only)
 - `templates: refine capability analysis template`
 
 ## License
 
 This project is licensed under the MIT License. See `LICENSE`.
 
-## Operating Flow
+## Operating flow
 
 1. Keep **`data/master.yaml`** as the canonical profile (headline, direction, targets, skills, experience) for Assistant workflows.
-2. **Optional — job search pipeline:** maintain **`data/opportunities.yaml`** (copy from `templates/opportunities_tracker_template.yaml`). Workflows: `docs/skills/opportunity-*/SKILL.md` — see `docs/framework/workflows.md` (Opportunity Tracking).
-3. Create or update weekly files in `data/weekly/`.
-4. Run capability analysis and planning with templates in `templates/`.
-5. Keep working notes under `data/reports/` as needed (see `data/reports/README.md`).
+2. **Job search pipeline:** maintain **`data/opportunities.yaml`** (copy from `templates/opportunities_tracker_template.yaml`). Use **`python scripts/opp.py --help`** before CLI writes. Skills: `docs/skills/opportunity-*/SKILL.md`; see `docs/framework/workflows.md` (Opportunity Tracking).
+3. Create or update weekly files in **`data/weekly/`** as you prefer.
+4. Run capability analysis and planning with templates in **`templates/`**.
+5. Keep working notes under **`data/reports/`** as needed (layout notes may live in `data/VAULT_LAYOUT.md` or your atlas hubs).
 6. Commit framework changes, docs, and tools. Data stays local.
-7. See `AGENTS.md` for complete context and workflow details.
+7. See **`AGENTS.md`** for hub-first vault navigation, skills index, and full context-loading order.
 
-## Token Monitor MVP
-
-This repository now includes a local-first token/cost monitoring path for tracked LLM requests:
-
-- Internal flow: `UI -> POST /api/llm/chat -> OpenAI API -> SQLite telemetry`.
-- Pricing source: `config/token_pricing.yaml` (local config, manually maintained).
-- Budget source: `config/token_budgets.yaml` (monthly limits + warning ratio).
-- Local database: `data/token_usage.db` (gitignored).
-
-### Setup
-
-1. Install Python dependency:
-   - `pip install -r apps/requirements-token-monitor.txt`
-2. Set provider key in local environment:
-   - PowerShell: `$env:OPENAI_API_KEY="your_key_here"`
-3. Initialize DB:
-   - `scripts/token-monitor.ps1 -Command init-db`
-
-### Run
-
-- Start internal UI + API wrapper:
-  - `scripts/token-monitor.ps1 -Command run-web`
-- Start with auto-reload for development:
-  - `scripts/token-monitor.ps1 -Command run-web-dev`
-- Web stack: Flask + HTMX + Bootstrap (`apps/web/flask_server.py`).
-- Monthly summary:
-  - `scripts/token-monitor.ps1 -Command monthly`
-- Monthly alerts:
-  - `scripts/token-monitor.ps1 -Command alerts`
-
-### Local file context chat (Cursor-lite)
-
-You can attach local files to improve grounded answers:
-
-- UI: fill **Attached file paths** in the chat form (comma/newline separated).
-- JSON API: send `attached_paths` as a list (or comma/newline string).
-
-Example:
-
-```json
-{
-  "task_type": "weekly-planning",
-  "provider": "openai",
-  "model": "gpt-4.1-mini",
-  "messages": [
-    { "role": "user", "content": "Review this week's plan and suggest improvements." }
-  ],
-  "attached_paths": [
-    "data/weekly/2026-W17.md",
-    "docs/framework/workflows.md",
-    "docs/framework/cadence.md",
-    "AGENTS.md"
-  ]
-}
-```
-
-Safety limits:
-
-- Allowed roots only: `data/`, `docs/`, `templates/`, `config/`.
-- Out-of-repo and path traversal are blocked.
-- Non-UTF8/binary files are skipped.
-- Context size is capped and may be truncated.
-
-Do not commit secrets (`OPENAI_API_KEY`) or local DB files.
+For a minimal bootstrap, see **`QUICKSTART.md`**.

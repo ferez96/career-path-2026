@@ -1,4 +1,4 @@
-# Canonical profile — copy to data/private/master.yaml via scripts/bootstrap.* (private; gitignored).
+# Canonical profile — copy to data/master.yaml via scripts/bootstrap.* (private; gitignored).
 # Fill by hand, or paste resume / plaintext and ask your AI agent to map into this shape.
 # Public outputs must not copy PII
 

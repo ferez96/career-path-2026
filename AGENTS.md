@@ -87,5 +87,4 @@ For each task:
 ## Cross-Cutting References
 
 - Persona responsibilities: [`docs/AGENT_ROLES.md`](docs/AGENT_ROLES.md)
-- Git workflow: [`docs/BRANCH_WORKFLOW.md`](docs/BRANCH_WORKFLOW.md)
 - Context index: [`config/context_manifest.yaml`](config/context_manifest.yaml)

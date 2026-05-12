@@ -20,7 +20,7 @@ If unsure, follow **When the role is unclear** in `docs/AGENT_ROLES.md`.
 
 ## Quick reference
 
-- `README.md`, `docs/REPO_LAYOUT.md`, `AGENTS.md`, `docs/BRANCH_WORKFLOW.md`.
+- `README.md`, `docs/REPO_LAYOUT.md`, `AGENTS.md`.
 - Agent index: `config/context_manifest.yaml`; JD row map: `templates/jd_catalog_template.csv` → local `config/jd_catalog.csv` (gitignored).
 
 ## Language

@@ -104,13 +104,13 @@ Use Obsidian as the first routing layer before loading larger source files.
 2. Normalize content.
 3. Extract key information.
 4. Produce short benchmark summary + skills table.
-5. **Read candidate profile:** canonical source is `data/private/master.yaml` (headline, `career.direction_summary`, experience, skills, goals). If a separate CV/PDF exists, the user provides the path; `profile.resume` is optional. Extract only what is needed to compare to the JD; public reports are non-PII summaries only—do not copy email/phone/address into `data/reports/`.
+5. **Read candidate profile:** canonical source is `data/master.yaml` (headline, `career.direction_summary`, experience, skills, goals). If a separate CV/PDF exists, the user provides the path; `profile.resume` is optional. Extract only what is needed to compare to the JD; public reports are non-PII summaries only—do not copy email/phone/address into `data/reports/`.
 6. Score gap/fit vs personal profile (resume + target metadata in `docs/framework/fit-weights.md`).
 7. Assign priority + suggest learning actions.
 8. Write to tracking report.
 
 ### Workflow 2: Career Decision
-1. Summarize milestones and benchmarks (for fit/gap, read resume via `data/private/master.yaml` as in Workflow 1).
+1. Summarize milestones and benchmarks (for fit/gap, read resume via `data/master.yaml` as in Workflow 1).
 2. Compare on impact, growth, feasibility, interest, time horizon.
 3. Recommend:
    - Execute now
