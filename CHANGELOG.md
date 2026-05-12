@@ -16,6 +16,10 @@ When cutting a release: move items from `[Unreleased]` into a new `## [x.y.z] - 
 
 ### Changed
 
+- **`scripts/opp.py`:** `--help` epilog is the canonical command list plus **For agents** guidance (no `add`, `contacts[]`/`links[]` vs scalars, prefer subcommands for routine updates); ASCII-only text for Windows `cp1252` consoles.
+- **`docs/opp-cli.md`:** defers commands and agent exceptions to `python scripts/opp.py --help`; keeps rationale and test command only.
+- **`AGENTS.md`:** agents run `python scripts/opp.py --help` (and subcommand `--help` as needed) before pipeline CLI use; `docs/opp-cli.md` for narrative and tests.
+- **`config/context_manifest.yaml`**, **`docs/rules/opportunity-tracking.md`**, **`docs/skills/opportunity-update/SKILL.md`:** opp documentation points to `--help` first.
 - **`README.md`**, **`QUICKSTART.md`**, **`docs/REPO_LAYOUT.md`**, **`docs/AGENT_ROLES.md`:** aligned with framework-first layout and `AGENTS.md`.
 - **`config/context_manifest.yaml`:** groups and triggers trimmed to match committed paths only.
 - **`docs/framework/prompting.md`**, **`docs/framework/workflows.md`:** small clarifications.

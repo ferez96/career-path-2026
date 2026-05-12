@@ -160,7 +160,7 @@ contexts:
     token_budget: 200
     sanitized: true
     last_updated: 2026-05-04
-    notes: Single source of truth for scripts/opp.py commands — referenced by all agent files
+    notes: opp.py — run `python scripts/opp.py --help` for commands; docs/opp-cli.md for exceptions and tests only
   - id: agents-framework
     path: AGENTS.md
     visibility: public

@@ -11,4 +11,4 @@
 
 For any write to a **single existing** opportunity, use `python scripts/opp.py` instead of editing the YAML directly.
 
-**Full reference:** `docs/opp-cli.md`
+**CLI surface:** `python scripts/opp.py --help` (repo root). **Narrative:** `docs/opp-cli.md` (exceptions, tests).

@@ -20,7 +20,7 @@ description: >-
 
 **Task:**
 1. Identify the record by **`id`** (or company + role — resolve to id first).
-2. Apply updates using `python scripts/opp.py` for all scalar field changes. See `docs/opp-cli.md` for the full command reference.
+2. Apply updates using `python scripts/opp.py` for all scalar field changes. Run `python scripts/opp.py --help` first; see `docs/opp-cli.md` for exceptions and tests only.
 3. **Edit YAML directly only for:**
    - **`contacts[]`** — add/update/remove a contact entry (`name`, `role`, `channels` map, `notes`). Merge with existing list; do not wipe entries not mentioned.
    - **`links`** — add or update a URL key (`application_portal`, `job_posting`, or free key). Merge with existing keys.

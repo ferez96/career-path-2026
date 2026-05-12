@@ -48,7 +48,7 @@ The working **Obsidian vault** is rooted at **`data/`**. Before loading large ex
 
 `scripts/opp.py` — single-opportunity CLI for writes to `data/opportunities.yaml`. Do not edit YAML directly.
 
-**Full reference:** `docs/opp-cli.md`
+**Before any list/get/stage/close/note/set run:** from the repo root, run `python scripts/opp.py --help` (and `python scripts/opp.py <command> --help` if needed) so you use the current subcommands and flags.
 
 ## Skills Index
 

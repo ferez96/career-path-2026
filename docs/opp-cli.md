@@ -1,37 +1,20 @@
-# opp.py — opportunity CLI reference
+# opp.py — opportunity CLI
 
-Single-opportunity accessor/editor for `data/private/opportunities.yaml`.
+Single-opportunity accessor/editor for `data/opportunities.yaml`.
 
-**Why use this instead of editing YAML directly:** auto-manages `updated_at`,
-`stage_entered_at`, history capping (max 5 entries), and atomic writes.
+**Command reference:** run from the repo root:
 
-## Commands
+```text
+python scripts/opp.py --help
+python scripts/opp.py <command> --help
+```
 
-| Operation | Command |
-|:----------|:--------|
-| List pipeline | `python scripts/opp.py list` |
-| Inspect one record | `python scripts/opp.py get <id>` |
-| Advance stage | `python scripts/opp.py stage <id> <stage>` |
-| Update next action | `python scripts/opp.py next <id> <YYYY-MM-DD> "<action>"` |
-| Close | `python scripts/opp.py close <id> <outcome> [--note "..."]` |
-| Append history note | `python scripts/opp.py note <id> "<note>"` |
-| Set scalar field | `python scripts/opp.py set <id> <field> <value>` |
-| List settable fields | `python scripts/opp.py fields` |
+That output is the canonical list of subcommands, flags, arguments, and **agent guidance** (what to do outside this CLI). It lives in `scripts/opp.py` so it cannot drift from the implementation.
 
-Stages: `Interested → Applied → RecruiterScreen → HiringManager → Technical → OnsiteOrFinal → Offer → Closed`
-Outcomes: `accepted | declined | rejected | withdrawn`
-
-## Id matching
-
-Accepts exact id or unambiguous prefix: `shopback` → `shopback-staff-senior-backend-2026`.
-
-## Exceptions — edit YAML directly
-
-- **New opportunities** — `opp.py` has no `add` command; use the `opportunity-from-jd` skill.
-- **`contacts[]`** and **`links`** — nested structures; not supported by `opp.py`.
+**Why use this instead of editing YAML directly:** the script manages `updated_at`, `stage_entered_at`, caps `history` (max 5 entries), and writes atomically.
 
 ## Tests
 
-```
+```text
 python scripts/test_opp.py -v
 ```
